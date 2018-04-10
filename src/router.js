@@ -15,6 +15,22 @@ let router = new VueRouter({
       path: '/publicity',
       name: 'publicity',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/publicity"),//宣传页
+    }, {
+      path: '/user',
+      name: 'user',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/user"),//我的
+    }, {
+      path: '/investmsg',
+      name: 'investmsg',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/investmsg"),//投资详情
+    }, {
+      path: '/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/login"),//登录
+    }, {
+      path: '/register',
+      name: 'register',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/register"),//注册
     }
   ]
 })
