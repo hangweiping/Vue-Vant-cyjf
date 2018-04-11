@@ -32,6 +32,9 @@ axios.interceptors.request.use(
       config.headers.token = token;
     }
     config.url = api + config.url;//使用axios时可以直接使用相应的接口不需要再加api/
+    Toast.loading({
+      message: '加载中...'
+    });
     return config;
   },
   err => {
@@ -43,6 +46,7 @@ axios.interceptors.response.use(
   response => {
     const { config = {} } = response || {};
     const { params = {} } = config;
+    Toast.clear();
     return response.data;
   },
   error => {

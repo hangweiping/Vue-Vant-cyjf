@@ -33,31 +33,39 @@
           </div>
         </div>
       </div>
-      <div class="tiket-top">
-        <div class="title">
-          <span class="lt">CD18032701汽车订单采购借款</span>
-          <span class="rt">车商借款</span>
-        </div>
-        <div class="msg">
-          <div class="clearfix">
-            <div class="lt">
-              <span class="bgnumber">9.0</span>
-              <span class="smnumber">% +</span>
-              <span class="bgnumber">1.0</span>
-              <span class="smnumber">%</span>
-              <p class="gray">预期年化</p>
-            </div>
-            <div class="rt">
-                <van-progress :percentage="88" color="#6980F5"/>
-                <p><span>30天</span><span>|</span><span>总额30.00万元</span></p>
+      <router-link v-for="(item,index) in dataInfor" :key="index" :to="{path:'/investmsg',query:{id:item.borrowingId}}">
+        <div class="tiket-top" :data-id="item.borrowingId">
+          <div class="title">
+            <span class="lt">{{item.title}}</span>
+            <span class="rt">{{item.borrowingType | borrowingType()}}</span>
+          </div>
+          <div class="msg">
+            <div class="clearfix">
+              <div class="lt">
+                <span class="bgnumber">{{item.interestRate.toFixed(1)}}</span>
+                <span class="smnumber">% +</span>
+                <span class="bgnumber">1.0</span>
+                <span class="smnumber">%</span>
+                <p class="gray">预期年化</p>
+              </div>
+              <div class="rt">
+                  <van-progress :percentage="item.percent" color="#6980F5"/>
+                  <p><span>{{item.periodUnitStr}}</span><span>|</span><span>总额{{item.residualAmountStr}}</span></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="tiket-foot">
+      </router-link>
+      <!-- <div class="tiket-foot">
 
-      </div>
+      </div> -->
     </div>
+    <van-tabbar v-model="active" replace>
+      <van-tabbar-item icon="shop" url='#/home'>首页
+      </van-tabbar-item>
+      <van-tabbar-item icon="contact" url='#/login'>我的
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -68,31 +76,33 @@ export default {
   props: [],
   data() {
     return {
+      active:0,
       images: [
         "http://dl.bizhi.sogou.com/images/2012/02/11/25025.jpg",
         "http://student.mtstudent.se/~sh14hp3151/wordpress/wp-content/uploads/2015/01/pluvia-2880x1800.jpg",
         "http://pic1.win4000.com/wallpaper/f/53bb9aa9c4eef.jpg"
-      ]
+      ],
+      dataInfor: []
     };
   },
-  created() {
-     this.initData()
+  created() {},
+  mounted() {
+    this.initData();
   },
-  mounted() {},
   methods: {
     investBtn() {
       this.$router.push("/investmsg");
     },
-    initData(){
-      this.axios.get('investment/list').then(res => {
-        if(res.status){
-          
-        } else {
-
-        }
-      }).catch(res => {
-
-      })
+    initData() {
+      this.axios
+        .get("investment/list")
+        .then(res => {
+          if (res.status) {
+            this.dataInfor = res.data.rows;
+          } else {
+          }
+        })
+        .catch(err => {});
     }
   }
 };
@@ -129,7 +139,6 @@ export default {
           font-family: "Microsoft Yahei";
         }
         .rt {
-          width: 80px;
           height: 23px;
           float: right;
           border: 1px solid #ff9800;
@@ -138,6 +147,7 @@ export default {
           font-size: 14px;
           line-height: 23px;
           text-align: center;
+          padding: 0 8px;
         }
       }
       .msg {
@@ -171,7 +181,6 @@ export default {
           }
         }
         .btn {
-          width: 341px;
           height: 46px;
           margin-top: 15px;
           button {

@@ -1,20 +1,13 @@
 <template>
   <div id="app">
     <van-nav-bar
-      title="标题"
-      left-arrow
+      :title="title"
+      :left-arrow="isshow"
       @click-left="onClickLeft"
       @click-right="onClickRight"
+      fixed
     />
-    <router-view></router-view>
-    <van-tabbar>
-      <van-tabbar-item icon="shop">
-       <router-link to="/home">首页</router-link>
-      </van-tabbar-item>
-      <van-tabbar-item icon="contact">
-        <router-link to="/user">我的</router-link>
-      </van-tabbar-item>
-    </van-tabbar>
+    <router-view class="app"></router-view>
   </div>
 </template>
 
@@ -28,20 +21,45 @@ export default {
   components: {},
   props: [],
   data() {
-    return {};
+    return {
+      isshow: false,
+      title:'',
+    };
   },
-  created() {},
+  created() {
+    this.isShow();
+  }, // 当刷新页面的时候，因为路由地址没有发生变化，没有执行watch，所以要在组件创建完毕后，判断是否显示后退按钮
   mounted() {},
   methods: {
-    onClickLeft() {},
-    onClickRight() {}
+    onClickLeft() {
+      this.$router.back();
+    },
+    onClickRight() {},
+    isShow() {
+      let arr = ["/home"];
+      this.isshow = arr.indexOf(this.$router.path) == -1 ? true : false;
+    }
+  },
+  // 当路由地址变化的时候。决定后退按钮显示或者隐藏
+  watch: {
+    $route: function(routeValue) {
+      let arr = ['/home'];
+      let registerArr = ['/registerstep1','/registerstep2','/registerstep3'];
+      this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
+      this.title = registerArr.indexOf(routeValue.path) !== -1 ? '注册' : '磁云金服';
+    }
   }
 };
 </script>
 
 <style>
-body {
-  background-color: #f8f8f8;
+html,body {
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+}
+.app {
+  margin-top: 46px;
 }
 .van-cell__title .van-icon {
   font-size: 18px;
@@ -65,6 +83,10 @@ div {
 }
 a {
   text-decoration: none;
+  color: #333;
+}
+a:hover {
+  color: #6980f5;
 }
 /* 清除浮动 */
 .clearfix::after {

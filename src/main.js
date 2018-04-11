@@ -5,7 +5,7 @@ import axios from './http'
 import Vant from 'vant';
 import 'vant/lib/vant-css/index.css';
 import 'lib-flexible'
-
+import './components/filters'//过滤器
 Vue.use(Vant);
 Vue.prototype.axios = axios;
 new Vue({

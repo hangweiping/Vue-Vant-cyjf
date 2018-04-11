@@ -2,27 +2,27 @@
   <div class="investmsg">
     <div class="box1">
       <div class="top">
-        <p class="title">CD18032701汽车订单采购借款</p>
-        <span class="bgnumber">9.0</span>
+        <p class="title">{{dataInfor.title}}</p>
+        <span class="bgnumber">{{dataInfor.interestRate}}</span>
         <span class="smnumber">% +</span>
         <span class="bgnumber">1.0</span>
         <span class="smnumber">%</span>
         <p class="gray">预期年化</p>
       </div>
       <div class="mid">
-        <van-progress :percentage="88" color="#6980F5"/>
+        <van-progress :percentage="80" color="#6980F5"/>
       </div>
       <div class="foot clearfix">
         <div>
-          <p><span>30</span>&nbsp;天</p>
+          <p><span>{{dataInfor.period}}</span>&nbsp;{{dataInfor.periodUnitDes}}</p>
           <p class="gray">投资期限</p>
         </div>
         <div>
-          <p><span>10.00</span>&nbsp;万</p>
+          <p><span>{{dataInfor.residualAmount}}</span>&nbsp;万</p>
           <p class="gray">可投金额</p>
         </div>
         <div>
-          <p><span>30.00</span>&nbsp;万</p>
+          <p><span>{{dataInfor.amount}}</span>&nbsp;万</p>
           <p class="gray">项目总额</p>
         </div>
       </div>
@@ -96,18 +96,36 @@ export default {
   props: [],
   data() {
     return {
-      activeNames: ['1'],
+      activeNames: ["1"],
+      id: "",
+      dataInfor: []
     };
   },
-  created() {},
-  mounted() {},
-  methods: {}
+  created() {
+    this.id = this.$route.query.id;
+  },
+  mounted() {
+    this.initData();
+    console.log(this.dataInfor.percent)
+  },
+  methods: {
+    initData() {
+      let that = this;
+      this.axios
+        .get("investment/details?projectId=" + this.id)
+        .then(res => {
+          if (res.status) {
+            this.dataInfor = res.data;
+          }
+        })
+        .catch(err => {});
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .investmsg {
-  margin-bottom: 55px;
   .box1 {
     height: 214px;
     text-align: center;
@@ -226,16 +244,16 @@ export default {
       text-align: center;
     }
     .btn {
-          height: 46px;
-          button {
-            width: 100%;
-            color: #fff;
-            background-color: #ff9800;
-            font-size: 18px;
-            line-height: 46px;
-            border-style: none;
-          }
-        }
+      height: 46px;
+      button {
+        width: 100%;
+        color: #fff;
+        background-color: #ff9800;
+        font-size: 18px;
+        line-height: 46px;
+        border-style: none;
+      }
+    }
   }
 }
 </style>
