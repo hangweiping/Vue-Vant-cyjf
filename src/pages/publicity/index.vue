@@ -2,12 +2,13 @@
   <div class="publicity">
     <div class="verification">
       <van-cell-group>
-        <van-field v-model="phonenum" placeholder="请输入手机号" />
+        <van-field center v-model="phonenum" type="number" placeholder="请输入手机号" />
       </van-cell-group>
       <van-cell-group>
         <van-field
           center
           v-model="sms"
+          type="number"
           placeholder="请输入短信验证码"
           icon="clear"
           @click-icon="sms = ''"
@@ -17,6 +18,7 @@
         <van-field
           center
           v-model="sms"
+          type="number"
           placeholder="请输入正确的验证码"
           icon="clear"
           @click-icon="sms = ''"

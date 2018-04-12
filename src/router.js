@@ -44,9 +44,9 @@ let router = new VueRouter({
       name: 'changeloginpwd1',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/changeloginpwd/changeloginpwd1"),//更改登录密码
     }, {
-      path: '/changeloginpwd1',
-      name: 'changeloginpwd1',
-      component: () => import(/* webpackChunkName: "home" */ "@/pages/changeloginpwd/changeloginpwd1"),//更改登录密码
+      path: '/changeloginpwd2',
+      name: 'changeloginpwd2',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/changeloginpwd/changeloginpwd2"),//更改登录密码
     }, {
       path: '/changepaypwd1',
       name: 'changepaypwd1',
@@ -59,6 +59,18 @@ let router = new VueRouter({
       path: '/rebinding',
       name: 'rebinding',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/rebinding"),//重新绑定手机号
+    }, {
+      path: '/purchase',
+      name: 'purchase',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/purchase"),//买入
+    }, {
+      path: '/recharge',
+      name: 'recharge',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/recharge"),//充值
+    }, {
+      path: '/withdraw',
+      name: 'withdraw',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/withdraw"),//提现
     }
   ]
 })

@@ -1,16 +1,39 @@
 <template>
   <div class="proving">
     <div class="content">
-      <div class="ipt1">
+      <!-- <div class="ipt1">
         <input type="text" v-model="phoneNum" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="ipt2">
         <input type="text" v-model="identifyingCode" placeholder="请输入验证码" maxlength="10">
         <div class="code frt" @click="getcode">获取验证码</div>
-      </div>
-      <div class="btn">
-        <button @click="nextbtn">下一步</button>
-      </div>
+      </div> -->
+      <van-cell-group>
+        <van-field
+          center
+          v-model="phoneNum"
+          type="number"
+          label="手机号码"
+          placeholder="请输入手机号码"
+          icon="clear"
+          @click-icon="phoneNum = ''"
+        />
+        <van-field
+          center
+          v-model="code"
+          type="number"
+          label="验证码"
+          placeholder="请输入验证码"
+          icon="clear"
+          @click-icon="code = ''"
+        >
+          <van-button slot="button" size="small" @click="getcode" :disabled="disabled">发送验证码</van-button>
+        </van-field>
+      </van-cell-group>
+    </div>
+    <div class="errmsg">{{errmsg}}</div>
+    <div class="btn">
+      <button @click="nextbtn">下一步</button>
     </div>
   </div>
 </template>
@@ -23,17 +46,20 @@ export default {
   data() {
     return {
       phoneNum: "",
-      identifyingCode: "",
+      code: "",
+      disabled: false,
+      errmsg: "验证码错误"
     };
   },
   created() {},
   mounted() {},
   methods: {
     getcode() {
-      this.$emit('getcode', '我是子组件')
+      this.disabled = true;
+      this.$emit("getcode", "我是子组件");
     },
     nextbtn() {
-      this.$emit('nextbtn','我是子组件下一步')
+      this.$emit("nextbtn", "我是子组件下一步");
     }
   }
 };
@@ -41,53 +67,26 @@ export default {
 
 <style scoped lang="scss">
 .proving {
-  .code {
-    width: 30%;
-    height: 51px;
-    line-height: 51px;
-    text-align: center;
-    font-size: 16px;
-    text-decoration: none;
-    outline-style: none;
-    color: #ff9800;
-    border: 1px solid #ff9800;
-    border-radius: 5px;
+  padding: 10px 23px 23px 23px;
+  .content {
+  }
+  .errmsg {
+    height: 21px;
+    font-size: 12px;
+    line-height: 21px;
+    color: #f44;
   }
   .btn {
     width: 100%;
-    height: 46px;
-    margin-top: 15px;
+    height: 40px;
     button {
       width: 100%;
       color: #fff;
       background-color: #ff9800;
-      font-size: 18px;
-      line-height: 46px;
+      font-size: 15px;
+      line-height: 40px;
       border-style: none;
       border-radius: 5px;
-    }
-  }
-  .content {
-    padding: 23px;
-    background-color: #fff;
-    .ipt1,
-    .ipt2 {
-      width: 100%;
-      height: 50px;
-      margin: 10px 0;
-      input {
-        width: 100%;
-        height: 100%;
-        font-size: 16px;
-        text-indent: 4px;
-        border-bottom: 1px solid #ccc;
-      }
-    }
-    .ipt2 {
-      margin-bottom: 20px;
-      input {
-        width: 65%;
-      }
     }
   }
 }

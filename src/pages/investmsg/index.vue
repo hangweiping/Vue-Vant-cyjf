@@ -83,7 +83,7 @@
       </van-collapse>
       <div class="msg">出借资金全程由银行存管</div>
       <div class="btn">
-        <button>买入</button>
+        <button @click="next">买入</button>
       </div>
     </div>
   </div>
@@ -119,6 +119,9 @@ export default {
           }
         })
         .catch(err => {});
+    },
+    next() {
+      this.$router.push('/purchase');
     }
   }
 };
@@ -126,6 +129,7 @@ export default {
 
 <style scoped lang="scss">
 .investmsg {
+  margin-bottom: 46px;
   .box1 {
     height: 214px;
     text-align: center;
@@ -244,7 +248,11 @@ export default {
       text-align: center;
     }
     .btn {
+      width: 100%;
       height: 46px;
+      position: fixed;
+      left: 0;
+      bottom: 0;
       button {
         width: 100%;
         color: #fff;

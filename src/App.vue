@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       isshow: false,
-      title:'',
+      title: ""
     };
   },
   created() {
@@ -43,23 +43,51 @@ export default {
   // 当路由地址变化的时候。决定后退按钮显示或者隐藏
   watch: {
     $route: function(routeValue) {
-      let arr = ['/home'];
-      let registerArr = ['/registerstep1','/registerstep2','/registerstep3'];
+      let arr = ["/home"];
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
-      this.title = registerArr.indexOf(routeValue.path) !== -1 ? '注册' : '磁云金服';
+      let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
+        this.title = registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
+      switch (routeValue.path) {
+        case "/changeloginpwd1": 
+          this.title = "验证手机号";
+          break;
+        case "/changepaypwd1": 
+          this.title = "验证手机号";
+          break;
+        case "/changeloginpwd2": 
+          this.title = "设置登录密码";
+          break;
+        case "/changepaypwd2": 
+          this.title = "设置支付密码";
+          break;
+        case "/rebinding": 
+          this.title = "重新绑定手机号";
+          break;
+        case "/recharge": 
+          this.title = "充值";
+          break;
+        case "/withdraw": 
+          this.title = "提现";
+          break;
+        default:this.title = "磁云金服";
+          break;
+      }
     }
   }
 };
 </script>
 
 <style>
-html,body {
+html,
+body {
   background-color: #fff;
-  height: 100%;
   width: 100%;
 }
 .app {
   margin-top: 46px;
+}
+.van-nav-bar__title {
+  box-shadow: 0 1px 1px rgba(0,0,0,.1)
 }
 .van-cell__title .van-icon {
   font-size: 18px;
@@ -120,11 +148,17 @@ img {
   font-size: 12px;
   color: #aaaaaa;
 }
-.font-16 {
-  font-size: 16px;
+.font-12 {
+  font-size: 12px;
 }
 .font-14 {
   font-size: 14px;
+}
+.font-15 {
+  font-size: 15px;
+}
+.font-16 {
+  font-size: 16px;
 }
 /* 浮动 */
 .flt {
@@ -133,4 +167,32 @@ img {
 .frt {
   float: right;
 }
+/* 输入框 */
+.van-cell {
+  padding: 10px 0 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+[class*="van-hairline"]::after {
+  border: none;
+}
+.van-field__icon {
+  right: 3%;
+  top: 50%;
+}
+.van-button--primary {
+  background-color: #ff9800;
+  border: none;
+}
+/* 同意按钮 */
+.van-checkbox__icon {
+  width: 12px;
+  height: 12px;
+  font-size: 10px;
+  line-height: 10px;
+}
+/* 密码框 */
+.van-password-input__security{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 </style>
