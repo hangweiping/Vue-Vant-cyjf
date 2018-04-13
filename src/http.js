@@ -10,6 +10,8 @@ import { Toast } from 'vant';
 //  axios配置
 axios.defaults.timeout = 10000;
 // axios.defaults.baseURL = 'http://47.94.12.33:8080/moblie/';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const logout = () => {
   const token = storage.get('token');

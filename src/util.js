@@ -10,6 +10,7 @@
  * Copyright (c) 2018 MagCloud
  */
 import storage from 'store2';
+import CryptoJS from 'crypto-js';
 
 const UtilPlugin = {};
 UtilPlugin.install = function (Vue, options) {
@@ -85,6 +86,19 @@ UtilPlugin.install = function (Vue, options) {
         value = value.replace(/^()*(\d+)\.(\d).*$/, '$1$2'); // 只能输入整数
       }
       return value;
+    },
+    /**
+     * 对密码进行des加密
+     * @param {*} message 要解密的信息
+     * @param {*} key 解密key
+     */
+    encryptByDES(message, key) {
+      var keyHex = CryptoJS.enc.Utf8.parse(key);
+      var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
+      return encrypted.toString();
     }
   }
   Vue.prototype.$util = util;

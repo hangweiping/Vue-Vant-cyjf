@@ -9,12 +9,12 @@
     </div>
     <div class="content1">
       <div class="ipt">
-        <input type="text" v-model="phoneNum" placeholder="请输入手机号码" maxlength="16">
+        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="mid frt">
         我有账号，立即登录
       </div>
-      <router-link class="btn" to="/registerstep2">
+      <router-link class="btn" :to="{path:'/registerstep2',query:{mobile:mobile}}">
         <button>下一步</button>
       </router-link>
     </div>
@@ -29,15 +29,13 @@ export default {
   data() {
     return {
       active: 0,
-      phoneNum: '',
-      identifyingCode: '',
-      password: '',
+      mobile: '',
     };
   },
   created() {},
   mounted() {},
   methods: {
-    getcode() {}
+
   }
 };
 </script>

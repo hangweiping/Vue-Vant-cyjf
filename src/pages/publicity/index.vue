@@ -2,9 +2,10 @@
   <div class="publicity">
     <div class="verification">
       <van-cell-group>
-        <van-field center v-model="phonenum" type="number" placeholder="请输入手机号" />
+        <van-field center v-model="phonenum" type="number" placeholder="请输入手机号" icon="clear"
+          @click-icon="phonenum = ''" />
       </van-cell-group>
-      <van-cell-group>
+      <van-cell-group class="ipt2">
         <van-field
           center
           v-model="sms"
@@ -12,18 +13,6 @@
           placeholder="请输入短信验证码"
           icon="clear"
           @click-icon="sms = ''"
-        >
-          <van-button slot="button" size="small" type="primary">发送验证码</van-button>
-        </van-field>
-        <van-field
-          center
-          v-model="sms"
-          type="number"
-          placeholder="请输入正确的验证码"
-          icon="clear"
-          @click-icon="sms = ''"
-          error
-          v-show="false"
         >
           <van-button slot="button" size="small" type="primary">发送验证码</van-button>
         </van-field>
@@ -63,16 +52,16 @@ export default {
   props: [],
   data() {
     return {
-      sms: '',
-      phonenum: '',
+      sms: "",
+      phonenum: ""
     };
   },
   created() {},
   mounted() {},
   methods: {
-    drawBtn(){
+    drawBtn() {
       //如果验证码正确跳转
-        this.$router.push("/home");
+      this.$router.push("/home");
     }
   }
 };
@@ -89,6 +78,10 @@ export default {
     background-color: #f55d66;
     box-sizing: border-box;
     border-radius: 5px;
+    .ipt2 .van-cell{
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
     .van-cell-group {
       border-radius: 5px;
       margin-bottom: 15px;

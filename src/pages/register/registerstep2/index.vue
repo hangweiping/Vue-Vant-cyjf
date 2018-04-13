@@ -9,11 +9,11 @@
     </div>
     <div class="content2">
       <div class="ipt">
-        <input type="text" v-model="identifyingCode" placeholder="请输入验证码" maxlength="10">
+        <input type="text" v-model="smscode" placeholder="请输入验证码" maxlength="10">
         <div class="code frt" @click="getcode">获取验证码</div>
       </div>
       <div class="mid frt"></div>
-      <router-link class="btn" to="/registerstep3">
+      <router-link class="btn"  :to="{path:'/registerstep3',query:{mobile:mobile,smscode:smscode}}">
         <button>下一步</button>
       </router-link>
     </div>
@@ -28,12 +28,13 @@ export default {
   data() {
     return {
       active: 0,
-      phoneNum: "",
-      identifyingCode: "",
-      password: ""
+      mobile: "",
+      smscode: "",
     };
   },
-  created() {},
+  created() {
+    this.mobile = this.$route.query.mobile
+  },
   mounted() {},
   methods: {
     getcode() {}

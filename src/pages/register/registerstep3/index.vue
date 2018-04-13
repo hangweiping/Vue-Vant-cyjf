@@ -14,14 +14,15 @@
       <div class="mid flt">
         6-12位数字、字母组合
       </div>
-      <router-link class="btn" to="/login">
-        <button>完成注册</button>
-      </router-link>
+      <div class="btn">
+        <button @click="register">完成注册</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "register",
   components: {},
@@ -29,15 +30,37 @@ export default {
   data() {
     return {
       active: 0,
-      phoneNum: '',
-      identifyingCode: '',
-      password: '',
+      mobile: "",
+      smscode: "",
+      password: ""
     };
   },
-  created() {},
+  created() {
+    this.mobile = this.$route.query.mobile;
+    this.smscode = this.$route.query.smscode;
+  },
   mounted() {},
   methods: {
-    getcode() {}
+    register() {
+      let password = this.$util.encryptByDES(
+        this.password,
+        "2206fb931cd62498e27817ef3649c09c"
+      );
+      console.log(password);
+      
+      let data = JSON.stringify({
+        type: "ENTERPRISE",
+        mobile: this.mobile,
+        password: password,
+        clientType: "MOBILEWEB",
+        smscode: this.smscode
+      });
+      console.log(data);
+
+      this.axios.post("regist/checkMobile", data).then(res => {
+        console.log(res);
+      });
+    },
   }
 };
 </script>
@@ -45,31 +68,31 @@ export default {
 <style scoped lang="scss">
 .register {
   .code {
-        width: 30%;
-        height: 51px;
-        line-height: 51px;
-        text-align: center;
-        font-size: 16px;
-        text-decoration: none;
-        outline-style: none;
-        color: #ff9800;
-        border: 1px solid #ff9800;
-        border-radius: 5px;
-      }
+    width: 30%;
+    height: 51px;
+    line-height: 51px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    outline-style: none;
+    color: #ff9800;
+    border: 1px solid #ff9800;
+    border-radius: 5px;
+  }
   .btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 15px;
+    button {
       width: 100%;
-      height: 46px;
-      margin-top: 15px;
-      button {
-        width: 100%;
-        color: #fff;
-        background-color: #ff9800;
-        font-size: 18px;
-        line-height: 46px;
-        border-style: none;
-        border-radius: 5px;
-      }
+      color: #fff;
+      background-color: #ff9800;
+      font-size: 18px;
+      line-height: 46px;
+      border-style: none;
+      border-radius: 5px;
     }
+  }
   .step {
     height: 57px;
     background-color: #fff;
@@ -79,18 +102,18 @@ export default {
       float: left;
       width: 15px;
       height: 15px;
-      border: 1px solid #6980F5;
+      border: 1px solid #6980f5;
       background-color: #fff;
       border-radius: 50%;
     }
-    .cir.active{
-      background-color: #6980F5;
+    .cir.active {
+      background-color: #6980f5;
     }
     .line {
       float: left;
       width: 100px;
       height: 1px;
-      background-color: #6980F5;
+      background-color: #6980f5;
       margin: 8px 0;
     }
   }

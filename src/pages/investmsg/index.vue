@@ -10,7 +10,8 @@
         <p class="gray">预期年化</p>
       </div>
       <div class="mid">
-        <van-progress :percentage="80" color="#6980F5"/>
+        <van-progress class="flt" :show-pivot="false" :percentage="dataInfor.percent" color="#6980F5"/>
+        <div class="frt gray">{{dataInfor.percent}}%</div>
       </div>
       <div class="foot clearfix">
         <div>
@@ -149,9 +150,14 @@ export default {
       }
     }
     .mid {
-      margin: 23px 16px;
+      padding: 16px 30px;
       .van-progress {
+        width: 88%;
         height: 5px;
+      }
+      .frt {
+        height: 5px;
+        line-height: 5px;
       }
     }
     .foot {

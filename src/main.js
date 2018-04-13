@@ -7,6 +7,7 @@ import util from './util' //工具
 import 'vant/lib/vant-css/index.css';
 import 'lib-flexible'
 import './components/filters'//过滤器
+
 Vue.use(Vant);
 Vue.use(util);
 Vue.prototype.axios = axios;
