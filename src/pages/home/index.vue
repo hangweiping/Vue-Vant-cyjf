@@ -63,7 +63,7 @@
     <van-tabbar v-model="active" replace>
       <van-tabbar-item icon="shop" url='#/home'>首页
       </van-tabbar-item>
-      <van-tabbar-item icon="contact" url='#/login'>我的
+      <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
     </van-tabbar>
   </div>

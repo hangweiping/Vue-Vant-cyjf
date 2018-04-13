@@ -3,7 +3,7 @@
     <div class="content">
       <div class="box1">买入CD18032701汽车订单采购借款</div>
       <div class="box2"><span>￥</span><input readonly type="text" placeholder="100起投" @click="show = true" v-model="money"></div>
-      <div class="box3"><span class="gray">可用余额&nbsp;</span><span>100,000.00元&nbsp;</span><span class="smnumber font-12">&nbsp;充值</span></div>
+      <div class="box3"><span class="gray">可用余额&nbsp;</span><span>100,000.00元&nbsp;</span><router-link to="/recharge" class="smnumber font-12">&nbsp;充值</router-link></div>
       <div class="box4">应付金额<span>¥10000.00</span></div>
       <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">10.00%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">100.00元</span></div>
       <div class="box6">
@@ -183,10 +183,10 @@ export default {
   }
   .layer {
     position: fixed;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
+    bottom: 0;
+    right: 0;
     background-color: rgba($color: #000000, $alpha: 0.3);
     .laycontent {
       position: fixed;

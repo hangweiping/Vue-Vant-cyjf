@@ -96,7 +96,7 @@ export default {
   props: [],
   data() {
     return {
-      activeNames: ["1"],
+      activeNames: [],
       id: "",
       dataInfor: []
     };
@@ -106,7 +106,7 @@ export default {
   },
   mounted() {
     this.initData();
-    console.log(this.dataInfor.percent)
+    console.log(this.dataInfor.percent);
   },
   methods: {
     initData() {
@@ -121,7 +121,7 @@ export default {
         .catch(err => {});
     },
     next() {
-      this.$router.push('/purchase');
+      this.$router.push("/purchase");
     }
   }
 };
@@ -135,6 +135,7 @@ export default {
     text-align: center;
     background-color: #fff;
     margin-bottom: 4px;
+    box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
     .top {
       .title {
         height: 33px;
@@ -169,9 +170,11 @@ export default {
     height: 167px;
     background-color: #fff;
     margin-bottom: 4px;
+    box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
     .title {
+      box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
       .van-cell__right-icon.checked {
-        margin: 0 15px;
+        margin: 0 144px;
         color: #8bc34a;
       }
     }
@@ -194,6 +197,10 @@ export default {
   .box3 {
     background-color: #fff;
     margin-bottom: 4px;
+    box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
+    .van-icon-checked:before {
+      color: #8bc34a;
+    }
     .title {
       height: 47px;
       line-height: 47px;
@@ -263,13 +270,5 @@ export default {
       }
     }
   }
-}
-</style>
-<style lang="scss">
-.van-cell__value {
-  padding-right: 50px;
-}
-.van-icon-checked:before {
-  color: #8bc34a;
 }
 </style>

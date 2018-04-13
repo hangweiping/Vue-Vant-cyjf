@@ -46,30 +46,32 @@ export default {
       let arr = ["/home"];
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
       let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
-        this.title = registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
+      this.title =
+        registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
       switch (routeValue.path) {
-        case "/changeloginpwd1": 
+        case "/changeloginpwd1":
           this.title = "验证手机号";
           break;
-        case "/changepaypwd1": 
+        case "/changepaypwd1":
           this.title = "验证手机号";
           break;
-        case "/changeloginpwd2": 
+        case "/changeloginpwd2":
           this.title = "设置登录密码";
           break;
-        case "/changepaypwd2": 
+        case "/changepaypwd2":
           this.title = "设置支付密码";
           break;
-        case "/rebinding": 
+        case "/rebinding":
           this.title = "重新绑定手机号";
           break;
-        case "/recharge": 
+        case "/recharge":
           this.title = "充值";
           break;
-        case "/withdraw": 
+        case "/withdraw":
           this.title = "提现";
           break;
-        default:this.title = "磁云金服";
+        default:
+          this.title = "磁云金服";
           break;
       }
     }
@@ -77,17 +79,22 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 html,
 body {
   background-color: #fff;
   width: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
 .app {
   margin-top: 46px;
 }
 .van-nav-bar__title {
-  box-shadow: 0 1px 1px rgba(0,0,0,.1)
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .van-cell__title .van-icon {
   font-size: 18px;
@@ -168,13 +175,13 @@ img {
   float: right;
 }
 /* 输入框 */
-.van-cell {
+/* .van-cell {
   padding: 10px 0 5px 0;
   border-bottom: 1px solid #e0e0e0;
 }
 [class*="van-hairline"]::after {
   border: none;
-}
+} */
 .van-field__icon {
   right: 3%;
   top: 50%;
@@ -191,8 +198,8 @@ img {
   line-height: 10px;
 }
 /* 密码框 */
-.van-password-input__security{
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+.van-password-input__security {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 </style>

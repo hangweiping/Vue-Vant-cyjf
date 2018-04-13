@@ -91,3 +91,12 @@ export default {
   }
 }
 </style>
+<style scoped lang="scss">
+.van-cell {
+  padding: 10px 0 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+[class*="van-hairline"]::after {
+  border: none;
+}
+</style>

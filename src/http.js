@@ -9,7 +9,7 @@ import { Toast } from 'vant';
 
 //  axios配置
 axios.defaults.timeout = 10000;
-// axios.defaults.baseURL = 'http://127.0.0.1:8080/moblie/';
+// axios.defaults.baseURL = 'http://47.94.12.33:8080/moblie/';
 
 const logout = () => {
   const token = storage.get('token');
