@@ -53,12 +53,24 @@ export default {
   props: [],
   data() {
     return {
-      active: 1
+      active: 1,
+      dataInfor:[],
     };
   },
-  created() {},
+  created() {
+    this.initData()
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    initData(){
+      this.axios.post('uc/accountDetail').then(res => {
+        if (res) {
+          console.log(res);
+          
+        }
+      })
+    },
+  }
 };
 </script>
 

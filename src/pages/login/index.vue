@@ -6,11 +6,11 @@
     </div>
     <div class="content" v-if="status == 0">
       <div class="ipt1">
-        <input type="text" v-model="phoneNum" placeholder="请输入手机号码" maxlength="16">
+        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="ipt2">
         <!-- <van-field
-          v-model="phoneNum"
+          v-model="mobile"
           placeholder="请输入手机号"
         />
         <van-cell-group>
@@ -23,33 +23,31 @@
           <van-button slot="button" size="small" >发送验证码</van-button>
           </van-field>
         </van-cell-group> -->
-        <input type="text" v-model="identifyingCode" placeholder="请输入验证码" maxlength="10">
+        <input type="text" v-model="smsCode" placeholder="请输入验证码" maxlength="10">
         
-        <button class="code frt" @click="getcode" :disabled="disabled"  :class="{ active: disabled }">发送验证码</button>
+        <button class="code frt" @click="getcode" :disabled="disabled" :class="{ active: disabled }">{{btntxt}}</button>
       </div>
       
-      <div class="errmsg">{{errmsg1}}</div>
-      <router-link class="btn" to="/registerstep1">
-        <button>登录</button>
-      </router-link>
+      <div class="btn">
+        <button @click="loginSms">登录</button>
+      </div>
       <div class="mid">
         <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">磁云金服平台注册服务协议</span></van-checkbox>
       </div>
     </div>
     <div class="content" v-if="status == 1">
       <div class="ipt1">
-        <input type="text" v-model="phoneNum" placeholder="请输入手机号码" maxlength="16">
+        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="ipt1">
-        <input type="text" v-model="password" placeholder="请输入登录密码" maxlength="12">
+        <input type="password" v-model="password" placeholder="请输入登录密码" maxlength="12">
       </div>
-      <div class="errmsg flt">{{errmsg2}}</div>
       <div class="forget frt">
         忘记密码？
       </div>
-      <router-link class="btn" to="/changeloginpwd1">
-        <button>登录</button>
-      </router-link>
+      <div class="btn">
+        <button @click="loginPwd">登录</button>
+      </div>
       <router-link class="btn2" to="/registerstep1">
         <button>注册领取加息特权</button>
       </router-link>
@@ -61,30 +59,57 @@
 </template>
 
 <script>
+import storage from "store2";
+const setStorage = data => {
+  storage.set("sid", data.sid);
+  storage.set("userId", data.userId);
+  storage.set("userType", data.userType);
+  storage.set("userKey", data.userKey);
+};
 export default {
   name: "login",
   components: {},
   props: [],
   data() {
     return {
-      phoneNum: "",
-      identifyingCode: "",
+      mobile: "",
+      smsCode: "",
       password: "",
       status: 0,
       isActive1: true,
       isActive2: false,
       checked: false,
       disabled: false, //禁用验证码
-      errmsg1: "手机号码格式错误", //错误信息
-      errmsg2: "手机号码", //错误信息
-      sms: '',
+      time: 0,
+      btntxt: "获取验证码"
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.$route.query.redirect);
+  },
   methods: {
     getcode() {
-      this.disabled = this.disabled ? false : true;
+      let isPhone = this.$util.isPhone(this.mobile);
+      let data = JSON.stringify({
+        mobile: this.mobile,
+        smsType: "USER_REGIST_CODE"
+      });
+      if (this.mobile == "") {
+        this.$toast("请先输入手机号");
+      } else if (!isPhone) {
+        this.$toast("请输入正确的手机号");
+      } else {
+        this.axios.post("/sms/sendSms", data).then(res => {
+          if (res.success) {
+            this.time = 60;
+            this.timer();
+            this.$toast(res.message);
+          } else {
+            this.$toast(res.message);
+          }
+        });
+      }
     },
     left() {
       this.status = 0;
@@ -99,6 +124,140 @@ export default {
     agree(value) {
       //如果同意的逻辑
       if (value) {
+      }
+    },
+    timer() {
+      if (this.time > 0) {
+        this.disabled = true;
+        this.time--;
+        this.btntxt = this.time + "s";
+        setTimeout(this.timer, 1000);
+      } else {
+        this.time = 0;
+        this.btntxt = "获取验证码";
+        this.disabled = false;
+      }
+    },
+    //注册
+    register(data) {
+      return new Promise(resolve => {
+        this.axios.post("regist/submit", data).then(res => {
+          resolve(res);
+        });
+      });
+    },
+    //短信登录
+    login(data) {
+      return new Promise(resolve => {
+        this.axios.post("login_duanxin", data).then(res => {
+          resolve(res);
+        });
+      });
+    },
+    //短信登录按钮
+    loginSms() {
+      let isPhone = this.$util.isPhone(this.mobile);
+      let password = this.$util.encryptByDES(`icy${this.mobile}`);
+      let registerData = JSON.stringify({
+        type: "GENERAL",
+        mobile: this.mobile,
+        password: password,
+        clientType: "MOBILEWEB",
+        smsCode: this.smsCode
+      });
+      let loginData = JSON.stringify({
+        type: "GENERAL",
+        loginName: this.mobile,
+        smsType: "USER_REGIST_CODE",
+        smsCode: this.smsCode,
+        clientType: "MOBILEWEB"
+      });
+      if (this.mobile == "") {
+        this.$toast("请先输入手机号");
+      } else if (!isPhone) {
+        this.$toast("请输入正确的手机号");
+      } else if (this.smsCode == "") {
+        this.$toast("请先输入验证码");
+      } else {
+        //判断是否已经注册
+        this.axios
+          .post(`regist/checkMobile?mobile=${this.mobile}&type=${"GENERAL"}`)
+          .then(res => {
+            if (res.success) {
+              //如果未注册 先走注册接口在走登录接口
+              this.register(registerData).then(res => {
+                if (res.success) {
+                  //注册成功
+                  this.login(loginData).then(res => {
+                    if (res.success) {
+                      setStorage(res.data); //将sid等信息存起来
+                      this.$toast(res.message);
+                      if (!!this.$route.query.redirect) {
+                        this.$router.push(this.$route.query.redirect);
+                      } else {
+                        this.$router.push("/home");
+                      }
+                    } else {
+                      this.$toast(res.message);
+                    }
+                  });
+                } else {
+                  this.$toast(res.message); //注册失败
+                }
+              });
+            } else {
+              //如果已注册 直接走登陆接口
+              this.login(loginData)
+                .then(res => {
+                  if (res.success) {
+                    //登陆成功
+                    setStorage(res.data); //将sid等信息存起来
+                    this.$toast(res.message);
+                    if (!!this.$route.query.redirect) {
+                      this.$router.push(this.$route.query.redirect);
+                    } else {
+                      this.$router.push("/home");
+                    }
+                  } else {
+                    this.$toast(res.message); //登录失败
+                  }
+                })
+                .catch(err => {});
+            }
+          })
+          .catch(err => {});
+      }
+    },
+    //密码登录按钮
+    loginPwd() {
+      let isPhone = this.$util.isPhone(this.mobile);
+      let password = this.$util.encryptByDES(this.password);
+      let loginData = JSON.stringify({
+        loginName: this.mobile,
+        type: "GENERAL", //个人
+        password: password,
+        clientType: "MOBILEWEB"
+      });
+      if (this.mobile == "") {
+        this.$toast("请输入手机号");
+      } else if (!isPhone) {
+        this.$toast("请输入正确的手机号");
+      } else if (this.password == "") {
+        this.$toast("请输入密码");
+      } else {
+        this.axios.post("login", loginData).then(res => {
+          if (res.success) {
+            setStorage(res.data); //将sid等信息存起来
+            this.$toast(res.message);
+            if (!!this.$route.query.redirect) {
+              this.$router.push(this.$route.query.redirect);
+            } else {
+              this.$router.push("/home");
+            }
+          } else {
+            this.$toast(res.message);
+          }
+        });
       }
     }
   }
@@ -135,8 +294,7 @@ export default {
   }
   .btn {
     width: 100%;
-    height: 46px;
-    margin-top: 15px;
+    margin-top: 33px;
     button {
       width: 100%;
       color: #fff;
@@ -188,12 +346,6 @@ export default {
       input {
         width: 65%;
       }
-    }
-    .errmsg {
-      height: 21px;
-      font-size: 12px;
-      line-height: 21px;
-      color: #f44;
     }
     .mid {
       width: 100%;

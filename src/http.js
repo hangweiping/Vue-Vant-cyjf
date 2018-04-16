@@ -5,18 +5,23 @@
 import axios from 'axios';
 import storage from 'store2';
 import router from './router';
-import { Toast } from 'vant';
+import {
+  Toast
+} from 'vant';
 
 //  axios配置
 axios.defaults.timeout = 10000;
 // axios.defaults.baseURL = 'http://47.94.12.33:8080/moblie/';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.baseURL = 'http://192.168.31.159:8085/moblie/';
+// axios.defaults.headers.common['Authorization'] = AUTH_sid;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const logout = () => {
-  const token = storage.get('token');
-  token && console.warn(`token[${token}]失效`);
-  localStorage.removeItem('token');
+  const sid = storage.get('sid');
+  sid && console.warn(`sid[${sid}]失效`);
+  // localStorage.removeItem('sid');
+  Toast.error('登录过期,请重新登录');
+  storage.remove('sid');
   //  跳到登陆页.
   router.replace({
     name: 'login',
@@ -25,15 +30,16 @@ const logout = () => {
     }
   });
 };
-// http request 请求拦截器，有token值则配置上token值
+// http request 请求拦截器，有sid值则配置上sid值
 axios.interceptors.request.use(
   config => {
     let api = '/api/'
-    const token = storage.get('token');
-    if (!!token) { // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
-      config.headers.token = token;
+    config.url = api + config.url; //使用axios时可以直接使用相应的接口不需要再加api/
+
+    const sid = storage.get('sid');
+    if (!!sid) { // 每次发送请求之前判断是否存在sid，如果存在，则统一在http请求的header都加上sid，不用每次请求都手动添加了
+      config.headers.sid = sid;
     }
-    config.url = api + config.url;//使用axios时可以直接使用相应的接口不需要再加api/
     Toast.loading({
       message: '加载中...'
     });
@@ -43,20 +49,26 @@ axios.interceptors.request.use(
     return Promise.reject(err);
   });
 
-// http response 服务器响应拦截器，这里拦截401错误，并重新跳入登页重新获取token
+// http response 服务器响应拦截器，这里拦截401错误，并重新跳入登页重新获取sid
 axios.interceptors.response.use(
   response => {
-    const { config = {} } = response || {};
-    const { params = {} } = config;
+    const {
+      config = {}
+    } = response || {};
+    const {
+      params = {}
+    } = config;
     Toast.clear();
     return response.data;
   },
   error => {
-    const { response = {} } = error || {};
+    const {
+      response = {}
+    } = error || {};
     let msg = '网络错误';
     switch (response.status) {
       case 401:
-        // 这里写清除token的代码
+        // 这里写清除sid的代码
         logout();
         return;
         break;
@@ -68,11 +80,11 @@ axios.interceptors.response.use(
       msg = '服务器错误';
     }
     Toast.error(msg);
-    return Promise.reject(response.data);
+    // return Promise.reject(response.data); // 返回接口返回的错误信息
     // 这里使用 resolve 就不再在每个请求中去处理 catch 了
-    // return Promise.resolve({
-    //   code: -1,
-    //   msg
-    // });
+    return Promise.resolve({
+      code: '001',
+      message
+    });
   });
 export default axios;

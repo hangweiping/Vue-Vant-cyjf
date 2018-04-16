@@ -76,12 +76,8 @@ export default {
   props: [],
   data() {
     return {
-      active:0,
-      images: [
-        "http://dl.bizhi.sogou.com/images/2012/02/11/25025.jpg",
-        "http://student.mtstudent.se/~sh14hp3151/wordpress/wp-content/uploads/2015/01/pluvia-2880x1800.jpg",
-        "http://pic1.win4000.com/wallpaper/f/53bb9aa9c4eef.jpg"
-      ],
+      active: 0,
+      images: [],
       dataInfor: []
     };
   },
@@ -93,16 +89,27 @@ export default {
     investBtn() {
       this.$router.push("/investmsg");
     },
+    // initData() {
+    //   this.axios
+    //     .get("investment/list")
+    //     .then(res => {
+    //       if (res.success) {
+    //         this.dataInfor = res.data.rows;
+    //       } else {
+    //       }
+    //     })
+    //     .catch(err => {});
+    // },
     initData() {
-      this.axios
-        .get("investment/list")
-        .then(res => {
-          if (res.status) {
-            this.dataInfor = res.data.rows;
-          } else {
+      this.axios.get("index/data").then(res => {
+        if(res.success){
+          let banners = res.data.banners;
+          for(var i=0;i<banners.length;i++){
+            this.images[i] = banners[i].burl
           }
-        })
-        .catch(err => {});
+          this.dataInfor = res.data.hotProjects;
+        }
+      });
     }
   }
 };

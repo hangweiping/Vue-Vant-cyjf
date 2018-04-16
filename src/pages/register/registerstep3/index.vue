@@ -9,7 +9,7 @@
     </div>
     <div class="content3">
       <div class="ipt">
-        <input type="text" v-model="password" placeholder="请输入登录密码" maxlength="12">
+        <input type="password" v-model="password" placeholder="请输入登录密码" maxlength="12">
       </div>
       <div class="mid flt">
         6-12位数字、字母组合
@@ -22,7 +22,13 @@
 </template>
 
 <script>
-
+import storage from "store2";
+const setStorage = (data) => {
+    storage.set("sid", data.sid);
+    storage.set("userId", data.userId);
+    storage.set("userType", data.userType);
+    storage.set("userKey", data.userKey);
+};
 export default {
   name: "register",
   components: {},
@@ -31,36 +37,71 @@ export default {
     return {
       active: 0,
       mobile: "",
-      smscode: "",
+      smsCode: "",
       password: ""
     };
   },
   created() {
     this.mobile = this.$route.query.mobile;
-    this.smscode = this.$route.query.smscode;
+    this.smsCode = this.$route.query.smsCode;
   },
   mounted() {},
   methods: {
     register() {
-      let password = this.$util.encryptByDES(
-        this.password,
-        "2206fb931cd62498e27817ef3649c09c"
-      );
-      console.log(password);
-      
-      let data = JSON.stringify({
-        type: "ENTERPRISE",
+      let isPasswordRuler = this.$util.isPasswordRuler(this.password);
+      let password = this.$util.encryptByDES(this.password);
+      let registerData = JSON.stringify({
+        type: "GENERAL",//个人
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
-        smscode: this.smscode
+        smsCode: this.smsCode
       });
-      console.log(data);
-
-      this.axios.post("regist/checkMobile", data).then(res => {
-        console.log(res);
-      });
+      let loginData = JSON.stringify({
+        loginName: this.mobile,
+        type:'GENERAL',//个人
+        password: password,
+        clientType: "MOBILEWEB",
+      })
+      console.log(registerData);
+      console.log(password);
+      
+      if (this.password == "") {
+        this.$toast("请输入密码");
+        return;
+      } else if (!isPasswordRuler) {
+        this.$toast("密码应为6-12位数字、字母组合");
+        return;
+      } else {
+        this.axios
+          .post("regist/submit", registerData)
+          .then(res => {
+            console.log(res);
+            if (res.success) {
+              //注册成功后直接掉登录接口
+              this.login(loginData).then(res => {
+                if (res.success) {
+                  setStorage(res.data)//将sid等信息存起来
+                  this.$toast('注册成功!')
+                  this.$router.push('/home')
+                }else {
+                  this.$toast('登陆失败')
+                }
+              })
+            } else {
+              this.$toast(res.message);
+            }
+          })
+          .catch(err => {});
+      }
     },
+    login(data) {
+      return new Promise(resolve => {
+        this.axios.post("login", data).then(res => {
+          resolve(res);
+        });
+      });
+    }
   }
 };
 </script>

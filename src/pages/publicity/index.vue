@@ -2,23 +2,24 @@
   <div class="publicity">
     <div class="verification">
       <van-cell-group>
-        <van-field center v-model="phonenum" type="number" placeholder="请输入手机号" icon="clear"
-          @click-icon="phonenum = ''" />
+        <van-field center v-model="mobile" type="number" placeholder="请输入手机号" icon="clear"
+          @click-icon="mobile = ''" />
       </van-cell-group>
       <van-cell-group class="ipt2">
         <van-field
           center
-          v-model="sms"
+          v-model="smsCode"
           type="number"
           placeholder="请输入短信验证码"
           icon="clear"
-          @click-icon="sms = ''"
+          @click-icon="smsCode = ''"
         >
-          <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+          <van-button slot="button" size="small" type="primary" v-show="isshow1" @click="getcode">{{btntxt}}</van-button>
+          <van-button slot="button" size="small" v-show="isshow2" disabled>{{btntxt}}</van-button>
         </van-field>
       </van-cell-group>
       <div class="btn">
-        <button @click="drawBtn">立即领取</button>
+        <button @click="next">立即领取</button>
       </div>
     </div>
     <div class="tiket-top">
@@ -46,22 +47,147 @@
 </template>
 
 <script>
+import storage from "store2";
+const setStorage = data => {
+  storage.set("sid", data.sid);
+  storage.set("userId", data.userId);
+  storage.set("userType", data.userType);
+  storage.set("userKey", data.userKey);
+};
 export default {
   name: "publicity",
   components: {},
   props: [],
   data() {
     return {
-      sms: "",
-      phonenum: ""
+      mobile: "",
+      smsCode: "",
+      isshow1: true,
+      isshow2: false,
+      time: 0,
+      btntxt: "获取验证码"
     };
   },
   created() {},
   mounted() {},
   methods: {
-    drawBtn() {
-      //如果验证码正确跳转
-      this.$router.push("/home");
+    timer() {
+      if (this.time > 0) {
+        this.isshow1 = false;
+        this.isshow2 = true;
+        this.time--;
+        this.btntxt = this.time + "s";
+        setTimeout(this.timer, 1000);
+      } else {
+        this.time = 0;
+        this.btntxt = "获取验证码";
+        this.isshow1 = true;
+        this.isshow2 = false;
+      }
+    },
+    getcode() {
+      let isPhone = this.$util.isPhone(this.mobile);
+      let data = JSON.stringify({
+        mobile: this.mobile,
+        smsType: "USER_REGIST_CODE"
+      });
+      if (this.mobile == "") {
+        this.$toast("请先输入手机号");
+      } else if (!isPhone) {
+        this.$toast("请输入正确的手机号");
+      } else {
+        this.axios.post("/sms/sendSms", data).then(res => {
+          if (res.success) {
+            this.time = 60;
+            this.timer();
+            this.$toast(res.message);
+          } else {
+            this.$toast(res.message);
+          }
+        });
+      }
+    },
+    next() {
+      let isPhone = this.$util.isPhone(this.mobile);
+      let password = this.$util.encryptByDES(`icy${this.mobile}`);
+      let registerData = JSON.stringify({
+        type: "GENERAL",
+        mobile: this.mobile,
+        password: password,
+        clientType: "MOBILEWEB",
+        smsCode: this.smsCode
+      });
+      let loginData = JSON.stringify({
+        type: "GENERAL",
+        loginName: this.mobile,
+        smsType: "USER_REGIST_CODE",
+        smsCode: this.smsCode,
+        clientType: "MOBILEWEB",
+      });
+      if (this.mobile == "") {
+        this.$toast("请先输入手机号");
+      } else if (!isPhone) {
+        this.$toast("请输入正确的手机号");
+      } else if (this.smsCode == "") {
+        this.$toast("请先输入验证码");
+      } else {
+        //判断是否已经注册
+        this.axios
+          .post(`regist/checkMobile?mobile=${this.mobile}&type=${"GENERAL"}`)
+          .then(res => {
+            if (res.success) {
+              //如果未注册 先走注册接口在走登录接口
+              this.register(registerData).then(res => {
+                if (res.success) {
+                  //注册成功
+                  this.login(loginData).then(res => {
+                    if (res.success) {
+                      setStorage(res.data);
+                      this.$toast("恭喜您,领取成功!");
+                      this.$router.push('/home')
+                      console.log(res);
+                    } else {
+                      this.$toast("对不起,领取失败");
+                    }
+                  });
+                } else {
+                  this.$toast(res.message); //注册失败
+                }
+              });
+            } else {
+              //如果已注册 直接走登陆接口
+              this.login(loginData)
+                .then(res => {
+                  if (res.success) {
+                    //登陆成功
+                    setStorage(res.data);
+                    this.$toast("恭喜您,领取成功!");
+                    this.$router.push('/home')
+                  } else {
+                    this.$toast("对不起,领取失败"); //登录失败
+                  }
+                })
+                .catch(err => {});
+            }
+          })
+          .catch(err => {});
+      }
+    },
+    //<----------- 登录/注册 ----------->
+    register(data) {
+      return new Promise(resolve => {
+        this.axios.post("regist/submit", data).then(res => {
+          resolve(res);
+        });
+      });
+    },
+    //短信登录
+    login(data) {
+      return new Promise(resolve => {
+        this.axios.post("login_duanxin", data).then(res => {
+          resolve(res);
+        });
+      });
     }
   }
 };
@@ -71,14 +197,13 @@ export default {
 .publicity {
   overflow: hidden;
   .verification {
-    width: 342px;
     height: 300px;
     margin: 16px;
     padding: 100px 17px 8px 17px;
     background-color: #f55d66;
     box-sizing: border-box;
     border-radius: 5px;
-    .ipt2 .van-cell{
+    .ipt2 .van-cell {
       padding-top: 7px;
       padding-bottom: 7px;
     }

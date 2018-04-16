@@ -24,6 +24,15 @@ UtilPlugin.install = function (Vue, options) {
       }
       return true;
     },
+    //验证密码
+    isPasswordRuler(pwdStr) {
+      let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+      if (!reg.test(pwdStr)) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     // 验证身份证
     checkId(idcard) {
       let reg = '';
@@ -92,14 +101,14 @@ UtilPlugin.install = function (Vue, options) {
      * @param {*} message 要解密的信息
      * @param {*} key 解密key
      */
-    encryptByDES(message, key) {
-      var keyHex = CryptoJS.enc.Utf8.parse(key);
+    encryptByDES(message) {
+      var keyHex = CryptoJS.enc.Utf8.parse('2206fb931cd62498e27817ef3649c09c');
       var encrypted = CryptoJS.DES.encrypt(message, keyHex, {
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7
       });
       return encrypted.toString();
-    }
+    },
   }
   Vue.prototype.$util = util;
 }

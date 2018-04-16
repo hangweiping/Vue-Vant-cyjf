@@ -19,6 +19,9 @@ let router = new VueRouter({
       path: '/user',
       name: 'user',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/user"),//我的
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/investmsg',
       name: 'investmsg',

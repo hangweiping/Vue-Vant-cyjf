@@ -9,13 +9,17 @@
     </div>
     <div class="content2">
       <div class="ipt">
-        <input type="text" v-model="smscode" placeholder="请输入验证码" maxlength="10">
-        <div class="code frt" @click="getcode">获取验证码</div>
+        <input type="text" v-model="smsCode" placeholder="请输入验证码" maxlength="10">
+        <div class="code frt" @click="getcode" v-show="isshow1">{{btntxt}}</div>
+        <div class="decode frt" v-show="isshow2">{{btntxt}}</div>
       </div>
       <div class="mid frt"></div>
-      <router-link class="btn"  :to="{path:'/registerstep3',query:{mobile:mobile,smscode:smscode}}">
+      <!-- <router-link class="btn"  :to="{path:'/registerstep3',query:{mobile:mobile,smsCode:smsCode}}">
         <button>下一步</button>
-      </router-link>
+      </router-link> -->
+      <div class="btn">
+        <button @click="next">下一步</button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,15 +33,74 @@ export default {
     return {
       active: 0,
       mobile: "",
-      smscode: "",
+      smsCode: "",
+      isshow1: true,
+      isshow2: false,
+      time: 0,
+      btntxt : '获取验证码',
     };
   },
   created() {
-    this.mobile = this.$route.query.mobile
+    this.mobile = this.$route.query.mobile;
+    console.log(this.mobile);
   },
   mounted() {},
   methods: {
-    getcode() {}
+    timer() {
+      if (this.time > 0) {
+        this.isshow1 = false;
+        this.isshow2 = true;
+        this.time--;
+        this.btntxt = this.time + "s";
+        setTimeout(this.timer, 1000);
+      } else {
+        this.time = 0;
+        this.btntxt = "获取验证码";
+        this.isshow1 = true;
+        this.isshow2 = false;
+      }
+    },
+    getcode() {
+      let data = JSON.stringify({
+        mobile: this.mobile,
+        smsType: "USER_REGIST_CODE"
+      });
+      this.axios.post("/sms/sendSms", data).then(res => {
+        if (res.success) {
+          this.time = 60;
+          this.timer();
+          this.$toast(res.message);
+        } else {
+          this.$toast(res.message);
+        }
+      });
+    },
+    next() {
+      let data = JSON.stringify({
+        mobile: this.mobile,
+        smsType: "USER_REGIST_CODE",
+        smsCode: this.smsCode
+      });
+      if (this.smsCode == "") {
+        this.$toast("请输入验证码");
+        return;
+      } else {
+        this.axios
+          .post("sms/verify",data)
+          .then(res => {
+            if (res.success) {
+              this.$toast(res.message);
+              this.$router.push({
+                name: "registerstep3",
+                query: { mobile: this.mobile,smsCode: this.smsCode }
+              });
+            } else {
+              this.$toast(res.message);
+            }
+          })
+          .catch(err => {});
+      }
+    }
   }
 };
 </script>
@@ -54,6 +117,18 @@ export default {
     outline-style: none;
     color: #ff9800;
     border: 1px solid #ff9800;
+    border-radius: 5px;
+  }
+  .decode {
+    width: 30%;
+    height: 51px;
+    line-height: 51px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    outline-style: none;
+    color: #ccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
   }
   .btn {

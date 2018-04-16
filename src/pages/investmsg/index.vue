@@ -31,7 +31,7 @@
     <div class="box2">
       <div class="title">
         <van-cell-group>
-          <van-cell title="风险保障" is-link to="/home" value="成都**集团有限公司">
+          <van-cell title="风险保障" is-link to="" value="成都**集团有限公司">
             <van-icon slot="icon" name="checked" class="van-cell__right-icon checked"/>
             <van-icon slot="icon" name="location" class="van-cell-icon" />
           </van-cell>
