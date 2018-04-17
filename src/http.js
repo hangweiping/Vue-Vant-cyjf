@@ -11,16 +11,16 @@ import {
 
 //  axios配置
 axios.defaults.timeout = 10000;
-// axios.defaults.baseURL = 'http://47.94.12.33:8080/moblie/';
-// axios.defaults.baseURL = 'http://192.168.31.159:8085/moblie/';
-// axios.defaults.headers.common['Authorization'] = AUTH_sid;
+// axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8080/mobile/';
+// axios.defaults.headers.common['Cookie'] = 'JSESSIONID=432D965FE7390EE03CB4A08649BA3D1D';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const logout = () => {
   const sid = storage.get('sid');
   sid && console.warn(`sid[${sid}]失效`);
   // localStorage.removeItem('sid');
-  Toast.error('登录过期,请重新登录');
+  Toast.fail('登录过期,请重新登录');
   storage.remove('sid');
   //  跳到登陆页.
   router.replace({
@@ -79,12 +79,12 @@ axios.interceptors.response.use(
     if (Math.floor(response.status / 100) === 5) {
       msg = '服务器错误';
     }
-    Toast.error(msg);
-    // return Promise.reject(response.data); // 返回接口返回的错误信息
+    Toast.fail(msg);
+    return Promise.reject(response.data); // 返回接口返回的错误信息
     // 这里使用 resolve 就不再在每个请求中去处理 catch 了
-    return Promise.resolve({
-      code: '001',
-      message
-    });
+    // return Promise.resolve({
+    //   code: '001',
+    //   message
+    // });
   });
 export default axios;

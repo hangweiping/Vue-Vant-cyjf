@@ -76,7 +76,7 @@ export default {
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
-        Toast('输入完成')
+        this.$toast('输入完成')
       }
     },
     onPwDelete() {

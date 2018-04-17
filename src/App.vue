@@ -43,16 +43,16 @@ export default {
   // 当路由地址变化的时候。决定后退按钮显示或者隐藏
   watch: {
     $route: function(routeValue) {
-      let arr = ["/home"];
+      let arr = ["/home","/publicity"];
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
-      let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
-      this.title =
-        registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
+      // let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
+      // this.title =
+      //   registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
       switch (routeValue.path) {
-        case "/changeloginpwd1":
-          this.title = "验证手机号";
+        case "/registerstep1" || "/registerstep2" || "/registerstep3":
+          this.title = "注册";
           break;
-        case "/changepaypwd1":
+        case "/changeloginpwd1" || "/changepaypwd1":
           this.title = "验证手机号";
           break;
         case "/changeloginpwd2":

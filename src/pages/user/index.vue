@@ -32,10 +32,10 @@
     <div class="content">
       <router-link to="/withdraw" class="box1">提现</router-link>
       <router-link to="/recharge" class="box1">充值</router-link>
-      <router-link to="/login" class="box2">投资记录</router-link>
+      <!-- <router-link to="/login" class="box2">投资记录</router-link>
       <router-link to="/changeloginpwd1" class="box2">优惠券</router-link>
       <router-link to="/rebinding" class="box2">收款明细</router-link>
-      <router-link to="/user" class="box2">交易记录</router-link>
+      <router-link to="/user" class="box2">交易记录</router-link> -->
     </div>
     <van-tabbar v-model="active" replace>
       <van-tabbar-item icon="shop" url='#/home'>首页

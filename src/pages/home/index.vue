@@ -9,7 +9,7 @@
     </div>
 
     <div class="container">
-      <div class="tiket-top">
+      <!-- <div class="tiket-top">
         <div class="title">
           <span class="lt">CD18032701汽车订单采购借款</span>
           <span class="rt">车商借款</span>
@@ -32,7 +32,7 @@
             <button @click="investBtn">一键投资</button>
           </div>
         </div>
-      </div>
+      </div> -->
       <router-link v-for="(item,index) in dataInfor" :key="index" :to="{path:'/investmsg',query:{id:item.borrowingId}}">
         <div class="tiket-top" :data-id="item.borrowingId">
           <div class="title">
@@ -52,6 +52,9 @@
                   <van-progress :percentage="item.percent" color="#6980F5"/>
                   <p><span>{{item.periodUnitStr}}</span><span>|</span><span>总额{{item.residualAmountStr}}</span></p>
               </div>
+            </div>
+            <div class="btn" v-if="index == 0">
+              <button>一键投资</button>
             </div>
           </div>
         </div>

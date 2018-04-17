@@ -12,8 +12,8 @@
         </div>
       </div>
     </div>
-    <div class="btn" @click="next">
-      <button>买入</button>
+    <div class="btn">
+      <button @click="buy">买入</button>
     </div>
     <van-number-keyboard
       :show="show"
@@ -46,7 +46,7 @@
           <div class="close" @click="pwdshow = false">x</div>
           <div class="title2">请输入支付密码</div>
           <div class="title3">支付金额</div>
-          <div class="title4">50.00元</div>
+          <div class="title4">500.00元</div>
           <van-password-input
             :value="password"
             @focus="showKeyboard = true"
@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import { Toast } from "vant";
 export default {
   name: "purchase",
   components: {},
@@ -74,7 +73,7 @@ export default {
   data() {
     return {
       show: false,
-      pwdshow: true,
+      pwdshow: false,
       checked: false,
       money: "",
       layershow: false,
@@ -96,16 +95,16 @@ export default {
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
-        Toast("输入完成");
+        this.$toast("输入完成");
       }
     },
     onPwDelete() {
       this.password = this.password.slice(0, this.password.length - 1);
     },
     agree() {},
-    //点击下一步判断是否已开启中金支付
-    next() {
-      this.layershow = true;
+    //点击买入 判断是否已经开启中金支付,是pwdshow--true 否layershow--true
+    buy(){
+      this.pwdshow = true;
     }
   }
 };
