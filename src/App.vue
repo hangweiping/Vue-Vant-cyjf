@@ -47,7 +47,7 @@ export default {
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
       // let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
       // this.title =
-      //   registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金服";
+      //   registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "智链金融";
       switch (routeValue.path) {
         case "/registerstep1" || "/registerstep2" || "/registerstep3":
           this.title = "注册";
@@ -71,7 +71,7 @@ export default {
           this.title = "提现";
           break;
         default:
-          this.title = "磁云金服";
+          this.title = "智链金融";
           break;
       }
     }
@@ -187,7 +187,7 @@ img {
   top: 50%;
 }
 .van-button--primary {
-  background-color: #ff9800;
+  background-color: rgb(247, 208, 69);
   border: none;
 }
 /* 同意按钮 */
@@ -196,6 +196,18 @@ img {
   height: 12px;
   font-size: 10px;
   line-height: 10px;
+  background-color: #fff;
+  margin-bottom:2px;
+}
+.van-checkbox--checked {
+  width: 12px;
+  height: 12px;
+  font-size: 10px;
+  line-height: 12px;
+  color: #fff;
+  background-color: #ff9800;
+  border: 1px solid #aaa;
+  margin-bottom:2px;
 }
 /* 密码框 */
 .van-password-input__security {

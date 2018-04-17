@@ -12,8 +12,7 @@ import {
 //  axios配置
 axios.defaults.timeout = 10000;
 // axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
-// axios.defaults.baseURL = 'http://127.0.0.1:8080/mobile/';
-// axios.defaults.headers.common['Cookie'] = 'JSESSIONID=432D965FE7390EE03CB4A08649BA3D1D';
+// axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const logout = () => {
@@ -33,8 +32,8 @@ const logout = () => {
 // http request 请求拦截器，有sid值则配置上sid值
 axios.interceptors.request.use(
   config => {
-    let api = '/api/'
-    config.url = api + config.url; //使用axios时可以直接使用相应的接口不需要再加api/
+    let api = '/api/' //开发
+    config.url = api + config.url; //开发 使用axios时可以直接使用相应的接口不需要再加api/
 
     const sid = storage.get('sid');
     if (!!sid) { // 每次发送请求之前判断是否存在sid，如果存在，则统一在http请求的header都加上sid，不用每次请求都手动添加了

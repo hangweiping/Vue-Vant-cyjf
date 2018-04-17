@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 let router = new VueRouter({
   routes: [
-    { path: '/', redirect: '/publicity' },
+    { path: '/', redirect: '/home' },
     {
       path: '/home',
       name: 'home',

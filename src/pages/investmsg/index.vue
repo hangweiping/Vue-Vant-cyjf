@@ -83,7 +83,7 @@
         </van-collapse-item>
       </van-collapse>
       <div class="msg">出借资金全程由银行存管</div>
-      <div class="btn">
+      <div class="btn" v-show="false">
         <button @click="next">买入</button>
       </div>
     </div>

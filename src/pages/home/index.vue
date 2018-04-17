@@ -64,7 +64,7 @@
       </div> -->
     </div>
     <van-tabbar v-model="active" replace>
-      <van-tabbar-item icon="shop" url='#/home'>首页
+      <van-tabbar-item icon="wap-home" url='#/home'>首页
       </van-tabbar-item>
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       active: 0,
-      images: [],
+      images: ["./static/images/banner.jpg"],
       dataInfor: []
     };
   },
@@ -105,11 +105,11 @@ export default {
     // },
     initData() {
       this.axios.get("index/data").then(res => {
-        if(res.success){
+        if (res.success) {
           let banners = res.data.banners;
-          for(var i=0;i<banners.length;i++){
-            this.images[i] = banners[i].burl
-          }
+          // for(var i=0;i<banners.length;i++){
+          //   this.images[i] = banners[i].burl
+          // }
           this.dataInfor = res.data.hotProjects;
         }
       });
@@ -134,12 +134,12 @@ export default {
     background-color: #fff;
     .tiket-top {
       width: 100%;
-      margin-top: 5px;
-      box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.1);
+      // margin-bottom: 5px;
+      // box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.1);
+      border-bottom: 1px solid #e0e0e0;
       .title {
         height: 23px;
-        padding: 11px 16px;
-        border-bottom: 1px solid #e0e0e0;
+        padding: 11px 16px 0 16px;
         .lt {
           float: left;
           height: 23px;

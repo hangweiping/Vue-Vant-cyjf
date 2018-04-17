@@ -32,7 +32,7 @@
         <button @click="loginSms">登录</button>
       </div>
       <div class="mid">
-        <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">磁云金服平台注册服务协议</span></van-checkbox>
+        <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">智链金融平台注册服务协议</span></van-checkbox>
       </div>
     </div>
     <div class="content" v-if="status == 1">
@@ -52,7 +52,7 @@
         <button>注册领取加息特权</button>
       </router-link>
       <div class="mid">
-        <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">磁云金服平台注册服务协议</span></van-checkbox>
+        <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">智链金融平台注册服务协议</span></van-checkbox>
       </div>
     </div>
   </div>

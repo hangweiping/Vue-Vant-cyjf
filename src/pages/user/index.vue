@@ -6,7 +6,7 @@
           <img src="" alt="">
         </div>
         <div class="flt realname">未实名</div>
-        <div class="frt service">
+        <div class="frt service" v-show="false">
           <van-icon name="phone" />
         </div>
       </div>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-show="false">
       <router-link to="/withdraw" class="box1">提现</router-link>
       <router-link to="/recharge" class="box1">充值</router-link>
       <!-- <router-link to="/login" class="box2">投资记录</router-link>
@@ -38,7 +38,7 @@
       <router-link to="/user" class="box2">交易记录</router-link> -->
     </div>
     <van-tabbar v-model="active" replace>
-      <van-tabbar-item icon="shop" url='#/home'>首页
+      <van-tabbar-item icon="wap-home" url='#/home'>首页
       </van-tabbar-item>
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
