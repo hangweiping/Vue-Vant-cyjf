@@ -186,10 +186,10 @@ img {
   right: 3%;
   top: 50%;
 }
-.van-button--primary {
+/* .van-button--primary {
   background-color: rgb(247, 208, 69);
   border: none;
-}
+} */
 /* 同意按钮 */
 .van-checkbox__icon {
   width: 12px;
@@ -205,7 +205,7 @@ img {
   font-size: 10px;
   line-height: 12px;
   color: #fff;
-  background-color: #ff9800;
+  background-color:rgb(247, 208, 69);
   border: 1px solid #aaa;
   margin-bottom:2px;
 }

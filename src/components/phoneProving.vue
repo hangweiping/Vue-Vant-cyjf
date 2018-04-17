@@ -1,13 +1,6 @@
 <template>
   <div class="proving">
     <div class="content">
-      <!-- <div class="ipt1">
-        <input type="text" v-model="phoneNum" placeholder="请输入手机号码" maxlength="16">
-      </div>
-      <div class="ipt2">
-        <input type="text" v-model="identifyingCode" placeholder="请输入验证码" maxlength="10">
-        <div class="code frt" @click="getcode">获取验证码</div>
-      </div> -->
       <van-cell-group>
         <van-field
           center

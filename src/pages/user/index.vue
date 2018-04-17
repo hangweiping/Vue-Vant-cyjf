@@ -3,7 +3,7 @@
     <div class="msg">
       <div class="picture clearfix">
         <div class="flt head">
-          <img src="" alt="">
+          <img src="./images/head.jpg" alt="">
         </div>
         <div class="flt realname">未实名</div>
         <div class="frt service" v-show="false">
@@ -13,19 +13,23 @@
       <div class="income clearfix">
         <div class="box1">
           <p>总资产</p>
-          <p>50000.00元</p>
+          <p>0.00元</p>
+          <!-- <p>{{dataInfor.allCapitalSum}}元</p> -->
         </div>
         <div class="box2">
           <p>昨日收益</p>
-          <p>500.00元</p>
+          <p>0.00元</p>
+          <!-- <p>{{dataInfor.yesterdayfee}}元</p> -->
         </div>
         <div class="box3">
           <p>可用资金</p>
-          <p>50000.00元</p>
+          <p>0.00元</p>
+          <!-- <p>{{dataInfor.available}}元</p> -->
         </div>
         <div class="box4">
           <p>累计收益</p>
-          <p>50000.00元</p>
+          <p>0.00元</p>
+          <!-- <p>{{accumulateIncome}}元</p> -->
         </div>
       </div>
     </div>
@@ -55,21 +59,31 @@ export default {
     return {
       active: 1,
       dataInfor:[],
+      accumulateIncome: '',//累计收益
     };
   },
   created() {
-    this.initData()
+    // this.initData()
   },
   mounted() {},
   methods: {
-    initData(){
-      this.axios.post('uc/accountDetail').then(res => {
-        if (res) {
-          console.log(res);
-          
-        }
-      })
-    },
+    // initData(){
+    //   //账户信息
+    //   this.axios.post('uc/accountDetail').then(res => {
+    //     if (res.success) {
+    //       this.dataInfor = res.data      
+    //     } else {
+    //       this.$toast(res.message)
+    //     }
+    //   });
+    //   this.axios.get('uc/overViewFunds').then(res => {
+    //     if (res.success) {
+    //       this.accumulateIncome = res.data.accumulateIncome
+    //     }else {
+    //       this.$toast(res.message)
+    //     }
+    //   })
+    // },
   }
 };
 </script>
@@ -90,6 +104,7 @@ export default {
         img {
           width: 100%;
           height: 100%;
+          border-radius: 50%;
         }
       }
       .realname {

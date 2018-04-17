@@ -18,10 +18,10 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(r => r.meta.requireAuth)) { //判断该路由是否需要登陆权限
     if (storage.get('sid')) {
       next()
-      console.log('拿到sid');
+      // console.log('拿到sid');
       
     } else {
-      console.log('未拿到sid');
+      // console.log('未拿到sid');
       next({
         path: '/login',
         query: {

@@ -19,23 +19,25 @@
           <p class="gray">投资期限</p>
         </div>
         <div>
-          <p><span>{{dataInfor.residualAmount}}</span>&nbsp;万</p>
+          <p><span>{{dataInfor.residualAmount}}</span>&nbsp;元</p>
           <p class="gray">可投金额</p>
         </div>
         <div>
-          <p><span>{{dataInfor.amount}}</span>&nbsp;万</p>
+          <p><span>{{dataInfor.amount}}</span>&nbsp;元</p>
           <p class="gray">项目总额</p>
         </div>
       </div>
     </div>
     <div class="box2">
       <div class="title">
-        <van-cell-group>
-          <van-cell title="风险保障" is-link to="" value="成都**集团有限公司">
+        <span class="font-16">风险保障</span>
+        <span class="font-14 frt">成都**集团有限公司&nbsp;&nbsp;<van-icon name="checked" class="bag"/></span>
+        <!-- <van-cell-group>
+          <van-cell title="风险保障" value="成都**集团有限公司">
             <van-icon slot="icon" name="checked" class="van-cell__right-icon checked"/>
             <van-icon slot="icon" name="location" class="van-cell-icon" />
           </van-cell>
-        </van-cell-group>
+        </van-cell-group> -->
       </div>
       <div class="mid">
         <div class="font-16">还款方式</div>
@@ -76,10 +78,10 @@
     <div class="box4">
       <van-collapse v-model="activeNames">
         <van-collapse-item title="项目介绍" name="1">
-          提供多样店铺模板，快速搭建网上商城
+
         </van-collapse-item>
         <van-collapse-item title="投资记录" name="2">
-          网店吸粉获客、会员分层营销、一机多种收款，告别经营低效和客户流失
+
         </van-collapse-item>
       </van-collapse>
       <div class="msg">出借资金全程由银行存管</div>
@@ -178,11 +180,23 @@ export default {
     margin-bottom: 4px;
     box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
     .title {
+      height: 47px;
+      line-height: 47px;
+      padding: 0 16px;
       box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
-      .van-cell__right-icon.checked {
-        margin: 0 144px;
-        color: #8bc34a;
+      // .van-cell__right-icon.checked {
+      //   margin: 0 144px;
+      //   color: #8bc34a;
+      // }
+      .frt {
+        padding-right: 11px;
       }
+      .bag:before {
+            position: absolute;
+            left: -3px;
+            top: -12px;
+            color: #8bc34a;
+          }
     }
     .mid {
       padding: 16px;
