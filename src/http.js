@@ -12,9 +12,9 @@ import {
 //  axios配置
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-// axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
+axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
 // axios.defaults.baseURL = 'http://47.104.71.208:9081/mobile/';
-axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
+// axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
 // axios.defaults.baseURL = 'http://127.0.0.1:8080/mobile/';
 
 const logout = () => {

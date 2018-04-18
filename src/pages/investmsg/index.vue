@@ -78,7 +78,7 @@
     <div class="box4">
       <van-collapse v-model="activeNames">
         <van-collapse-item title="项目介绍" name="1">
-
+          {{introDes}}
         </van-collapse-item>
         <van-collapse-item title="投资记录" name="2">
 
@@ -101,7 +101,8 @@ export default {
     return {
       activeNames: [],
       id: "",
-      dataInfor: []
+      dataInfor: [],
+      introDes: '',//项目介绍
     };
   },
   created() {
@@ -117,11 +118,17 @@ export default {
       this.axios
         .get("investment/details?projectId=" + this.id)
         .then(res => {
-          if (res.status) {
+          if (res.success) {
             this.dataInfor = res.data;
           }
         })
         .catch(err => {});
+        //项目描述
+      this.axios.get("investment/projectDetail/" + this.id).then(res => {
+        if(res.success) {
+          this.introDes = res.introDes;
+        }
+      });
     },
     next() {
       this.$router.push("/purchase");
@@ -192,11 +199,11 @@ export default {
         padding-right: 11px;
       }
       .bag:before {
-            position: absolute;
-            left: -3px;
-            top: -12px;
-            color: #8bc34a;
-          }
+        position: absolute;
+        left: -3px;
+        top: -12px;
+        color: #8bc34a;
+      }
     }
     .mid {
       padding: 16px;

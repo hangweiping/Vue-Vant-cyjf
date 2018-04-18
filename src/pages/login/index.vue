@@ -6,7 +6,7 @@
     </div>
     <div class="content" v-if="status == 0">
       <div class="ipt1">
-        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
+        <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="ipt2">
         <!-- <van-field
@@ -23,9 +23,9 @@
           <van-button slot="button" size="small" >发送验证码</van-button>
           </van-field>
         </van-cell-group> -->
-        <input type="text" v-model="smsCode" placeholder="请输入验证码" maxlength="10">
+        <input type="number" v-model="smsCode" placeholder="请输入验证码" maxlength="10">
         
-        <button class="code frt" @click="getcode" :disabled="disabled" :class="{ active: disabled }">{{btntxt}}</button>
+        <div class="code frt" @click="getcode" :disabled="disabled" :class="{ active: disabled }">{{btntxt}}</div>
       </div>
       
       <div class="btn">
@@ -37,7 +37,7 @@
     </div>
     <div class="content" v-if="status == 1">
       <div class="ipt1">
-        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
+        <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <div class="ipt1">
         <input type="password" v-model="password" placeholder="请输入登录密码" maxlength="12">

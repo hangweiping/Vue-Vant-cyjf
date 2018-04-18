@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <van-nav-bar
+    <!-- <van-nav-bar
       :title="title"
       :left-arrow="isshow"
       @click-left="onClickLeft"
       @click-right="onClickRight"
       fixed
-    />
+    /> -->
     <router-view class="app"></router-view>
   </div>
 </template>
@@ -91,7 +91,7 @@ body {
 }
 
 .app {
-  margin-top: 46px;
+  // margin-top: 46px;
 }
 .van-nav-bar__title {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
