@@ -42,9 +42,9 @@
       <div class="ipt1">
         <input type="password" v-model="password" placeholder="请输入登录密码" maxlength="12">
       </div>
-      <div class="forget frt">
+      <router-link class="forget frt" to="/changeloginpwd1">
         忘记密码？
-      </div>
+      </router-link>
       <div class="btn">
         <button @click="loginPwd">登录</button>
       </div>
@@ -210,7 +210,7 @@ export default {
   methods: {
     getcode() {
       let isPhone = this.$util.isPhone(this.mobile);
-      let data = JSON.stringify({
+      let data = ({
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE"
       });
@@ -283,14 +283,14 @@ export default {
     loginSms() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(`icy${this.mobile}`);
-      let registerData = JSON.stringify({
+      let registerData = ({
         type: "GENERAL",
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
       });
-      let loginData = JSON.stringify({
+      let loginData = ({
         type: "GENERAL",
         loginName: this.mobile,
         smsType: "USER_REGIST_CODE",
@@ -359,7 +359,7 @@ export default {
     loginPwd() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(this.password);
-      let loginData = JSON.stringify({
+      let loginData = ({
         loginName: this.mobile,
         type: "GENERAL", //个人
         password: password,
@@ -468,7 +468,7 @@ export default {
     .ipt2 {
       width: 100%;
       height: 50px;
-      margin: 10px 0;
+      margin-top: 10px;
       input {
         width: 100%;
         height: 100%;
@@ -494,9 +494,9 @@ export default {
       }
     }
     .forget {
-      height: 21px;
+      height: 27px;
       font-size: 14px;
-      line-height: 21px;
+      line-height: 30px;
       color: #3f51b5;
     }
     .btn2 {

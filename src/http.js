@@ -12,10 +12,12 @@ import {
 //  axios配置
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
+axios.defaults.withCredentials = true; //允许cookie操作
+// axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
 // axios.defaults.baseURL = 'http://47.104.71.208:9081/mobile/';
 // axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
-// axios.defaults.baseURL = 'http://127.0.0.1:8080/mobile/';
+axios.defaults.baseURL = 'http://192.168.31.159:8080/mobile/';
+// axios.defaults.baseURL = 'http://192.168.2.23:8080/mobile/';
 
 const logout = () => {
   const sid = storage.get('sid');
@@ -36,8 +38,10 @@ axios.interceptors.request.use(
   config => {
     // let api = '/api/' //开发
     // config.url = api + config.url; //开发 使用axios时可以直接使用相应的接口不需要再加api/
-
     const sid = storage.get('sid');
+    if (config.method == 'post') {
+      config.data = JSON.stringify(config.data) //对post请求传的数据进行统一处理
+    }
     if (!!sid) { // 每次发送请求之前判断是否存在sid，如果存在，则统一在http请求的header都加上sid，不用每次请求都手动添加了
       config.headers.sid = sid;
     }

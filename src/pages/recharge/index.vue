@@ -15,6 +15,7 @@
       @blur="show = false"
       @input="onInput"
       @delete="onDelete"
+      @hide="onHide"
       :hide-on-click-outside="false"
       title="已进入安全模式"
     />
@@ -25,12 +26,11 @@
           <div class="close" @click="pwdshow = false">x</div>
           <div class="title2">请输入支付密码</div>
           <div class="title3">充值金额</div>
-          <div class="title4">50.00元</div>
+          <div class="title4">{{money}}元</div>
           <van-password-input
             :value="password"
             @focus="showKeyboard = true"
           />
-
         </div>
         <!-- 数字键盘 -->
         <van-number-keyboard
@@ -55,12 +55,18 @@ export default {
       show: false,
       pwdshow: false,
       password: "",
-      showKeyboard: false
+      showKeyboard: false,
+      sid: ""
     };
   },
-  created() {},
+  created() {
+    this.init();
+  },
   mounted() {},
   methods: {
+    init() {
+      this.sid = this.storage.get("sid");
+    },
     //确认提现
     next() {
       this.pwdshow = true;
@@ -68,20 +74,41 @@ export default {
     //金额
     onInput(value) {
       this.money += value;
+      this.money = this.$util.limitTowDecimals(this.money);
     },
+    //删除金额按钮
     onDelete() {
       this.money = this.money.slice(0, this.money.length - 1);
     },
-    //密码
+    //当收起收入框
+    onHide() {
+      if (this.money.length - 1 == this.money.lastIndexOf(".")) {
+        this.money = this.money.substr(0, this.money.length - 1);
+      }
+    },
+    //输入密码
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
-        this.$toast('输入完成')
+        this.$toast("输入完成");
+        this.password = "";
+        // let data = ({
+        //   sid: this.sid,
+        //   amount: this.money
+        // });
+        this.axios
+          .post(`pay/recharge?sid=${this.sid}&amount=${this.money}`)
+          .then(res => {
+            if (res.success) {
+              console.log(res);
+            }
+          });
       }
     },
+    //删除密码按钮
     onPwDelete() {
       this.password = this.password.slice(0, this.password.length - 1);
-    },
+    }
   }
 };
 </script>

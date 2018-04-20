@@ -4,27 +4,27 @@
       <van-cell-group>
         <van-field
           center
-          v-model="phoneNum"
+          v-model="mobile"
           type="number"
           label="手机号码"
           placeholder="请输入手机号码"
           icon="clear"
-          @click-icon="phoneNum = ''"
+          @click-icon="mobile = ''"
         />
         <van-field
           center
-          v-model="code"
+          v-model="smsCode"
           type="number"
           label="验证码"
           placeholder="请输入验证码"
           icon="clear"
-          @click-icon="code = ''"
+          @click-icon="smsCode = ''"
         >
-          <van-button slot="button" size="small" @click="getcode" :disabled="disabled">发送验证码</van-button>
+          <van-button slot="button" size="small" v-show="isshow1" @click="getcode">{{btntxt}}</van-button>
+          <van-button slot="button" size="small" v-show="isshow2" disabled>{{btntxt}}</van-button>
         </van-field>
       </van-cell-group>
     </div>
-    <div class="errmsg">{{errmsg}}</div>
     <div class="btn">
       <button @click="nextbtn">下一步</button>
     </div>
@@ -38,17 +38,32 @@ export default {
   props: [],
   data() {
     return {
-      phoneNum: "",
-      code: "",
-      disabled: false,
-      errmsg: "验证码错误"
+      mobile: "",
+      smsCode: "",
+      isshow1: true,
+      isshow2: false,
+      time: 0,
+      btntxt: "获取验证码",
     };
   },
   created() {},
   mounted() {},
   methods: {
+    timer() {
+      if (this.time > 0) {
+        this.isshow1 = false;
+        this.isshow2 = true;
+        this.time--;
+        this.btntxt = this.time + "s";
+        setTimeout(this.timer, 1000);
+      } else {
+        this.time = 0;
+        this.btntxt = "获取验证码";
+        this.isshow1 = true;
+        this.isshow2 = false;
+      }
+    },
     getcode() {
-      this.disabled = true;
       this.$emit("getcode", "我是子组件");
     },
     nextbtn() {
@@ -61,17 +76,10 @@ export default {
 <style scoped lang="scss">
 .proving {
   padding: 10px 23px 23px 23px;
-  .content {
-  }
-  .errmsg {
-    height: 21px;
-    font-size: 12px;
-    line-height: 21px;
-    color: #f44;
-  }
   .btn {
     width: 100%;
     height: 40px;
+    margin-top: 15px;
     button {
       width: 100%;
       color: #fff;

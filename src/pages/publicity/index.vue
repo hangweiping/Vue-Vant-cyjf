@@ -217,7 +217,7 @@ export default {
     },
     getcode() {
       let isPhone = this.$util.isPhone(this.mobile);
-      let data = JSON.stringify({
+      let data = ({
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE"
       });
@@ -240,14 +240,14 @@ export default {
     next() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(`icy${this.mobile}`);
-      let registerData = JSON.stringify({
+      let registerData = ({
         type: "GENERAL",
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
       });
-      let loginData = JSON.stringify({
+      let loginData = ({
         type: "GENERAL",
         loginName: this.mobile,
         smsType: "USER_REGIST_CODE",

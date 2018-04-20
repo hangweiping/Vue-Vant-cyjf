@@ -13,27 +13,27 @@
       <div class="income clearfix">
         <div class="box1">
           <p>总资产</p>
-          <p>0.00元</p>
-          <!-- <p>{{dataInfor.allCapitalSum}}元</p> -->
+          <!-- <p>0.00元</p> -->
+          <p>{{dataInfor.allCapitalSum}}元</p>
         </div>
         <div class="box2">
           <p>昨日收益</p>
-          <p>0.00元</p>
-          <!-- <p>{{dataInfor.yesterdayfee}}元</p> -->
+          <!-- <p>0.00元</p> -->
+          <p>{{dataInfor.yesterdayfee}}元</p>
         </div>
         <div class="box3">
           <p>可用资金</p>
-          <p>0.00元</p>
-          <!-- <p>{{dataInfor.available}}元</p> -->
+          <!-- <p>0.00元</p> -->
+          <p>{{dataInfor.available}}元</p>
         </div>
         <div class="box4">
           <p>累计收益</p>
-          <p>0.00元</p>
-          <!-- <p>{{accumulateIncome}}元</p> -->
+          <!-- <p>0.00元</p> -->
+          <p>{{accumulateIncome}}元</p>
         </div>
       </div>
     </div>
-    <div class="content" v-show="false">
+    <div class="content">
       <router-link to="/withdraw" class="box1">提现</router-link>
       <router-link to="/recharge" class="box1">充值</router-link>
       <!-- <router-link to="/login" class="box2">投资记录</router-link>
@@ -63,27 +63,28 @@ export default {
     };
   },
   created() {
-    // this.initData()
+    this.sid = this.storage.get("sid");
+    this.initData()
   },
   mounted() {},
   methods: {
-    // initData(){
-    //   //账户信息
-    //   this.axios.post('uc/accountDetail').then(res => {
-    //     if (res.success) {
-    //       this.dataInfor = res.data      
-    //     } else {
-    //       this.$toast(res.message)
-    //     }
-    //   });
-    //   this.axios.get('uc/overViewFunds').then(res => {
-    //     if (res.success) {
-    //       this.accumulateIncome = res.data.accumulateIncome
-    //     }else {
-    //       this.$toast(res.message)
-    //     }
-    //   })
-    // },
+    initData(){
+      //账户信息
+      this.axios.post('uc/accountDetail').then(res => {
+        if (res.success) {
+          this.dataInfor = res.data      
+        } else {
+          this.$toast(res.message)
+        }
+      });
+      this.axios.get(`uc/overViewFunds?sid=${this.sid}`).then(res => {
+        if (res.success) {
+          this.accumulateIncome = res.data.accumulateIncome
+        }else {
+          this.$toast(res.message)
+        }
+      })
+    },
   }
 };
 </script>

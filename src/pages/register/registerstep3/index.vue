@@ -50,14 +50,14 @@ export default {
     register() {
       let isPasswordRuler = this.$util.isPasswordRuler(this.password);
       let password = this.$util.encryptByDES(this.password);
-      let registerData = JSON.stringify({
+      let registerData = ({
         type: "GENERAL",//个人
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
       });
-      let loginData = JSON.stringify({
+      let loginData = ({
         loginName: this.mobile,
         type:'GENERAL',//个人
         password: password,

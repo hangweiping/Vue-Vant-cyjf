@@ -61,7 +61,7 @@ export default {
       }
     },
     getcode() {
-      let data = JSON.stringify({
+      let data = ({
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE"
       });
@@ -76,7 +76,7 @@ export default {
       });
     },
     next() {
-      let data = JSON.stringify({
+      let data = ({
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE",
         smsCode: this.smsCode

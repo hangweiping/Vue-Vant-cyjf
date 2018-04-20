@@ -11,9 +11,9 @@
       <div class="ipt">
         <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
-      <div class="mid frt">
+      <router-link class="mid frt" to="/login">
         我有账号，立即登录
-      </div>
+      </router-link>
       <!-- <router-link class="btn" :to="{path:'/registerstep2',query:{mobile:mobile}}">
         <button>下一步</button>
       </router-link> -->
