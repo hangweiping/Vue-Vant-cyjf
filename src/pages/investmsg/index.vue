@@ -42,7 +42,7 @@
       <div class="mid">
         <div class="font-16">还款方式</div>
         <div>
-          <span class="flt">到期还款付息</span>
+          <span class="flt">{{dataInfor.repaymentMethodDes}}</span>
           <span class="frt">302600.00元</span>
         </div>
         <div>
@@ -78,7 +78,7 @@
     <div class="box4">
       <van-collapse v-model="activeNames">
         <van-collapse-item title="项目介绍" name="1">
-          {{introDes}}
+          <div v-html="intro" class="gray2"></div>
         </van-collapse-item>
         <van-collapse-item title="投资记录" name="2">
 
@@ -102,7 +102,7 @@ export default {
       activeNames: [],
       id: "",
       dataInfor: [],
-      introDes: '',//项目介绍
+      intro: '',//项目介绍
     };
   },
   created() {
@@ -126,7 +126,7 @@ export default {
         //项目描述
       this.axios.get("investment/projectDetail/" + this.id).then(res => {
         if(res.success) {
-          this.introDes = res.introDes;
+          this.intro = res.data.intro;
         }
       });
     },

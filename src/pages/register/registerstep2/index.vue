@@ -61,10 +61,10 @@ export default {
       }
     },
     getcode() {
-      let data = ({
+      let data = {
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE"
-      });
+      };
       this.axios.post("/sms/sendSms", data).then(res => {
         if (res.success) {
           this.time = 60;
@@ -76,11 +76,11 @@ export default {
       });
     },
     next() {
-      let data = ({
+      let data = {
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE",
         smsCode: this.smsCode
-      });
+      };
       if (this.smsCode == "") {
         this.$toast("请输入验证码");
         return;

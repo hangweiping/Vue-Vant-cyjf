@@ -92,10 +92,10 @@ export default {
       if (this.password.length == 6) {
         this.$toast("输入完成");
         this.password = "";
-        // let data = ({
+        // let data = {
         //   sid: this.sid,
         //   amount: this.money
-        // });
+        // };
         this.axios
           .post(`pay/recharge?sid=${this.sid}&amount=${this.money}`)
           .then(res => {

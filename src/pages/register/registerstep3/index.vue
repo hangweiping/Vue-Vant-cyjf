@@ -68,10 +68,8 @@ export default {
       
       if (this.password == "") {
         this.$toast("请输入密码");
-        return;
       } else if (!isPasswordRuler) {
         this.$toast("密码应为6-12位数字、字母组合");
-        return;
       } else {
         this.axios
           .post("regist/submit", registerData)

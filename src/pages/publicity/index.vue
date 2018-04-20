@@ -217,10 +217,10 @@ export default {
     },
     getcode() {
       let isPhone = this.$util.isPhone(this.mobile);
-      let data = ({
+      let data = {
         mobile: this.mobile,
         smsType: "USER_REGIST_CODE"
-      });
+      };
       if (this.mobile == "") {
         this.$toast("请先输入手机号");
       } else if (!isPhone) {

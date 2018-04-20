@@ -155,6 +155,9 @@ img {
   font-size: 12px;
   color: #aaaaaa;
 }
+.gray2 {
+  color: #666666;
+}
 .font-12 {
   font-size: 12px;
 }

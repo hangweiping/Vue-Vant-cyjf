@@ -35,36 +35,39 @@
 export default {
   name: "login",
   components: {},
-  props: [],
+  props: ["time"],
   data() {
     return {
       mobile: "",
       smsCode: "",
       isshow1: true,
       isshow2: false,
-      time: 0,
       btntxt: "获取验证码",
+      mytime: this.time
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.time);
+    console.log(this.mytime);
+  },
   methods: {
     timer() {
-      if (this.time > 0) {
+      if (this.mytime > 0) {
         this.isshow1 = false;
         this.isshow2 = true;
-        this.time--;
-        this.btntxt = this.time + "s";
-        setTimeout(this.timer, 1000);
+        this.mytime--;
+        this.btntxt = this.mytime + "s";
+        setTimeout(this.mytime, 1000);
       } else {
-        this.time = 0;
+        this.mytime = 0;
         this.btntxt = "获取验证码";
         this.isshow1 = true;
         this.isshow2 = false;
       }
     },
     getcode() {
-      this.$emit("getcode", "我是子组件");
+      this.$emit("getcode", this.mobile, this.smsCode);
     },
     nextbtn() {
       this.$emit("nextbtn", "我是子组件下一步");
@@ -76,6 +79,13 @@ export default {
 <style scoped lang="scss">
 .proving {
   padding: 10px 23px 23px 23px;
+  .van-cell {
+    padding: 10px 0 5px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  [class*="van-hairline"]::after {
+    border: none;
+  }
   .btn {
     width: 100%;
     height: 40px;
@@ -90,14 +100,5 @@ export default {
       border-radius: 5px;
     }
   }
-}
-</style>
-<style scoped lang="scss">
-.van-cell {
-  padding: 10px 0 5px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-[class*="van-hairline"]::after {
-  border: none;
 }
 </style>
