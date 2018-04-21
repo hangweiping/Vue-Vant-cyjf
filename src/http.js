@@ -17,7 +17,6 @@ axios.defaults.withCredentials = true; //允许cookie操作
 // axios.defaults.baseURL = 'http://47.104.71.208:9081/mobile/';
 // axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
 axios.defaults.baseURL = 'http://192.168.31.159:8080/mobile/';
-// axios.defaults.baseURL = 'http://192.168.2.23:8080/mobile/';
 
 const logout = () => {
   const sid = storage.get('sid');

@@ -87,7 +87,7 @@ export default {
         this.axios.post("forgetPassword", forgetdata).then(res => {
           if (res.success) {
             this.$toast.loading("修改成功!");
-            this.thenlogin();
+            this.thenLogin();
           } else {
             this.$toast(res.message);
           }
@@ -107,7 +107,7 @@ export default {
       });
     },
     //1秒后跳转首页
-    thenlogin() {
+    thenLogin() {
       //登录需要穿的参
       let loginData = {
         loginName: this.mobile,

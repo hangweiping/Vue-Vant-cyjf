@@ -35,7 +35,8 @@
     </div>
     <div class="content">
       <router-link to="/withdraw" class="box1">提现</router-link>
-      <router-link to="/recharge" class="box1">充值</router-link>
+      <!-- <router-link to="/recharge" class="box1" @click="realshow = true">充值</router-link> -->
+      <div class="box1" @click="torecharge">充值</div>
       <!-- <router-link to="/login" class="box2">投资记录</router-link>
       <router-link to="/changeloginpwd1" class="box2">优惠券</router-link>
       <router-link to="/rebinding" class="box2">收款明细</router-link>
@@ -47,44 +48,58 @@
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
     </van-tabbar>
+    <judgeRealName @child="child" v-show="realshow"></judgeRealName>
   </div>
 </template>
 
 <script>
+import judgeRealName from "../../components/judgeRealName.vue";
 export default {
   name: "user",
-  components: {},
+  components: {
+    judgeRealName
+  },
   props: [],
   data() {
     return {
       active: 1,
-      dataInfor:[],
-      accumulateIncome: '',//累计收益
+      dataInfor: [],
+      accumulateIncome: "", //累计收益
+      realshow: false
     };
   },
   created() {
     this.sid = this.storage.get("sid");
-    this.initData()
+    this.initData();
   },
   mounted() {},
   methods: {
-    initData(){
+    initData() {
       //账户信息
-      this.axios.post('uc/accountDetail').then(res => {
+      this.axios.post("uc/accountDetail").then(res => {
         if (res.success) {
-          this.dataInfor = res.data      
+          this.dataInfor = res.data;
         } else {
-          this.$toast(res.message)
+          this.$toast(res.message);
         }
       });
       this.axios.get(`uc/overViewFunds?sid=${this.sid}`).then(res => {
         if (res.success) {
-          this.accumulateIncome = res.data.accumulateIncome
-        }else {
-          this.$toast(res.message)
+          this.accumulateIncome = res.data.accumulateIncome;
+        } else {
+          this.$toast(res.message);
         }
-      })
+      });
     },
+    /* 改动 */
+    torecharge(){
+      this.realshow = true
+    },
+    child(close){
+      if(close) {
+        this.realshow = false
+      }
+    }
   }
 };
 </script>
@@ -137,7 +152,7 @@ export default {
         padding-bottom: 20px;
         :first-child {
           font-size: 12px;
-          color: #879AFF;
+          color: #879aff;
         }
         :last-child {
           font-size: 23px;
@@ -153,10 +168,17 @@ export default {
       font-size: 15px;
       line-height: 50px;
       text-align: center;
-      box-shadow: 0 0 1px rgba($color: #000000, $alpha: .1);
+      box-shadow: 0 0 1px rgba($color: #000000, $alpha: 0.1);
     }
     .box1 {
-      color: #FF9800;
+      color: #ff9800;
+      float: left;
+      width: 50%;
+      height: 50px;
+      font-size: 15px;
+      line-height: 50px;
+      text-align: center;
+      box-shadow: 0 0 1px rgba($color: #000000, $alpha: 0.1);
     }
   }
 }

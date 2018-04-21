@@ -27,19 +27,7 @@
       :hide-on-click-outside="false"
       title="已进入安全模式"
     />
-    <!-- 开通中金 -->
-    <transition name="van-slide-bottom">
-      <div class="layer" v-show="layershow">
-        <div class="laycontent">
-          <div class="title">开启中金存管</div>
-          <div class="msg gray">交易资金由中金支付全程存管</div>
-          <div class="btns">
-            <button class="flt" @click="layershow = false">再想想</button>
-            <button class="frt">去开启</button>
-          </div>
-        </div>
-      </div>
-    </transition>
+    
     <!-- 支付 -->
     <transition name="van-slide-bottom">
       <div class="layer" v-show="pwdshow">
@@ -76,7 +64,6 @@ export default {
       pwdshow: false,
       checked: false,
       money: "",
-      layershow: false,
       password: "",
       showKeyboard: false
     };
@@ -114,7 +101,7 @@ export default {
       this.password = this.password.slice(0, this.password.length - 1);
     },
     agree() {},
-    //点击买入 判断是否已经开启中金支付,是pwdshow--true 否layershow--true
+    //点击买入
     buy(){
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
@@ -216,7 +203,7 @@ export default {
       background-color: #fff;
       border-radius: 5px;
       z-index: 100;
-      .title {
+      /* .title {
         height: 40px;
         font-size: 23px;
         color: #101010;
@@ -245,7 +232,7 @@ export default {
           color: #fff;
           background-color: #3f51b5;
         }
-      }
+      } */
       .close {
         font-size: 20px;
         font-weight: 700;

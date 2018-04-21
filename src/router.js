@@ -74,8 +74,20 @@ let router = new VueRouter({
       path: '/withdraw',
       name: 'withdraw',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/withdraw"),//提现
+    }, {
+      path: '/realname',
+      name: 'realname',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/realname"),//实名认证
     }
-  ]
+  ],
+  //处理,使路由跳转的时候,可以想原生打开页面一样,返回到页面顶部
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 

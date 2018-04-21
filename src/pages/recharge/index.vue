@@ -45,9 +45,11 @@
 </template>
 
 <script>
+
 export default {
   name: "recharge",
-  components: {},
+  components: {
+  },
   props: [],
   data() {
     return {
@@ -56,7 +58,7 @@ export default {
       pwdshow: false,
       password: "",
       showKeyboard: false,
-      sid: ""
+      sid: "",
     };
   },
   created() {
