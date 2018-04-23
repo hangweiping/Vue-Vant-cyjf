@@ -2,12 +2,12 @@
   <div class="user">
     <div class="msg">
       <div class="picture clearfix">
-        <div class="flt head">
+        <router-link class="flt head" to="/usermessage">
           <img src="./images/head.jpg" alt="">
-        </div>
+        </router-link>
         <div class="flt realname">未实名</div>
         <div class="frt service" v-show="false">
-          <van-icon name="phone" />
+          <van-icon name="phone"/>
         </div>
       </div>
       <div class="income clearfix">
@@ -34,11 +34,11 @@
       </div>
     </div>
     <div class="content">
-      <router-link to="/withdraw" class="box1">提现</router-link>
       <!-- <router-link to="/recharge" class="box1" @click="realshow = true">充值</router-link> -->
-      <div class="box1" @click="torecharge">充值</div>
+      <div class="box1" @click="toWithDraw">提现</div>
+      <div class="box1" @click="toRecharge">充值</div>
       <!-- <router-link to="/login" class="box2">投资记录</router-link>
-      <router-link to="/changeloginpwd1" class="box2">优惠券</router-link>
+      <router-link to="/changepwd1" class="box2">优惠券</router-link>
       <router-link to="/rebinding" class="box2">收款明细</router-link>
       <router-link to="/user" class="box2">交易记录</router-link> -->
     </div>
@@ -48,7 +48,7 @@
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
     </van-tabbar>
-    <judgeRealName @child="child" v-show="realshow"></judgeRealName>
+    <judgeRealName @childClose="childClose" :realshow="realshow"></judgeRealName>
   </div>
 </template>
 
@@ -65,7 +65,7 @@ export default {
       active: 1,
       dataInfor: [],
       accumulateIncome: "", //累计收益
-      realshow: false
+      realshow: false,
     };
   },
   created() {
@@ -91,11 +91,21 @@ export default {
         }
       });
     },
-    /* 改动 */
-    torecharge(){
+    //去提现
+    toWithDraw(){
+      console.log(this.dataInfor.isAuthIdNo);
+      //未实名
+      if (this.dataInfor.isAuthIdNo && !this.dataInfor.isAuthIdNo) {
+        this.realshow = true
+      } else {
+        this.$router.push('/withdraw')
+      }
+    },
+    //去充值
+    toRecharge(){
       this.realshow = true
     },
-    child(close){
+    childClose(close){
       if(close) {
         this.realshow = false
       }

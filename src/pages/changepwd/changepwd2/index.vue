@@ -1,5 +1,5 @@
 <template>
-  <div class="changeloginpwd2">
+  <div class="changepwd2">
     <div class="content">
       <van-cell-group>
         <van-field
@@ -37,7 +37,7 @@ const setStorage = data => {
   storage.set("userKey", data.userKey);
 };
 export default {
-  name: "changeloginpwd2",
+  name: "changepwd2",
   components: {},
   props: [],
   data() {
@@ -132,7 +132,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.changeloginpwd2 {
+.changepwd2 {
   padding: 10px 23px 23px 23px;
 
   .btn {

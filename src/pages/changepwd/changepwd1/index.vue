@@ -1,5 +1,5 @@
 <template>
-  <div class="changeloginpwd1">
+  <div class="changepwd1">
     <div class="content">
       <van-cell-group>
         <van-field
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: "changeloginpwd1",
+  name: "changepwd1",
   components: {},
   props: [],
   data() {
@@ -44,17 +44,19 @@ export default {
       isshow2: false,
       btntxt: "获取验证码",
       time: 0,
+      smsType: ""
     };
   },
-  created() {},
+  created() {
+    this.smsType = this.$route.query.smsType;
+  },
   mounted() {},
   methods: {
-    
     getcode() {
       let isPhone = this.$util.isPhone(this.mobile);
       let data = {
         mobile: this.mobile,
-        smsType: "USER_FIND_PASSWORD_CODE"
+        smsType: this.smsType
       };
       if (this.mobile == "") {
         this.$toast("请先输入手机号");
@@ -75,7 +77,7 @@ export default {
     nextbtn() {
       let data = {
         mobile: this.mobile,
-        smsType: "USER_FIND_PASSWORD_CODE",
+        smsType: this.smsType,
         smsCode: this.smsCode
       };
       if (this.smsCode == "") {
@@ -86,9 +88,8 @@ export default {
           .post("sms/verify", data)
           .then(res => {
             if (res.success) {
-              
               this.$router.push({
-                name: "changeloginpwd2",
+                name: "changepwd2",
                 query: { mobile: this.mobile, smsCode: this.smsCode }
               });
             } else {
@@ -116,7 +117,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.changeloginpwd1 {
+.changepwd1 {
   padding: 10px 23px 23px 23px;
   .van-cell {
     padding: 10px 0 5px 0;

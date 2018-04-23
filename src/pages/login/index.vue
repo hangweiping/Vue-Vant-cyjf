@@ -42,9 +42,9 @@
       <div class="ipt1">
         <input type="password" v-model="password" placeholder="请输入登录密码" maxlength="12">
       </div>
-      <router-link class="forget frt" to="/changeloginpwd1">
+      <div class="forget frt" @click="toChangeLoginPwd">
         忘记密码？
-      </router-link>
+      </div>
       <div class="btn">
         <button @click="loginPwd">登录</button>
       </div>
@@ -283,20 +283,20 @@ export default {
     loginSms() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(`icy${this.mobile}`);
-      let registerData = ({
+      let registerData = {
         type: "GENERAL",
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
-      });
-      let loginData = ({
+      };
+      let loginData = {
         type: "GENERAL",
         loginName: this.mobile,
         smsType: "USER_REGIST_CODE",
         smsCode: this.smsCode,
         clientType: "MOBILEWEB"
-      });
+      };
       if (this.mobile == "") {
         this.$toast("请先输入手机号");
       } else if (!isPhone) {
@@ -359,12 +359,12 @@ export default {
     loginPwd() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(this.password);
-      let loginData = ({
+      let loginData = {
         loginName: this.mobile,
         type: "GENERAL", //个人
         password: password,
         clientType: "MOBILEWEB"
-      });
+      };
       if (this.mobile == "") {
         this.$toast("请输入手机号");
       } else if (!isPhone) {
@@ -388,6 +388,12 @@ export default {
           }
         });
       }
+    },
+    toChangeLoginPwd() {
+      this.$router.push({
+        name: "changepwd1",
+        query: { smsType : 'USER_FIND_PASSWORD_CODE' }
+      });
     }
   }
 };

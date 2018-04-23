@@ -43,13 +43,13 @@ let router = new VueRouter({
       name: 'registerstep3',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/register/registerstep3"),//注册
     }, {
-      path: '/changeloginpwd1',
-      name: 'changeloginpwd1',
-      component: () => import(/* webpackChunkName: "home" */ "@/pages/changeloginpwd/changeloginpwd1"),//更改登录密码
+      path: '/changepwd1',
+      name: 'changepwd1',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/changepwd/changepwd1"),//更改登录密码
     }, {
-      path: '/changeloginpwd2',
-      name: 'changeloginpwd2',
-      component: () => import(/* webpackChunkName: "home" */ "@/pages/changeloginpwd/changeloginpwd2"),//更改登录密码
+      path: '/changepwd2',
+      name: 'changepwd2',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/changepwd/changepwd2"),//更改登录密码
     }, {
       path: '/changepaypwd1',
       name: 'changepaypwd1',
@@ -78,6 +78,21 @@ let router = new VueRouter({
       path: '/realname',
       name: 'realname',
       component: () => import(/* webpackChunkName: "home" */ "@/pages/realname"),//实名认证
+    }, {
+      path: '/openaccount',
+      name: 'openaccount',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/openaccount"),//开通中金
+    }, {
+      path: '/tiecard',
+      name: 'tiecard',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/tiecard"),//开通中金
+    }, {
+      path: '/usermessage',
+      name: 'usermessage',
+      component: () => import(/* webpackChunkName: "home" */ "@/pages/usermessage"),//开通中金
+      meta: {
+        requireAuth: true
+      },
     }
   ],
   //处理,使路由跳转的时候,可以想原生打开页面一样,返回到页面顶部

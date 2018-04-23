@@ -43,7 +43,7 @@ export default {
   // 当路由地址变化的时候。决定后退按钮显示或者隐藏
   watch: {
     $route: function(routeValue) {
-      let arr = ["/home","/publicity"];
+      let arr = ["/home", "/publicity"];
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
       // let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
       // this.title =
@@ -52,10 +52,10 @@ export default {
         case "/registerstep1" || "/registerstep2" || "/registerstep3":
           this.title = "注册";
           break;
-        case "/changeloginpwd1" || "/changepaypwd1":
+        case "/changepwd1" || "/changepaypwd1":
           this.title = "验证手机号";
           break;
-        case "/changeloginpwd2":
+        case "/changepwd2":
           this.title = "设置登录密码";
           break;
         case "/changepaypwd2":
@@ -151,6 +151,9 @@ img {
   color: #ff9800;
   font-size: 14px;
 }
+.orange {
+  color: #ff9800;
+}
 .gray {
   font-size: 12px;
   color: #aaaaaa;
@@ -200,7 +203,7 @@ img {
   font-size: 10px;
   line-height: 10px;
   background-color: #fff;
-  margin-bottom:2px;
+  margin-bottom: 2px;
 }
 .van-checkbox--checked {
   width: 12px;
@@ -208,9 +211,9 @@ img {
   font-size: 10px;
   line-height: 12px;
   color: #fff;
-  background-color:rgb(247, 208, 69);
+  background-color: rgb(247, 208, 69);
   border: 1px solid #aaa;
-  margin-bottom:2px;
+  margin-bottom: 2px;
 }
 /* 密码框 */
 .van-password-input__security {

@@ -40,11 +40,17 @@ export default {
     };
   },
   created() {
-    this.sid = this.storage.get('sid')
+    this.sid = this.storage.get("sid");
   },
   mounted() {},
   methods: {
     nextbtn() {
+      let data = {
+        realName: this.realName,
+        idNo: this.idCard,
+        sid: this.sid,
+        type: "GENERAL"
+      };
       let isIdCard = this.$util.checkId(this.idCard);
       if (this.realName == "") {
         this.$toast("请输入您的真实姓名");
@@ -58,16 +64,16 @@ export default {
           .then(res => {
             if (res.success) {
               //身份证认证成功
-              this.thenRealName.then(res => {
-                if(res.success){
+              this.thenRealName(data).then(res => {
+                if (res.success) {
                   //实名认证成功
-                  this.$toast(res.message)
-                  this.$router.push('/home')
-                }else {
+                  this.$toast(res.message);
+                  this.$router.push("/home");
+                } else {
                   //实名认证失败
-                  this.$toast(res.message)
+                  this.$toast(res.message);
                 }
-              })
+              });
             } else {
               this.$toast(res.message);
             }
@@ -75,18 +81,12 @@ export default {
           .catch(err => {});
       }
     },
-    thenRealName(){
-      let data ={
-        realName : this.realName,
-        idNo : this.idCard,
-        sid : this.sid,
-        type : 'GENERAL'
-      }
+    thenRealName(data) {
       return new Promise(resolve => {
-        this.axios.post('security/identity',data).then(res=> {
-          resolve(res)
-        })
-      })
+        this.axios.post("uc/security/identity", data).then(res => {
+          resolve(res);
+        });
+      });
     }
   }
 };

@@ -7,7 +7,7 @@
           <div class="title">还未实名认证</div>
           <div class="msg gray">为了保证您的账户安全,请先进行实名认证</div>
           <div class="btns">
-            <button class="flt" @click="child">再想想</button>
+            <button class="flt" @click="childClose">再想想</button>
             <router-link to="/realname"><button class="frt">去认证</button></router-link>
           </div>
         </div>
@@ -23,14 +23,22 @@ export default {
   props: ["realshow"],
   data() {
     return {
-      realnameshow: true
+      realnameshow: this.realshow //将父组件传来的值进行重新赋值,避免子组件直接操作父组件传来的参数
     };
   },
   created() {},
   mounted() {},
   methods: {
-    child(){
-      this.$emit('child',1)
+    childClose() {
+      this.realnameshow = false;
+      if (this.realnameshow == false) {
+        this.$emit("childClose", 1);
+      }
+    }
+  },
+  watch: {
+    realshow: function name(params) {
+      this.realnameshow = this.realshow;
     }
   }
 };

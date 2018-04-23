@@ -103,34 +103,26 @@
       </div>
     </transition>
     <!-- 实名认证 -->
-    <transition name="van-slide-bottom">
-      <div class="layer" v-show="realnameshow">
-        <div class="laycontent">
-          <div class="title">还未实名认证</div>
-          <div class="msg gray">为了保证您的账户安全,请先进行实名认证</div>
-          <div class="btns">
-            <button class="flt" @click="realnameshow = false">再想想</button>
-            <router-link to="/realname"><button class="frt">去认证</button></router-link>
-          </div>
-        </div>
-      </div>
-    </transition>
+    <judgeRealName @childClose="childClose" :realshow="realshow"></judgeRealName>
   </div>
 </template>
 
 <script>
+import judgeRealName from "../../components/judgeRealName.vue";
 export default {
   name: "investmsg",
-  components: {},
+  components: { judgeRealName },
   props: [],
   data() {
     return {
       activeNames: [],
       id: "",
       dataInfor: [],
-      intro: '',//项目介绍
-      realnameshow: false, //实名认证
+      intro: "", //项目介绍
+      realshow: false, //实名认证
       payshow: false, //开通中金
+      isAuthIdNo : false,
+      isOpenEscrow : false,
     };
   },
   created() {
@@ -142,7 +134,6 @@ export default {
   },
   methods: {
     initData() {
-      let that = this;
       this.axios
         .get("investment/details?projectId=" + this.id)
         .then(res => {
@@ -151,19 +142,35 @@ export default {
           }
         })
         .catch(err => {});
-        //项目描述
+      //项目描述
       this.axios.get("investment/projectDetail/" + this.id).then(res => {
-        if(res.success) {
+        if (res.success) {
           this.intro = res.data.intro;
+        }
+      });
+      //账户信息
+      this.axios.post("uc/accountDetail").then(res => {
+        if (res.success) {
+          this.isAuthIdNo = res.data.isAuthIdNo;
+          this.isOpenEscrow = res.data.isOpenEscrow;
         }
       });
     },
     next() {
-      //先判断是否实名
-      //再判断是否开通中金
-      // this.$router.push("/purchase");
-      this.realnameshow = true;
-      this.payshow = false;
+      if (!this.isAuthIdNo) {
+        //先判断是否实名
+        this.realshow = true;
+      } else if (!this.isOpenEscrow) {
+        //再判断是否开通中金
+        this.payshow = true;
+      } else {
+        this.$router.push("/purchase");
+      }
+    },
+    childClose(close) {
+      if (close) {
+        this.realshow = false;
+      }
     }
   }
 };
