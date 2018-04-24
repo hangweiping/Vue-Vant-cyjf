@@ -95,7 +95,7 @@ export default {
     toWithDraw(){
       console.log(this.dataInfor.isAuthIdNo);
       //未实名
-      if (this.dataInfor.isAuthIdNo && !this.dataInfor.isAuthIdNo) {
+      if (!this.dataInfor.isAuthIdNo) {
         this.realshow = true
       } else {
         this.$router.push('/withdraw')

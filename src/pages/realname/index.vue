@@ -14,7 +14,7 @@
       <van-field
         center
         v-model="idCard"
-        type="number"
+        type="text"
         label="身份证号"
         placeholder="请输入您的身份证号"
         icon="clear"
@@ -48,7 +48,6 @@ export default {
       let data = {
         realName: this.realName,
         idNo: this.idCard,
-        sid: this.sid,
         type: "GENERAL"
       };
       let isIdCard = this.$util.checkId(this.idCard);
