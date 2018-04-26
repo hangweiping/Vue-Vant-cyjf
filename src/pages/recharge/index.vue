@@ -1,12 +1,21 @@
 <template>
   <div class="recharge">
     <div class="content">
-      <div class="box1"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15">招商银行6239480********0010</span></div>
+      <div class="box1"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15" @click="checkBank">{{bankCard}}</span></div>
       <div class="box2"><p>充值金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
     </div>
     <div class="btn" @click="next">
       <button>确认充值</button>
     </div>
+    <van-popup v-model="bankCardShow" position="bottom" overlay-class="vanlayer">
+      <van-picker
+        show-toolbar
+        :loading="loading"
+        :columns="columns"
+        @cancel="onCancel"
+        @confirm="onConfirm"
+      />
+    </van-popup>
     <van-number-keyboard
       :show="show"
       theme="custom"
@@ -45,20 +54,22 @@
 </template>
 
 <script>
-
 export default {
   name: "recharge",
-  components: {
-  },
+  components: {},
   props: [],
   data() {
     return {
-      money: "",
-      show: false,
-      pwdshow: false,
-      password: "",
-      showKeyboard: false,
       sid: "",
+      money: "",
+      show: false, //金额
+      pwdshow: false, //密码键盘
+      password: "",
+      showKeyboard: false, //数字键盘
+      bankCard: "招商银行6239480********0010",
+      bankCardShow: false, //银行卡
+      columns: ["招商银行6239480********0010", "中信银行6239480********0087", "浦发银行6239480********0185", "平安银行6239480********2789"], //银行卡列表
+      loading: false //加载完后变成false
     };
   },
   created() {
@@ -69,9 +80,31 @@ export default {
     init() {
       this.sid = this.storage.get("sid");
     },
-    //确认提现
+    //选择银行
+    checkBank(){
+      this.bankCardShow = true
+    },
+    //选择完成银行卡
+    onConfirm(value, index) {
+      this.bankCardShow = false;
+      this.$toast(`当前值：${value}, 当前索引：${index}`);
+      this.bankCard = value
+    },
+    //取消选择银行卡
+    onCancel() {
+      this.bankCardShow = false;
+      this.$toast("取消");
+    },
+    //确认充值
     next() {
-      this.pwdshow = true;
+      if (this.money == "") {
+        this.$toast("请先输入充值金额");
+      } else if (this.money.length - 1 == this.money.lastIndexOf(".")) {
+        this.money = this.money.substr(0, this.money.length - 1);
+        this.pwdshow = true;
+      } else {
+        this.pwdshow = true;
+      }
     },
     //金额
     onInput(value) {
@@ -88,6 +121,7 @@ export default {
         this.money = this.money.substr(0, this.money.length - 1);
       }
     },
+
     //输入密码
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
@@ -110,7 +144,8 @@ export default {
     //删除密码按钮
     onPwDelete() {
       this.password = this.password.slice(0, this.password.length - 1);
-    }
+    },
+    
   }
 };
 </script>
@@ -118,6 +153,14 @@ export default {
 <style scoped lang="scss">
 .recharge {
   margin-bottom: 55px;
+  .vanlayer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
   .content {
     .box1 {
       padding: 0 23px;
@@ -192,36 +235,6 @@ export default {
       background-color: #fff;
       border-radius: 5px;
       z-index: 100;
-      // .title {
-      //   height: 40px;
-      //   font-size: 23px;
-      //   color: #101010;
-      //   line-height: 40px;
-      //   text-align: center;
-      //   margin-top: 57px;
-      // }
-      // .msg {
-      //   height: 23px;
-      //   line-height: 23px;
-      //   text-align: center;
-      // }
-      // .btns {
-      //   padding: 30px 50px;
-      //   button {
-      //     width: 45%;
-      //     height: 30px;
-      //     color: #3f51b5;
-      //     background-color: #fff;
-      //     border: 1px solid #3f51b5;
-      //     border-radius: 15px;
-      //     font-size: 14px;
-      //     line-height: 14px;
-      //   }
-      //   .frt {
-      //     color: #fff;
-      //     background-color: #3f51b5;
-      //   }
-      // }
       .close {
         font-size: 20px;
         font-weight: 700;
@@ -250,4 +263,15 @@ export default {
     }
   }
 }
+</style>
+<style lang="scss">
+/* 遮罩层的颜色过深的话,把这个解开 */
+/* .vanlayer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+  } */
 </style>

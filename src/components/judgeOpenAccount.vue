@@ -1,14 +1,14 @@
 <template>
-  <div class="judgeRealName">
-    <!-- 实名认证 -->
+  <div class="judgeOpenAccount">
+    <!-- 开通中金 -->
     <transition name="van-slide-bottom">
       <div class="layer" v-show="childshow">
         <div class="laycontent">
-          <div class="title">还未实名认证</div>
-          <div class="msg gray">为了保证您的账户安全,请先进行实名认证</div>
+          <div class="title">开启中金存管</div>
+          <div class="msg gray">交易资金由中金支付全程存管</div>
           <div class="btns">
-            <button class="flt" @click="realNameClose">再想想</button>
-            <router-link to="/realname"><button class="frt">去认证</button></router-link>
+            <button class="flt" @click="openAccountClose">再想想</button>
+            <button class="frt">去开启</button>
           </div>
         </div>
       </div>
@@ -18,34 +18,34 @@
 
 <script>
 export default {
-  name: "judgeRealName",
+  name: "judgeOpenAccount",
   components: {},
-  props: ["realshow"],
+  props: ["openshow"],
   data() {
     return {
-      childshow: this.realshow //将父组件传来的值进行重新赋值,避免子组件直接操作父组件传来的参数
+      childshow: this.openshow
     };
   },
   created() {},
   mounted() {},
   methods: {
-    realNameClose() {
+    openAccountClose() {
       this.childshow = false;
       if (this.childshow == false) {
-        this.$emit("realNameClose", 1);
+        this.$emit("openAccountClose", 1);
       }
     }
   },
   watch: {
-    realshow: function name(params) {
-      this.childshow = this.realshow;
+    openshow: function name(params) {
+      this.childshow = this.openshow;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.judgeRealName {
+.judgeOpenAccount {
   .layer {
     position: fixed;
     top: 0;

@@ -1,14 +1,14 @@
 <template>
-  <div class="judgeRealName">
+  <div class="judgeBankCard">
     <!-- 实名认证 -->
     <transition name="van-slide-bottom">
       <div class="layer" v-show="childshow">
         <div class="laycontent">
-          <div class="title">还未实名认证</div>
-          <div class="msg gray">为了保证您的账户安全,请先进行实名认证</div>
+          <div class="title">还未绑定银行卡</div>
+          <div class="msg gray">为了进行相应的交易操作,请先绑定银行卡</div>
           <div class="btns">
-            <button class="flt" @click="realNameClose">再想想</button>
-            <router-link to="/realname"><button class="frt">去认证</button></router-link>
+            <button class="flt" @click="bankCardClose">再想想</button>
+            <button class="frt">去绑定</button>
           </div>
         </div>
       </div>
@@ -18,34 +18,34 @@
 
 <script>
 export default {
-  name: "judgeRealName",
+  name: "judgeBankCard",
   components: {},
-  props: ["realshow"],
+  props: ["bankshow"],
   data() {
     return {
-      childshow: this.realshow //将父组件传来的值进行重新赋值,避免子组件直接操作父组件传来的参数
+      childshow: this.bankshow //将父组件传来的值进行重新赋值,避免子组件直接操作父组件传来的参数
     };
   },
   created() {},
   mounted() {},
   methods: {
-    realNameClose() {
+    bankCardClose() {
       this.childshow = false;
       if (this.childshow == false) {
-        this.$emit("realNameClose", 1);
+        this.$emit("bankCardClose", 1);
       }
     }
   },
   watch: {
-    realshow: function name(params) {
-      this.childshow = this.realshow;
+    bankshow: function name(params) {
+      this.childshow = this.bankshow;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.judgeRealName {
+.judgeBankCard {
   .layer {
     position: fixed;
     top: 0;

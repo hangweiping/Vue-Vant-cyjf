@@ -8,8 +8,13 @@
       <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">10.00%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">100.00元</span></div>
       <div class="box6">
         <div class="mid">
-          <van-checkbox v-model="checked" @change="agree" label-disabled>同意&nbsp;<span class="contract">服务协议及风险提示</span></van-checkbox>
+          <van-checkbox v-model="checked" label-disabled>同意&nbsp;<span class="contract" @change="agreement">服务协议及风险提示</span></van-checkbox>
         </div>
+        <van-dialog v-model="agreeshow" :close-on-click-overlay="true" :show-confirm-button="false">
+          <div class="content">
+            
+          </div>
+        </van-dialog>
       </div>
     </div>
     <div class="btn">
@@ -65,11 +70,12 @@ export default {
       checked: false,
       money: "",
       password: "",
-      showKeyboard: false
+      showKeyboard: false,
+      agreeshow: false //协议
     };
   },
   created() {
-    this.init()
+    this.init();
   },
   mounted() {},
   methods: {
@@ -95,18 +101,27 @@ export default {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
         this.$toast("输入完成");
+        this.password = "";
       }
     },
     onPwDelete() {
       this.password = this.password.slice(0, this.password.length - 1);
     },
-    agree() {},
+    agreement() {
+      this.agreeshow = true;
+    },
     //点击买入
-    buy(){
-      if (this.money.length - 1 == this.money.lastIndexOf(".")) {
+    buy() {
+      if (this.money == "") {
+        this.$toast("请先输入买入金额");
+      } else if (this.checked == false) {
+        this.$toast("请先阅读并同意相关协议");
+      } else if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
+        this.pwdshow = true;
+      } else {
+        this.pwdshow = true;
       }
-      this.pwdshow = true;
     }
   }
 };
@@ -165,6 +180,13 @@ export default {
       .contract {
         color: #3f51b5;
       }
+    }
+    .content {
+      height: 500px;
+      overflow: scroll;
+      font-size: 14px;
+      color: #999;
+      padding: 15px 20px;
     }
   }
   .btn {

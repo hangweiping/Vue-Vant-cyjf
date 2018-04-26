@@ -90,28 +90,33 @@
       </div>
     </div>
     <!-- 开通中金 -->
-    <transition name="van-slide-bottom">
-      <div class="layer" v-show="payshow">
-        <div class="laycontent">
-          <div class="title">开启中金存管</div>
-          <div class="msg gray">交易资金由中金支付全程存管</div>
-          <div class="btns">
-            <button class="flt" @click="payshow = false">再想想</button>
-            <button class="frt">去开启</button>
-          </div>
-        </div>
-      </div>
-    </transition>
+    <judgeOpenAccount @openAccountClose="openAccountClose" :openshow="openshow"></judgeOpenAccount>
     <!-- 实名认证 -->
-    <judgeRealName @childClose="childClose" :realshow="realshow"></judgeRealName>
+    <judgeRealName @realNameClose="realNameClose" :realshow="realshow"></judgeRealName>
+    <!-- 绑卡 -->
+    <judgeBankCard @bankCardClose="bankCardClose" :bankshow="bankshow"></judgeBankCard>
   </div>
 </template>
 
 <script>
 import judgeRealName from "../../components/judgeRealName.vue";
+import judgeOpenAccount from "../../components/judgeOpenAccount.vue";
+import judgeBankCard from "../../components/judgeBankCard.vue";
+import storage from "store2";
+const setStorage = data => {
+  storage.set("isAuthIdNo", data.isAuthIdNo || false); //是否实名
+  storage.set("isOpenEscrow", data.isOpenEscrow || false); //是否开户
+  storage.set("isBindCard", data.isBindCard || false); //是否绑卡
+  storage.set("isSetGesPassword", data.isSetGesPassword || false); //是否设置手势密码
+  storage.set("hasChargeAgreementNo", data.hasChargeAgreementNo || false); //是否有签约号
+};
 export default {
   name: "investmsg",
-  components: { judgeRealName },
+  components: {
+    judgeRealName,
+    judgeOpenAccount,
+    judgeBankCard
+  },
   props: [],
   data() {
     return {
@@ -120,39 +125,44 @@ export default {
       dataInfor: [],
       intro: "", //项目介绍
       realshow: false, //实名认证
-      payshow: false, //开通中金
-      isAuthIdNo : false,
-      isOpenEscrow : false,
+      openshow: false, //开通中金
+      bankshow: false, //绑卡
+      isAuthIdNo: false,
+      isOpenEscrow: false
     };
   },
   created() {
     this.id = this.$route.query.id;
-  },
-  mounted() {
+    this.sid = this.storage.get("sid");
     this.initData();
-    console.log(this.dataInfor.percent);
   },
+  mounted() {},
   methods: {
     initData() {
-      this.axios
-        .get("investment/details?projectId=" + this.id)
-        .then(res => {
-          if (res.success) {
-            this.dataInfor = res.data;
-          }
-        })
-        .catch(err => {});
+      //账户信息
+      this.axios.post("uc/accountDetail").then(res => {
+        if (res.success) {
+          setStorage(res.data);
+          this.isAuthIdNo = this.storage.get("isAuthIdNo") || false;
+          this.isOpenEscrow = this.storage.get("isOpenEscrow") || false;
+          this.isBindCard = this.storage.get("isBindCard") || false;
+          this.isSetGesPassword = this.storage.get("isSetGesPassword") || false;
+          this.hasChargeAgreementNo =
+            this.storage.get("hasChargeAgreementNo") || false;
+        } else {
+          this.$toast("网络异常,请刷新重试");
+        }
+      });
+      //项目详情
+      this.axios.get("investment/details?projectId=" + this.id).then(res => {
+        if (res.success) {
+          this.dataInfor = res.data;
+        }
+      });
       //项目描述
       this.axios.get("investment/projectDetail/" + this.id).then(res => {
         if (res.success) {
           this.intro = res.data.intro;
-        }
-      });
-      //账户信息
-      this.axios.post("uc/accountDetail").then(res => {
-        if (res.success) {
-          this.isAuthIdNo = res.data.isAuthIdNo;
-          this.isOpenEscrow = res.data.isOpenEscrow;
         }
       });
     },
@@ -160,16 +170,32 @@ export default {
       if (!this.isAuthIdNo) {
         //先判断是否实名
         this.realshow = true;
+        return;
       } else if (!this.isOpenEscrow) {
         //再判断是否开通中金
-        this.payshow = true;
+        this.openshow = true;
+        return;
+      } else if (!this.dataInfor.isBindCard) {
+        //未绑卡
+        this.bankshow = true;
+        return;
       } else {
         this.$router.push("/purchase");
       }
     },
-    childClose(close) {
+    realNameClose(close) {
       if (close) {
         this.realshow = false;
+      }
+    },
+    openAccountClose(close) {
+      if (close) {
+        this.openshow = false;
+      }
+    },
+    bankCardClose(close) {
+      if (close) {
+        this.bankshow = false;
       }
     }
   }
@@ -333,59 +359,6 @@ export default {
         font-size: 18px;
         line-height: 46px;
         border-style: none;
-      }
-    }
-  }
-  .layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba($color: #000000, $alpha: 0.3);
-    .laycontent {
-      position: fixed;
-      background-color: #fff;
-      top: 40%;
-      left: 50%;
-      -webkit-transform: translate3d(-50%, -50%, 0);
-      transform: translate(-50%, -50%);
-      -webkit-transition: 0.2s ease-out;
-      transition: 0.2s ease-out;
-      width: 289px;
-      height: 216px;
-      background-color: #fff;
-      border-radius: 5px;
-      z-index: 100;
-      .title {
-        height: 40px;
-        font-size: 23px;
-        color: #101010;
-        line-height: 40px;
-        text-align: center;
-        margin-top: 57px;
-      }
-      .msg {
-        height: 23px;
-        line-height: 23px;
-        text-align: center;
-      }
-      .btns {
-        padding: 30px 50px;
-        button {
-          width: 45%;
-          height: 30px;
-          color: #3f51b5;
-          background-color: #fff;
-          border: 1px solid #3f51b5;
-          border-radius: 15px;
-          font-size: 14px;
-          line-height: 14px;
-        }
-        .frt {
-          color: #fff;
-          background-color: #3f51b5;
-        }
       }
     }
   }

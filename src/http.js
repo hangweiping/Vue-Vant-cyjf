@@ -77,7 +77,7 @@ axios.interceptors.response.use(
         return;
         break;
       case 404:
-        Toast.fail('接口不存在');
+        Toast.fail(msg);
         break;
     }
     if (Math.floor(response.status / 100) === 5) {

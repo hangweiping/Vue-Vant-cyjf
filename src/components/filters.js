@@ -22,3 +22,27 @@ Vue.filter(
   },
   //金额元转万
 )
+Vue.filter(
+  //姓名加密
+  'changeName', (value) => {
+    return value.replace(/.(?=.)/g, '*');
+  },
+)
+Vue.filter(
+  //银行卡加密
+  'changBankCard', (value) => {
+    return value.replace(/^(\d{4})\d+(\d{4})$/,"$1 **** **** $2")
+  }
+)
+Vue.filter(
+  //身份证加密
+  'changIdCard', (value) => {
+    return value.replace(/^(.{6})(?:\d+)(.{4})$/, "$1****$2")
+  }
+)
+Vue.filter(
+  //手机号加密
+  'changPhoneNum', (value) => {
+    return value.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+  }
+)

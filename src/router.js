@@ -26,6 +26,9 @@ let router = new VueRouter({
       path: '/investmsg',
       name: 'investmsg',
       component: () => import(/* webpackChunkName: "investmsg" */ "@/pages/investmsg"),//投资详情
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/login',
       name: 'login',
@@ -54,42 +57,70 @@ let router = new VueRouter({
       path: '/changepaypwd1',
       name: 'changepaypwd1',
       component: () => import(/* webpackChunkName: "changepaypwd1" */ "@/pages/changepaypwd/changepaypwd1"),//更改支付密码
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/changepaypwd2',
       name: 'changepaypwd2',
       component: () => import(/* webpackChunkName: "changepaypwd2" */ "@/pages/changepaypwd/changepaypwd2"),//更改支付密码
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/rebinding',
       name: 'rebinding',
       component: () => import(/* webpackChunkName: "rebinding" */ "@/pages/rebinding"),//重新绑定手机号
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/purchase',
       name: 'purchase',
       component: () => import(/* webpackChunkName: "purchase" */ "@/pages/purchase"),//买入
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/recharge',
       name: 'recharge',
       component: () => import(/* webpackChunkName: "recharge" */ "@/pages/recharge"),//充值
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/withdraw',
       name: 'withdraw',
       component: () => import(/* webpackChunkName: "withdraw" */ "@/pages/withdraw"),//提现
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/realname',
       name: 'realname',
       component: () => import(/* webpackChunkName: "realname" */ "@/pages/realname"),//实名认证
+      meta: {
+        requireAuth: true
+      },
     }, {
       path: '/openaccount',
       name: 'openaccount',
-      component: () => import(/* webpackChunkName: "openaccount" */ "@/pages/openaccount"),//开通中金
+      component: () => import(/* webpackChunkName: "openaccount" */ "@/pages/openaccount"),//开通中金\
     }, {
       path: '/tiecard',
       name: 'tiecard',
-      component: () => import(/* webpackChunkName: "tiecard" */ "@/pages/tiecard"),//开通中金
+      component: () => import(/* webpackChunkName: "tiecard" */ "@/pages/tiecard"),//中金绑卡\
     }, {
       path: '/usermessage',
       name: 'usermessage',
-      component: () => import(/* webpackChunkName: "usermessage" */ "@/pages/usermessage"),//开通中金
+      component: () => import(/* webpackChunkName: "usermessage" */ "@/pages/usermessage"),//用户详情
+      meta: {
+        requireAuth: true
+      },
+    }, {
+      path: '/bankcard',
+      name: 'bankcard',
+      component: () => import(/* webpackChunkName: "bankcard" */ "@/pages/bankcard"),//用户银行卡列表
       meta: {
         requireAuth: true
       },
@@ -97,6 +128,13 @@ let router = new VueRouter({
       path: '/dealrecord',
       name: 'dealrecord',
       component: () => import(/* webpackChunkName: "dealrecord" */ "@/pages/dealrecord"),//交易记录
+      meta: {
+        requireAuth: true
+      },
+    }, {
+      path: '/investrecord',
+      name: 'investrecord',
+      component: () => import(/* webpackChunkName: "investrecord" */ "@/pages/investrecord"),//投资记录
       meta: {
         requireAuth: true
       },

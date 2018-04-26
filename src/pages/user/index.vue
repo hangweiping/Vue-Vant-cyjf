@@ -5,7 +5,8 @@
         <router-link class="flt head" to="/usermessage">
           <img src="./images/head.jpg" alt="">
         </router-link>
-        <div class="flt realname">未实名</div>
+        <div class="flt realname" v-if="!dataInfor.isAuthIdNo">未实名</div>
+        <div class="flt realname" v-else-if="dataInfor.isAuthIdNo">已实名</div>
         <div class="frt service" v-show="false">
           <van-icon name="phone"/>
         </div>
@@ -37,10 +38,10 @@
       <!-- <router-link to="/recharge" class="box1" @click="realshow = true">充值</router-link> -->
       <div class="box1" @click="toWithDraw">提现</div>
       <div class="box1" @click="toRecharge">充值</div>
-      <!-- <router-link to="/login" class="box2">投资记录</router-link>
-      <router-link to="/changepwd1" class="box2">优惠券</router-link>
-      <router-link to="/rebinding" class="box2">收款明细</router-link>
-      <router-link to="/user" class="box2">交易记录</router-link> -->
+      <router-link to="/" class="box2">优惠券</router-link>
+      <router-link to="/" class="box2">收款明细</router-link>
+      <router-link to="/investrecord" class="box2">投资记录</router-link>
+      <router-link to="/dealrecord" class="box2">交易记录</router-link>
     </div>
     <van-tabbar v-model="active" replace>
       <van-tabbar-item icon="wap-home" url='#/home'>首页
@@ -48,16 +49,33 @@
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
     </van-tabbar>
-    <judgeRealName @childClose="childClose" :realshow="realshow"></judgeRealName>
+    <!-- 开通中金 -->
+    <judgeOpenAccount @openAccountClose="openAccountClose" :openshow="openshow"></judgeOpenAccount>
+    <!-- 实名认证 -->
+    <judgeRealName @realNameClose="realNameClose" :realshow="realshow"></judgeRealName>
+    <!-- 绑卡 -->
+    <judgeBankCard @bankCardClose="bankCardClose" :bankshow="bankshow"></judgeBankCard>
   </div>
 </template>
 
 <script>
 import judgeRealName from "../../components/judgeRealName.vue";
+import judgeOpenAccount from "../../components/judgeOpenAccount.vue";
+import judgeBankCard from "../../components/judgeBankCard.vue";
+import storage from "store2";
+const setStorage = data => {
+  storage.set("isAuthIdNo", data.isAuthIdNo || false); //是否实名
+  storage.set("isOpenEscrow", data.isOpenEscrow || false); //是否开户
+  storage.set("isBindCard", data.isBindCard || false); //是否绑卡
+  storage.set("isSetGesPassword", data.isSetGesPassword || false); //是否设置手势密码
+  storage.set("hasChargeAgreementNo", data.hasChargeAgreementNo || false); //是否有签约号
+};
 export default {
   name: "user",
   components: {
-    judgeRealName
+    judgeRealName,
+    judgeOpenAccount,
+    judgeBankCard
   },
   props: [],
   data() {
@@ -65,7 +83,9 @@ export default {
       active: 1,
       dataInfor: [],
       accumulateIncome: "", //累计收益
-      realshow: false,
+      realshow: false, //实名认证
+      openshow: false, //开通中金
+      bankshow: false //绑卡
     };
   },
   created() {
@@ -79,8 +99,9 @@ export default {
       this.axios.post("uc/accountDetail").then(res => {
         if (res.success) {
           this.dataInfor = res.data;
+          setStorage(res.data);
         } else {
-          this.$toast(res.message);
+          this.$toast("网络异常,请刷新重试");
         }
       });
       this.axios.get(`uc/overViewFunds?sid=${this.sid}`).then(res => {
@@ -91,23 +112,56 @@ export default {
         }
       });
     },
-    //去提现
-    toWithDraw(){
-      console.log(this.dataInfor.isAuthIdNo);
+    //去充值
+    toRecharge() {
       //未实名
       if (!this.dataInfor.isAuthIdNo) {
-        this.realshow = true
+        this.realshow = true;
+        return;
+      } else if (!this.dataInfor.isOpenEscrow) {
+        //未开户
+        this.openshow = true;
+        return;
+      } else if (!this.dataInfor.isBindCard) {
+        //未绑卡
+        this.bankshow = true;
+        return;
       } else {
-        this.$router.push('/withdraw')
+        this.$router.push("/recharge");
       }
     },
-    //去充值
-    toRecharge(){
-      this.realshow = true
+    //去提现
+    toWithDraw() {
+      //未实名
+      if (!this.dataInfor.isAuthIdNo) {
+        this.realshow = true;
+        return;
+      } else if (!this.dataInfor.isOpenEscrow) {
+        //未开户
+        this.openshow = true;
+        return;
+      } else if (!this.dataInfor.isBindCard) {
+        //未绑卡
+        this.bankshow = true;
+        return;
+      } else {
+        this.$router.push("/withdraw");
+      }
     },
-    childClose(close){
-      if(close) {
-        this.realshow = false
+
+    realNameClose(close) {
+      if (close) {
+        this.realshow = false;
+      }
+    },
+    openAccountClose(close) {
+      if (close) {
+        this.openshow = false;
+      }
+    },
+    bankCardClose(close) {
+      if (close) {
+        this.bankshow = false;
       }
     }
   }

@@ -46,7 +46,6 @@
 </template>
 
 <script>
-
 export default {
   name: "recharge",
   components: {},
@@ -71,8 +70,14 @@ export default {
     },
     //确认提现
     next() {
-      this.pwdshow = true;
-      
+      if (this.money == "") {
+        this.$toast("请先输入提现金额");
+      } else if (this.money.length - 1 == this.money.lastIndexOf(".")) {
+        this.money = this.money.substr(0, this.money.length - 1);
+        this.pwdshow = true;
+      } else {
+        this.pwdshow = true;
+      }
     },
     //金额
     onInput(value) {
@@ -85,8 +90,8 @@ export default {
     },
     //当收起收入框
     onHide() {
-      if(this.money.length-1 == this.money.lastIndexOf('.')){
-       this.money =  this.money.substr(0,this.money.length-1)
+      if (this.money.length - 1 == this.money.lastIndexOf(".")) {
+        this.money = this.money.substr(0, this.money.length - 1);
       }
     },
     //密码
@@ -94,6 +99,7 @@ export default {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
         this.$toast("输入完成");
+        this.password = "";
       }
     },
     onPwDelete() {
