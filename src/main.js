@@ -20,7 +20,6 @@ router.beforeEach((to, from, next) => {
     if (storage.get('sid')) {
       next()
       // console.log('拿到sid');
-
     } else {
       // console.log('未拿到sid');
       next({

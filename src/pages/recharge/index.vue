@@ -136,7 +136,7 @@ export default {
           .post(`pay/recharge?sid=${this.sid}&amount=${this.money}`)
           .then(res => {
             if (res.success) {
-              console.log(res);
+              // window.location.href = res.requestUrl;
             }
           });
       }

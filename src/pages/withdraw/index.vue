@@ -1,5 +1,5 @@
 <template>
-  <div class="recharge">
+  <div class="withdraw">
     <div class="content">
       <div class="box1"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15">招商银行6239480********0010</span></div>
       <div class="box2"><p>提现金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  name: "recharge",
+  name: "withdraw",
   components: {},
   props: [],
   data() {
@@ -100,6 +100,13 @@ export default {
       if (this.password.length == 6) {
         this.$toast("输入完成");
         this.password = "";
+        this.axios
+          .post(`pay/withdraw?sid=${this.sid}&amount=${this.money}`)
+          .then(res => {
+            if (res.success) {
+              console.log(res);
+            }
+          });
       }
     },
     onPwDelete() {
@@ -110,7 +117,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.recharge {
+.withdraw {
   margin-bottom: 55px;
   .content {
     .box1 {

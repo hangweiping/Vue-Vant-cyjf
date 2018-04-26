@@ -19,6 +19,7 @@ axios.defaults.withCredentials = true; //允许cookie操作
 axios.defaults.baseURL = 'http://192.168.31.159:8080/mobile/';
 
 const logout = () => {
+  Toast.clear();
   const sid = storage.get('sid');
   sid && console.warn(`sid[${sid}]失效`);
   // localStorage.removeItem('sid');
@@ -62,6 +63,10 @@ axios.interceptors.response.use(
     const {
       params = {}
     } = config;
+    if (response.data.code == 666) {
+      // 这里写清除sid的代码
+      logout();
+    }
     Toast.clear();
     return response.data;
   },
@@ -80,6 +85,17 @@ axios.interceptors.response.use(
         Toast.fail(msg);
         break;
     }
+    switch (response.status) {
+      case 401:
+        // 这里写清除sid的代码
+        logout();
+        return;
+        break;
+      case 404:
+        Toast.fail(msg);
+        break;
+    }
+
     if (Math.floor(response.status / 100) === 5) {
       msg = '服务器错误';
     }

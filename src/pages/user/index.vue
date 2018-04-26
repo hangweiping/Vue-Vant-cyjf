@@ -101,7 +101,7 @@ export default {
           this.dataInfor = res.data;
           setStorage(res.data);
         } else {
-          this.$toast("网络异常,请刷新重试");
+          // this.$toast("网络异常,请稍后再试");
         }
       });
       this.axios.get(`uc/overViewFunds?sid=${this.sid}`).then(res => {

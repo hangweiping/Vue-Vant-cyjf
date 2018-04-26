@@ -127,8 +127,9 @@ export default {
       realshow: false, //实名认证
       openshow: false, //开通中金
       bankshow: false, //绑卡
-      isAuthIdNo: false,
-      isOpenEscrow: false
+      isAuthIdNo: false, //实名
+      isOpenEscrow: false, //开户
+      isBindCard: false, //绑卡
     };
   },
   created() {
@@ -150,7 +151,7 @@ export default {
           this.hasChargeAgreementNo =
             this.storage.get("hasChargeAgreementNo") || false;
         } else {
-          this.$toast("网络异常,请刷新重试");
+          // this.$toast("网络异常,请稍后再试");
         }
       });
       //项目详情
@@ -175,7 +176,7 @@ export default {
         //再判断是否开通中金
         this.openshow = true;
         return;
-      } else if (!this.dataInfor.isBindCard) {
+      } else if (!this.isBindCard) {
         //未绑卡
         this.bankshow = true;
         return;
