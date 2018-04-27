@@ -1,11 +1,11 @@
 <template>
   <div class="purchase">
     <div class="content">
-      <div class="box1">买入CD18032701汽车订单采购借款</div>
-      <div class="box2"><span>￥</span><input readonly type="text" placeholder="100起投" @click="show = true" v-model="money"></div>
-      <div class="box3"><span class="gray">可用余额&nbsp;</span><span>100,000.00元&nbsp;</span><router-link to="/recharge" class="smnumber font-12">&nbsp;充值</router-link></div>
-      <div class="box4">应付金额<span>¥10000.00</span></div>
-      <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">10.00%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">100.00元</span></div>
+      <div class="box1">{{dataInfor.title}}</div>
+      <div class="box2"><span>￥</span><input readonly type="text" :placeholder="investmentMinimum + '起投'" @click="show = true" v-model="money"></div>
+      <div class="box3"><span class="gray">可用余额&nbsp;</span><span>{{available}}元&nbsp;</span><router-link to="/recharge" class="smnumber font-12">&nbsp;充值</router-link></div>
+      <div class="box4">应付金额<span>¥100.00</span></div>
+      <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">{{dataInfor.interestRate}}%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">{{sumInvests}}元</span></div>
       <div class="box6">
         <div class="mid">
           <van-checkbox v-model="checked" label-disabled>同意&nbsp;<span class="contract" @change="agreement">服务协议及风险提示</span></van-checkbox>
@@ -71,7 +71,11 @@ export default {
       money: "",
       password: "",
       showKeyboard: false,
-      agreeshow: false //协议
+      agreeshow: false, //协议
+      available: "", //可用金额
+      dataInfor: [],
+      investmentMinimum: 0, //最小投资额
+      sumInvests: 0 //预期收益
     };
   },
   created() {
@@ -81,6 +85,22 @@ export default {
   methods: {
     init() {
       this.sid = this.storage.get("sid");
+      this.id = this.$route.query.id;
+      //账户信息
+      this.axios.post("uc/accountDetail").then(res => {
+        if (res.success) {
+          this.available = res.data.available;
+        } else {
+          this.$toast("网络异常,请稍后再试");
+        }
+      });
+      //项目详情
+      this.axios.get("investment/details?projectId=" + this.id).then(res => {
+        if (res.success) {
+          this.dataInfor = res.data;
+          this.investmentMinimum = res.data.investmentMinimum;
+        }
+      });
     },
     /* 金额 */
     onInput(value) {
@@ -95,17 +115,18 @@ export default {
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
       }
-    },
-    /* 密码 */
-    onPwInput(value) {
-      this.password = (this.password + value).slice(0, 6);
-      if (this.password.length == 6) {
-        this.$toast("输入完成");
-        this.password = "";
+      //预期收益
+      if (this.money == "") {
+        this.sumInvests = 0;
+      } else {
+        this.axios
+          .get(`investment/expectedReturn/${this.id}?amount=${this.money}`)
+          .then(res => {
+            if (res.success) {
+              this.sumInvests = res.data.sum_invests;
+            }
+          });
       }
-    },
-    onPwDelete() {
-      this.password = this.password.slice(0, this.password.length - 1);
     },
     agreement() {
       this.agreeshow = true;
@@ -114,14 +135,58 @@ export default {
     buy() {
       if (this.money == "") {
         this.$toast("请先输入买入金额");
+        return;
+      } else if (this.money - this.investmentMinimum < 0) {
+        this.$toast("不能少于最小投资金额");
+        return;
+      } else if (this.money - this.available > 0) {
+        this.$toast("对不起,您的可用余额不足");
+        return;
       } else if (this.checked == false) {
         this.$toast("请先阅读并同意相关协议");
+        return;
       } else if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
-        this.pwdshow = true;
+        // this.pwdshow = true;
+        this.axios
+          .post(
+            `pay/invest?sid=${this.sid}&amount=${this.money}&projectId=${
+              this.id
+            }&deviceType=IOS`
+          )
+          .then(res => {
+            if (res.success) {
+              this.$toast(res.message);
+            } else {
+              this.$toast(res.message);
+            }
+          });
       } else {
-        this.pwdshow = true;
+        // this.pwdshow = true;
+        this.axios
+          .post(
+            `pay/invest?sid=${this.sid}&amount=${this.money}&projectId=${
+              this.id
+            }&deviceType=IOS`
+          )
+          .then(res => {
+            if (res.success) {
+              this.$toast(res.message);
+            } else {
+              this.$toast(res.message);
+            }
+          });
       }
+    },
+    /* 密码 isban*/
+    onPwInput(value) {
+      this.password = (this.password + value).slice(0, 6);
+      if (this.password.length == 6) {
+        this.password = "";
+      }
+    },
+    onPwDelete() {
+      this.password = this.password.slice(0, this.password.length - 1);
     }
   }
 };
@@ -131,29 +196,41 @@ export default {
 .purchase {
   margin-bottom: 55px;
   color: #666;
-
   .box1 {
-    height: 50px;
+    height: 40px;
     font-size: 14px;
-    line-height: 50px;
+    line-height: 60px;
     padding: 0 23px;
   }
   .box2 {
     margin: 0 23px;
-    height: 50px;
+    height: 52px;
     line-height: 50px;
-    border-top: 1px solid #e5e5e53b;
-    border-bottom: 1px solid #e5e5e53b;
+    border-bottom: 1px solid #e0e0e0;
     font-size: 30px;
+    p {
+      font-size: 15px;
+      height: 15px;
+      line-height: 15px;
+      color: #666666;
+      margin-top: 10px;
+    }
     span {
       float: left;
+      height: 50px;
+      padding-top: 5px;
+      box-sizing: border-box;
     }
     input {
+      height: 50px;
       float: left;
-      font-size: 17px;
+      font-size: 20px;
       text-indent: 10px;
+      padding-top: 15px;
+      box-sizing: border-box;
     }
   }
+
   .box3,
   .box5 {
     padding: 0 23px;

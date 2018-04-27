@@ -3,7 +3,8 @@
     <div class="msg">
       <div class="picture clearfix">
         <router-link class="flt head" to="/usermessage">
-          <img src="./images/head.jpg" alt="">
+          <img src="./images/head.jpg" alt="" v-if="dataInfor.avatar">
+          <img :src="dataInfor.avatar" alt="" v-else>
         </router-link>
         <div class="flt realname" v-if="!dataInfor.isAuthIdNo">未实名</div>
         <div class="flt realname" v-else-if="dataInfor.isAuthIdNo">已实名</div>

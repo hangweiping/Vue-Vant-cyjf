@@ -24,6 +24,20 @@ Vue.filter(
 )
 Vue.filter(
   //姓名加密
+  'changeDate', (value) => {
+    var date = new Date(value),
+    Y = date.getFullYear() + '-',
+    M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-',
+    D = date.getDate() + ' ',
+    h = date.getHours() + ':',
+    m = date.getMinutes() + ':',
+    s = date.getSeconds();
+    var date = Y + M + D
+    return date
+  },
+)
+Vue.filter(
+  //姓名加密
   'changeName', (value) => {
     return value.replace(/.(?=.)/g, '*');
   },

@@ -43,9 +43,10 @@
             <div class="clearfix">
               <div class="lt">
                 <span class="bgnumber">{{item.interestRate.toFixed(1)}}</span>
-                <span class="smnumber">% +</span>
-                <span class="bgnumber">1.0</span>
                 <span class="smnumber">%</span>
+                <!-- <span class="smnumber">% +</span>
+                <span class="bgnumber">1.0</span>
+                <span class="smnumber">%</span> -->
                 <p class="gray">预期年化</p>
               </div>
               <div class="rt">

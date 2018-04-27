@@ -1,7 +1,7 @@
 <template>
   <div class="recharge">
     <div class="content">
-      <div class="box1"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15" @click="checkBank">{{bankCard}}</span></div>
+      <div class="box1" v-show="false"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15" @click="checkBank">{{bankCard}}</span></div>
       <div class="box2"><p>充值金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
     </div>
     <div class="btn" @click="next">
@@ -28,7 +28,7 @@
       :hide-on-click-outside="false"
       title="已进入安全模式"
     />
-    <!-- 支付 -->
+    <!-- 支付 isban-->
     <transition name="van-slide-bottom">
       <div class="layer" v-show="pwdshow">
         <div class="laycontent">
@@ -63,12 +63,19 @@ export default {
       sid: "",
       money: "",
       show: false, //金额
-      pwdshow: false, //密码键盘
+      pwdshow: false, //密码键盘 isban
       password: "",
       showKeyboard: false, //数字键盘
+
+      //银行卡选择功能,目前不上 isban
       bankCard: "招商银行6239480********0010",
-      bankCardShow: false, //银行卡
-      columns: ["招商银行6239480********0010", "中信银行6239480********0087", "浦发银行6239480********0185", "平安银行6239480********2789"], //银行卡列表
+      bankCardShow: false, //选择银行卡
+      columns: [
+        "招商银行6239480********0010",
+        "中信银行6239480********0087",
+        "浦发银行6239480********0185",
+        "平安银行6239480********2789"
+      ], //银行卡列表
       loading: false //加载完后变成false
     };
   },
@@ -80,17 +87,17 @@ export default {
     init() {
       this.sid = this.storage.get("sid");
     },
-    //选择银行
-    checkBank(){
-      this.bankCardShow = true
+    //选择银行isban
+    checkBank() {
+      this.bankCardShow = true;
     },
-    //选择完成银行卡
+    //选择完成银行卡isban
     onConfirm(value, index) {
       this.bankCardShow = false;
       this.$toast(`当前值：${value}, 当前索引：${index}`);
-      this.bankCard = value
+      this.bankCard = value;
     },
-    //取消选择银行卡
+    //取消选择银行卡isban
     onCancel() {
       this.bankCardShow = false;
       this.$toast("取消");
@@ -122,30 +129,20 @@ export default {
       }
     },
 
-    //输入密码
+    //输入密码 isban
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
-        this.$toast("输入完成");
         this.password = "";
-        // let data = {
-        //   sid: this.sid,
-        //   amount: this.money
-        // };
-        this.axios
-          .post(`pay/recharge?sid=${this.sid}&amount=${this.money}`)
-          .then(res => {
-            if (res.success) {
-              // window.location.href = res.requestUrl;
-            }
-          });
+        window.location.href = `http://192.168.31.159:8080/mobile/pay/recharge-webmobile?sid=${
+          this.sid
+        }&amount=${this.money}`;
       }
     },
-    //删除密码按钮
+    //删除密码按钮 isban
     onPwDelete() {
       this.password = this.password.slice(0, this.password.length - 1);
-    },
-    
+    }
   }
 };
 </script>
@@ -178,7 +175,8 @@ export default {
     }
     .box2 {
       margin: 10px 23px;
-      height: 65px;
+      padding-top: 15px;
+      height: 78px;
       line-height: 50px;
       border-bottom: 1px solid #e0e0e0;
       font-size: 30px;
@@ -191,11 +189,17 @@ export default {
       }
       span {
         float: left;
+        height: 50px;
+        padding-top: 5px;
+        box-sizing: border-box;
       }
       input {
+        height: 50px;
         float: left;
-        font-size: 17px;
+        font-size: 20px;
         text-indent: 10px;
+        padding-top: 15px;
+        box-sizing: border-box;
       }
     }
   }

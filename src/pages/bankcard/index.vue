@@ -59,19 +59,15 @@ export default {
     },
     addBankCard() {
       //添加银行卡
-      window.open(
-        `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
-          this.sid
-        }`
-      );
+      window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
+        this.sid
+      }`;
     },
     //解绑
     unTieCard(item) {
-      window.open(
-        `http://192.168.31.159:8080/mobile/pay/bankcard/unbind-webmobile?sid=${
-          this.sid
-        }&bindingSystemNo=${item.bindingSystemNo}`
-      );
+      window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/unbind-webmobile?sid=${
+        this.sid
+      }&bindingSystemNo=${item.bindingSystemNo}`;
     },
     //银行卡详情
     toBankMsg(item) {}

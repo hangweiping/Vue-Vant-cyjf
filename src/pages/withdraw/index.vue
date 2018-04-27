@@ -1,9 +1,9 @@
 <template>
   <div class="withdraw">
     <div class="content">
-      <div class="box1"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15">招商银行6239480********0010</span></div>
+      <div class="box1" v-show="false"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15">招商银行6239480********0010</span></div>
       <div class="box2"><p>提现金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
-      <div class="box3"><span class="gray">可提现金额¥5800.95</span><span class="smnumber font-12">&nbsp;&nbsp;全部提现</span></div>
+      <div class="box3"><span class="gray">可提现金额¥{{available}}</span><span class="smnumber font-12" @click="allWithdraw">&nbsp;&nbsp;全部提现</span></div>
     </div>
     <div class="btn" @click="next">
       <button>确认提现</button>
@@ -52,12 +52,13 @@ export default {
   props: [],
   data() {
     return {
+      sid: "",
       money: "",
       show: false,
       pwdshow: false,
       password: "",
       showKeyboard: false,
-      sid: ""
+      available: "" //可提现金额
     };
   },
   created() {
@@ -66,7 +67,19 @@ export default {
   mounted() {},
   methods: {
     init() {
+      //账户信息
       this.sid = this.storage.get("sid");
+      this.axios.post("uc/accountDetail").then(res => {
+        if (res.success) {
+          this.available = res.data.available;
+        } else {
+          this.$toast("网络异常,请稍后再试");
+        }
+      });
+    },
+    //全部提现
+    allWithdraw() {
+      this.money = this.available.toString();
     },
     //确认提现
     next() {
@@ -98,15 +111,10 @@ export default {
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
-        this.$toast("输入完成");
         this.password = "";
-        this.axios
-          .post(`pay/withdraw?sid=${this.sid}&amount=${this.money}`)
-          .then(res => {
-            if (res.success) {
-              console.log(res);
-            }
-          });
+        window.location.href = `http://192.168.31.159:8080/mobile/pay/withdraw-webmobile?sid=${
+          this.sid
+        }&amount=${this.money}`;
       }
     },
     onPwDelete() {
@@ -136,7 +144,8 @@ export default {
     }
     .box2 {
       margin: 10px 23px;
-      height: 65px;
+      padding-top: 15px;
+      height: 78px;
       line-height: 50px;
       border-bottom: 1px solid #e0e0e0;
       font-size: 30px;
@@ -149,11 +158,17 @@ export default {
       }
       span {
         float: left;
+        height: 50px;
+        padding-top: 5px;
+        box-sizing: border-box;
       }
       input {
+        height: 50px;
         float: left;
-        font-size: 17px;
+        font-size: 20px;
         text-indent: 10px;
+        padding-top: 15px;
+        box-sizing: border-box;
       }
     }
     .box3 {

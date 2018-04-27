@@ -4,9 +4,10 @@
       <div class="top">
         <p class="title">{{dataInfor.title}}</p>
         <span class="bgnumber">{{dataInfor.interestRate}}</span>
-        <span class="smnumber">% +</span>
-        <span class="bgnumber">1.0</span>
         <span class="smnumber">%</span>
+        <!-- <span class="smnumber">% +</span>
+        <span class="bgnumber">1.0</span>
+        <span class="smnumber">%</span> -->
         <p class="gray">预期年化</p>
       </div>
       <div class="mid">
@@ -80,12 +81,19 @@
         <van-collapse-item title="项目介绍" name="1">
           <div v-html="intro" class="gray2"></div>
         </van-collapse-item>
-        <van-collapse-item title="投资记录" name="2">
-
+        <van-collapse-item title="投资列表" name="2">
+          <div class="gray2">
+            <p><span class="lt">时间</span><span class="md">用户</span><span class="rt">投资金额(元)</span></p>
+            <p v-for="(item,index) in investmentRecords" :key="index">
+              <span class="lt">{{item.buyTime}}</span>
+              <span class="md">{{item.investor}}</span>
+              <span class="rt">{{item.amount}}</span>
+            </p>
+          </div>
         </van-collapse-item>
       </van-collapse>
       <div class="msg">出借资金全程由银行存管</div>
-      <div class="btn">
+      <div class="btn" v-show="dataInfor.allowInvest">
         <button @click="next">买入</button>
       </div>
     </div>
@@ -124,12 +132,14 @@ export default {
       id: "",
       dataInfor: [],
       intro: "", //项目介绍
+      investmentRecords: [],//投资列表
       realshow: false, //实名认证
       openshow: false, //开通中金
       bankshow: false, //绑卡
       isAuthIdNo: false, //实名
       isOpenEscrow: false, //开户
       isBindCard: false, //绑卡
+      allowInvest: false //是否可投
     };
   },
   created() {
@@ -166,6 +176,13 @@ export default {
           this.intro = res.data.intro;
         }
       });
+      //投资列表
+      this.axios.get(`investment/investmentRecords?currentPage=1&isTransfer=0&projectId=${this.id}`).then(res=>{
+        if(res.success){
+          this.investmentRecords = res.data.records
+        }
+      })
+      //项目是否可投
     },
     next() {
       if (!this.isAuthIdNo) {
@@ -181,7 +198,10 @@ export default {
         this.bankshow = true;
         return;
       } else {
-        this.$router.push("/purchase");
+        this.$router.push({
+          name: "purchase",
+          query: { id: this.id }
+        });
       }
     },
     realNameClose(close) {
@@ -361,6 +381,18 @@ export default {
         line-height: 46px;
         border-style: none;
       }
+    }
+    .lt,.md,.rt{
+      display: inline-block;
+    }
+    .lt{
+      width: 45%;
+    }
+    .md{
+      width: 25%;
+    }
+    .rt{
+      width: 20%;
     }
   }
 }
