@@ -66,9 +66,6 @@ UtilPlugin.install = function (Vue, options) {
       const dicMap = storage.get("codeMap");
       return dicMap.filter(v => v.dictCode === code)[0].dictionaries;
     },
-    test() {
-      console.log(11111);
-    },
     // 判断是不是数字类型
     isNumber(s) {
       var regu = /^\d+(?=\.{0,1}\d+$|$)/;

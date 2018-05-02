@@ -63,9 +63,6 @@ export default {
         password: password,
         clientType: "MOBILEWEB",
       })
-      console.log(registerData);
-      console.log(password);
-      
       if (this.password == "") {
         this.$toast("请输入密码");
       } else if (!isPasswordRuler) {
@@ -74,7 +71,6 @@ export default {
         this.axios
           .post("regist/submit", registerData)
           .then(res => {
-            console.log(res);
             if (res.success) {
               //注册成功后直接掉登录接口
               this.login(loginData).then(res => {

@@ -90,9 +90,9 @@ body {
   user-select: none;
 }
 
-.app {
+/* .app {
   margin-top: 46px;
-}
+} */
 .van-nav-bar__title {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }

@@ -27,7 +27,7 @@ export default {
         .then(res => {
           if (!!res) {
             window.location.href =
-              `http://192.168.31.159:8080/mobile/pay/open-account?sid=${this.sid}`;
+              `http://isantian.com/mobile/pay/open-account?sid=${this.sid}`;
           }else{
             this.$toast('请求失败,请稍后再试')
           }

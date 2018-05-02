@@ -1,25 +1,20 @@
 <template>
   <div class="usermessage">
-    <div class="box head">
-      <van-uploader :after-read="onRead" accept="image/gif,image/jpeg" multiple :max-size="1048576">
-          <img :src="imgsrc" alt="">
-      </van-uploader>
-    </div>
-    <div class="box" @click="toChangeHead" v-if="dataInfor.avatar">
+    <div class="box" v-if="dataInfor.avatar">
       <span class="flt">头像</span>
       <span class="frt"><van-icon name="arrow"/></span>
       <span class="frt head">
-        <van-uploader :after-read="onRead" accept="image/gif,image/jpeg,image/png" multiple :max-size="1048576">
-          <img src="./images/head.jpg" alt="">
+        <van-uploader :after-read="onRead" :before-read="oversize" accept="image/gif,image/jpeg,image/png" multiple :max-size="1048576">
+          <img :src="dataInfor.avatar" alt="">
         </van-uploader>
       </span>
     </div>
-    <div class="box" @click="toChangeHead" v-else>
+    <div class="box" v-else>
       <span class="flt">头像</span>
       <span class="frt"><van-icon name="arrow"/></span>
       <span class="frt head">
-        <van-uploader :after-read="onRead" accept="image/gif,image/jpeg,image/png" multiple :max-size="1048576">
-          <img :src="dataInfor.avatar" alt="">
+        <van-uploader :after-read="onRead" :before-read="oversize" accept="image/gif,image/jpeg,image/png" multiple :max-size="1048576">
+          <img src="./images/head.jpg" alt="">
         </van-uploader>
       </span>
     </div>
@@ -109,13 +104,11 @@ export default {
       hasChargeAgreementNo: false, //是否有签约号
       // agreementNo:'',//签约号
       bindingSystemNo: "", //解绑时需要的流水号
-      dataInfor: [],
-      imgsrc: "", //接收的头像地址
+      dataInfor: []
     };
   },
   created() {
     this.init();
-    console.log(this.dataInfor.avatar);
   },
   mounted() {},
   methods: {
@@ -151,21 +144,29 @@ export default {
     },
     //修改头像
     onRead(file) {
-      // console.log(file.content) // base64
-      // console.log(file.file.type)// type "image/jpeg"
+      let extension = file.file.type.replace("image/", "");
+      let index = file.content.search(";base64,") + 8;
+      let avatarData = file.content.slice(index);
       let data = {
-        extension:'JPG',
-        avatarData: file.content
-      }
-      this.axios.post('uc/accountDetail/avatar/upload',data).then(res=>{
+        extension: extension,
+        avatarData: avatarData
+      };
+      this.axios.post("uc/accountDetail/avatar/upload", data).then(res => {
         if (res.success) {
-          this.imgsrc = res.data
-        }else {
-          this.$toast('上传失败,请重试')
+          window.location.reload();
+        } else {
+          this.$toast("上传失败,请重试");
         }
-      })
+      });
     },
-    toChangeHead() {},
+    oversize(file) {
+      if (file.size > 1048576) {
+        this.$toast("上传图片大小不能超过1M");
+        return false;
+      } else {
+        return true;
+      }
+    },
     //修改登陆密码
     toChangeLoginPwd() {
       this.$router.push({
@@ -187,7 +188,7 @@ export default {
         this.$toast("请先进行实名认证");
         return;
       } else if (!this.isOpenEscrow) {
-        window.location.href = `http://192.168.31.159:8080/mobile/pay/open-account-webmobile?sid=${
+        window.location.href = `http://isantian.com/mobile/pay/open-account-webmobile?sid=${
           this.sid
         }`;
       }
@@ -203,25 +204,20 @@ export default {
         return;
       } else if (!this.isBindCard) {
         //未绑卡
-        window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
+        window.location.href = `http://isantian.com/mobile/pay/bankcard/bind-webmobile?sid=${
           this.sid
         }`;
       }
     },
     //银行卡列表
     toCardList() {
-      // this.axios.get(`uc/bank_card/list.json?sid=${this.sid}`).then(res => {
-      //   if (res.success) {
-
-      //   }
-      // });
       this.$router.push("/bankcard");
     },
 
     //支付签约
     sign() {
       //实名 开户 绑卡 签约
-      window.location.href = `http://192.168.31.159:8080/mobile/pay/signed?sid=${
+      window.location.href = `http://isantian.com/mobile/pay/signed?sid=${
         this.sid
       }&agreementType=20`;
     },
@@ -264,6 +260,12 @@ export default {
       width: 40px;
       height: 40px;
       padding: 5px 0;
+      border-radius: 50%;
+      background-color: #fff;
+      .van-uploader {
+        width: 100%;
+        height: 100%;
+      }
       img {
         width: 100%;
         height: 100%;

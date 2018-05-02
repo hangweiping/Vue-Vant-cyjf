@@ -205,7 +205,7 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(this.$route.query.redirect);
+    // console.log(this.$route.query.redirect);
   },
   methods: {
     getcode() {

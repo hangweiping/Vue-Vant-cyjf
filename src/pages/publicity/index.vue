@@ -277,7 +277,6 @@ export default {
                       setStorage(res.data);
                       this.$toast("恭喜您,开启成功!");
                       this.$router.push("/home");
-                      console.log(res);
                     } else {
                       this.$toast("开启失败,请稍后再试");
                     }

@@ -42,7 +42,6 @@ export default {
   },
   created() {
     this.mobile = this.$route.query.mobile;
-    console.log(this.mobile);
   },
   mounted() {},
   methods: {
