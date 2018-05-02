@@ -68,7 +68,7 @@ export default {
                   //实名认证成功
                   this.$toast.loading("实名认证成功!");
                   setTimeout(() => {
-                    this.$router.push("/home");
+                    this.$router.push({name:'usermessage',query:{from:'realname'}});
                   }, 500);
                 } else {
                   //实名认证失败

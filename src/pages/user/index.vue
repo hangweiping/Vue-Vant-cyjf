@@ -50,10 +50,10 @@
       <van-tabbar-item icon="contact" url='#/user'>我的
       </van-tabbar-item>
     </van-tabbar>
-    <!-- 开通中金 -->
-    <judgeOpenAccount @openAccountClose="openAccountClose" :openshow="openshow"></judgeOpenAccount>
     <!-- 实名认证 -->
     <judgeRealName @realNameClose="realNameClose" :realshow="realshow"></judgeRealName>
+    <!-- 开通中金 -->
+    <judgeOpenAccount @openAccountClose="openAccountClose" :openshow="openshow"></judgeOpenAccount>
     <!-- 绑卡 -->
     <judgeBankCard @bankCardClose="bankCardClose" :bankshow="bankshow"></judgeBankCard>
   </div>

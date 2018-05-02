@@ -147,27 +147,6 @@
         </div>
       </van-dialog>
     </div>
-    <!-- <div class="tiket-top">
-        <div class="title">
-          <span class="lt">CD18032701汽车订单采购借款</span>
-          <span class="rt">车商借款</span>
-        </div>
-        <div class="msg">
-          <div class="clearfix">
-            <div class="lt">
-              <span class="bgnumber">9.0</span>
-              <span class="smnumber">% +</span>
-              <span class="bgnumber">1.0</span>
-              <span class="smnumber">%</span>
-              <p>预期年化</p>
-            </div>
-            <div class="rt">
-                <van-progress :percentage="88" color="#6980F5"/>
-                <p><span>30天</span><span>|</span><span>总额30.00万元</span></p>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <div class="foot1"></div>
       <div class="foot2"></div>
       <div class="foot3"></div>
@@ -176,6 +155,7 @@
 
 <script>
 import storage from "store2";
+import wx from "weixin-js-sdk"; // 微信分享
 const setStorage = data => {
   storage.set("sid", data.sid);
   storage.set("userId", data.userId);
@@ -199,7 +179,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.wxshare();
+  },
   methods: {
     timer() {
       if (this.time > 0) {
@@ -240,20 +222,20 @@ export default {
     next() {
       let isPhone = this.$util.isPhone(this.mobile);
       let password = this.$util.encryptByDES(`icy${this.mobile}`);
-      let registerData = ({
+      let registerData = {
         type: "GENERAL",
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
-      });
-      let loginData = ({
+      };
+      let loginData = {
         type: "GENERAL",
         loginName: this.mobile,
         smsType: "USER_REGIST_CODE",
         smsCode: this.smsCode,
         clientType: "MOBILEWEB"
-      });
+      };
       if (this.mobile == "") {
         this.$toast("请先输入手机号");
       } else if (!isPhone) {
@@ -321,6 +303,110 @@ export default {
         this.axios.post("login_duanxin", data).then(res => {
           resolve(res);
         });
+      });
+    },
+    //<----------- 微信分享 ----------->
+    wxshare() {
+      let url = location.href.split("#")[0]; //获取锚点之前的链接
+      let data = { pageUrl: url };
+      this.axios.post("/weixinsign/signFun", data).then(res => {
+        console.log(res);
+        this.wxinit(res);
+      });
+    },
+    wxinit(res) {
+      let url = location.href.split("#")[0]; //获取锚点之前的链接
+      let links = url + "#/publicity";
+      let title = "磁云P2P官方网站";
+      let desc = "磁云P2P正式官网,进入惊喜不断";
+      let imgUrl = "http://iciyun.nat300.top/static/images/weixin_log.png";
+      wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: "wx6ff9661d61d525d9", // 必填，公众号的唯一标识
+        timestamp: res.timestamp, // 必填，生成签名的时间戳
+        nonceStr: res.nonceStr, // 必填，生成签名的随机串
+        signature: res.signature, // 必填，签名
+        jsApiList: [
+          "onMenuShareTimeline",
+          "onMenuShareAppMessage",
+          "onMenuShareQQ",
+          "onMenuShareWeibo",
+          "onMenuShareQZone"
+        ] // 必填，需要使用的JS接口列表
+      });
+      //分享到朋友圈
+      wx.onMenuShareTimeline({
+        title: title, // 分享标题
+        link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: imgUrl, // 分享图标
+        success: function() {
+          // 用户确认分享后执行的回调函数
+          this.$toast("分享成功!");
+        },
+        cancel: function() {
+          // 用户取消分享后执行的回调函数
+          this.$toast("分享已取消");
+        }
+      });
+      //分享给朋友
+      wx.onMenuShareAppMessage({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: imgUrl, // 分享图标
+        success: function() {
+          // 用户确认分享后执行的回调函数
+          this.$toast("分享成功!");
+        },
+        cancel: function() {
+          // 用户取消分享后执行的回调函数
+          this.$toast("分享已取消");
+        }
+      });
+      //分享到QQ
+      wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function() {
+          // 用户确认分享后执行的回调函数
+          this.$toast("分享成功!");
+        },
+        cancel: function() {
+          // 用户取消分享后执行的回调函数
+          this.$toast("分享已取消");
+        }
+      });
+      //分享到腾讯微博
+      wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function() {
+          // 用户确认分享后执行的回调函数
+          this.$toast("分享成功!");
+        },
+        cancel: function() {
+          // 用户取消分享后执行的回调函数
+          this.$toast("分享已取消");
+        }
+      });
+      //分享到QQ空间
+      wx.onMenuShareQZone({
+        title: title, // 分享标题
+        desc: desc, // 分享描述
+        link: link, // 分享链接
+        imgUrl: imgUrl, // 分享图标
+        success: function() {
+          // 用户确认分享后执行的回调函数
+          this.$toast("分享成功!");
+        },
+        cancel: function() {
+          // 用户取消分享后执行的回调函数
+          this.$toast("分享已取消");
+        }
       });
     }
   }

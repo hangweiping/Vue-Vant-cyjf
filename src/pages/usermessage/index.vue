@@ -76,12 +76,15 @@
     <div class="btn">
       <button @click="logout">退出登录</button>
     </div>
+    <!-- 开通中金 -->
+    <judgeOpenAccount @openAccountClose="openAccountClose" :openshow="openshow"></judgeOpenAccount>
   </div>
 </template>
 
 <script>
 import storage from "store2";
 import VueCoreImageUpload from "vue-core-image-upload";
+import judgeOpenAccount from "../../components/judgeOpenAccount.vue";
 const setStorage = data => {
   storage.set("isAuthIdNo", data.isAuthIdNo || false); //是否实名
   storage.set("isOpenEscrow", data.isOpenEscrow || false); //是否开户
@@ -91,7 +94,7 @@ const setStorage = data => {
 };
 export default {
   name: "usermessage",
-  components: { "vue-core-image-upload": VueCoreImageUpload },
+  components: { "vue-core-image-upload": VueCoreImageUpload, judgeOpenAccount },
   props: [],
   data() {
     return {
@@ -103,7 +106,9 @@ export default {
       hasChargeAgreementNo: false, //是否有签约号
       // agreementNo:'',//签约号
       bindingSystemNo: "", //解绑时需要的流水号
-      dataInfor: []
+      dataInfor: [],
+      firstRealName: false,
+      openshow: false
     };
   },
   created() {
@@ -115,6 +120,7 @@ export default {
       //账户信息
       this.sid = this.storage.get("sid");
       this.headers = { sid: this.sid };
+      this.firstRealName = this.$route.query.from == "realname" ? true : false;
       this.axios.post("uc/accountDetail").then(res => {
         if (res.success) {
           this.dataInfor = res.data;
@@ -128,6 +134,7 @@ export default {
           // this.$toast("网络异常,请稍后再试");
         }
       });
+      if (this.firstRealName) this.openshow = true
     },
     //退出登录
     logout() {
@@ -187,7 +194,7 @@ export default {
         this.$toast("请先进行实名认证");
         return;
       } else if (!this.isOpenEscrow) {
-        window.location.href = `http://isantian.com/mobile/pay/open-account-webmobile?sid=${
+        window.location.href = `http://192.168.31.159:8080/mobile/pay/open-account-webmobile?sid=${
           this.sid
         }`;
       }
@@ -203,7 +210,7 @@ export default {
         return;
       } else if (!this.isBindCard) {
         //未绑卡
-        window.location.href = `http://isantian.com/mobile/pay/bankcard/bind-webmobile?sid=${
+        window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
           this.sid
         }`;
       }
@@ -216,7 +223,7 @@ export default {
     //支付签约
     sign() {
       //实名 开户 绑卡 签约
-      window.location.href = `http://isantian.com/mobile/pay/signed?sid=${
+      window.location.href = `http://192.168.31.159:8080/mobile/pay/signed?sid=${
         this.sid
       }&agreementType=20`;
     },
@@ -235,6 +242,12 @@ export default {
             this.$toast(res.message);
           }
         });
+    },
+    //开户弹窗
+    openAccountClose(close) {
+      if (close) {
+        this.openshow = false;
+      }
     }
   }
 };

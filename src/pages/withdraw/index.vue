@@ -114,7 +114,7 @@ export default {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
         this.password = "";
-        window.location.href = `http://isantian.com/mobile/pay/withdraw-webmobile?sid=${
+        window.location.href = `http://192.168.31.159:8080/mobile/pay/withdraw-webmobile?sid=${
           this.sid
         }&amount=${this.money}`;
       }
