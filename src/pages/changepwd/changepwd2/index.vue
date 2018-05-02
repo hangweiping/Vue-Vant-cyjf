@@ -125,7 +125,7 @@ export default {
             this.$toast(res.message);
           }
         });
-      }, 1000);
+      }, 500);
     }
   }
 };

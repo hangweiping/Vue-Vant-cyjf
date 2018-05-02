@@ -53,21 +53,7 @@ let router = new VueRouter({
       path: '/changepwd2',
       name: 'changepwd2',
       component: () => import(/* webpackChunkName: "changepwd2" */ "@/pages/changepwd/changepwd2"),//更改登录密码
-    }, {
-      path: '/changepaypwd1',
-      name: 'changepaypwd1',
-      component: () => import(/* webpackChunkName: "changepaypwd1" */ "@/pages/changepaypwd/changepaypwd1"),//更改支付密码
-      meta: {
-        requireAuth: true
-      },
-    }, {
-      path: '/changepaypwd2',
-      name: 'changepaypwd2',
-      component: () => import(/* webpackChunkName: "changepaypwd2" */ "@/pages/changepaypwd/changepaypwd2"),//更改支付密码
-      meta: {
-        requireAuth: true
-      },
-    }, {
+    },{
       path: '/rebinding',
       name: 'rebinding',
       component: () => import(/* webpackChunkName: "rebinding" */ "@/pages/rebinding"),//重新绑定手机号
@@ -102,15 +88,7 @@ let router = new VueRouter({
       meta: {
         requireAuth: true
       },
-    }, {
-      path: '/openaccount',
-      name: 'openaccount',
-      component: () => import(/* webpackChunkName: "openaccount" */ "@/pages/openaccount"),//开通中金\
-    }, {
-      path: '/tiecard',
-      name: 'tiecard',
-      component: () => import(/* webpackChunkName: "tiecard" */ "@/pages/tiecard"),//中金绑卡\
-    }, {
+    },{
       path: '/usermessage',
       name: 'usermessage',
       component: () => import(/* webpackChunkName: "usermessage" */ "@/pages/usermessage"),//用户详情

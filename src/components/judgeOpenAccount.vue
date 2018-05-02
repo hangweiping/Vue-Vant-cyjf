@@ -8,7 +8,7 @@
           <div class="msg gray">交易资金由中金支付全程存管</div>
           <div class="btns">
             <button class="flt" @click="openAccountClose">再想想</button>
-            <button class="frt">去开启</button>
+            <button class="frt" @click="toOpenAccount">去开启</button>
           </div>
         </div>
       </div>
@@ -26,7 +26,9 @@ export default {
       childshow: this.openshow
     };
   },
-  created() {},
+  created() {
+    this.sid = this.storage.get("sid");
+  },
   mounted() {},
   methods: {
     openAccountClose() {
@@ -34,6 +36,11 @@ export default {
       if (this.childshow == false) {
         this.$emit("openAccountClose", 1);
       }
+    },
+    toOpenAccount() {
+      window.location.href = `http://isantian.com/mobile/pay/open-account-webmobile?sid=${
+          this.sid
+        }`;
     }
   },
   watch: {

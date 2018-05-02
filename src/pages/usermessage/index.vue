@@ -43,7 +43,6 @@
       <span class="frt"><van-icon name="arrow"/></span>
       <span class="frt orange">立即开户</span>
       <span class="frt gray2">未开户</span>
-      <!-- <span class="frt gray2">*琨山  *******8812</span> -->
     </div>
     <div class="box" v-else-if="isOpenEscrow">
       <span class="flt">存管账户</span>

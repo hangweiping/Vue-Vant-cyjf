@@ -2,7 +2,7 @@
   <div class="recharge">
     <div class="content">
       <div class="box1" v-show="false"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15" @click="checkBank">{{bankCard}}</span></div>
-      <div class="box2"><p>充值金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
+      <div class="box2"><p>充值金额</p><span>￥</span><input class="ipt" readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
     </div>
     <div class="btn" @click="next">
       <button>确认充值</button>
@@ -124,11 +124,12 @@ export default {
     },
     //当收起收入框
     onHide() {
+      let ipt = document.querySelector(".ipt");
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
+        ipt.blur();
       }
     },
-
     //输入密码 isban
     onPwInput(value) {
       this.password = (this.password + value).slice(0, 6);

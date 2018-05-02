@@ -112,9 +112,11 @@ export default {
     },
     //当收起收入框
     onHide() {
+      let ipt = document.querySelector(".ipt");
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
       }
+      ipt.blur();
       //预期收益
       if (this.money == "") {
         this.sumInvests = 0;
@@ -156,7 +158,10 @@ export default {
           )
           .then(res => {
             if (res.success) {
-              this.$toast(res.message);
+              this.$toast.loading("买入成功!");
+              setTimeout(() => {
+                this.$router.push("/home");
+              }, 500);
             } else {
               this.$toast(res.message);
             }
@@ -171,7 +176,10 @@ export default {
           )
           .then(res => {
             if (res.success) {
-              this.$toast(res.message);
+              this.$toast.loading("买入成功!");
+              setTimeout(() => {
+                this.$router.push("/home");
+              }, 500);
             } else {
               this.$toast(res.message);
             }

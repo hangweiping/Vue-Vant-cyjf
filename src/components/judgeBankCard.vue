@@ -8,7 +8,7 @@
           <div class="msg gray">为了进行相应的交易操作,请先绑定银行卡</div>
           <div class="btns">
             <button class="flt" @click="bankCardClose">再想想</button>
-            <button class="frt">去绑定</button>
+            <button class="frt" @click="toTiecard">去绑定</button>
           </div>
         </div>
       </div>
@@ -26,7 +26,9 @@ export default {
       childshow: this.bankshow //将父组件传来的值进行重新赋值,避免子组件直接操作父组件传来的参数
     };
   },
-  created() {},
+  created() {
+    this.sid = this.storage.get("sid");
+  },
   mounted() {},
   methods: {
     bankCardClose() {
@@ -34,6 +36,11 @@ export default {
       if (this.childshow == false) {
         this.$emit("bankCardClose", 1);
       }
+    },
+    toTiecard(){
+      window.location.href = `http://isantian.com/mobile/pay/bankcard/bind-webmobile?sid=${
+          this.sid
+        }`;
     }
   },
   watch: {

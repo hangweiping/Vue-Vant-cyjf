@@ -2,7 +2,7 @@
   <div class="withdraw">
     <div class="content">
       <div class="box1" v-show="false"><span class="font-15">储蓄卡&nbsp;&nbsp;</span><span class="font-15">招商银行6239480********0010</span></div>
-      <div class="box2"><p>提现金额</p><span>￥</span><input readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
+      <div class="box2"><p>提现金额</p><span>￥</span><input class="ipt" readonly type="text" placeholder="" @click="show = true" v-model="money"></div>
       <div class="box3"><span class="gray">可提现金额¥{{available}}</span><span class="smnumber font-12" @click="allWithdraw">&nbsp;&nbsp;全部提现</span></div>
     </div>
     <div class="btn" @click="next">
@@ -103,8 +103,10 @@ export default {
     },
     //当收起收入框
     onHide() {
+      let ipt = document.querySelector(".ipt");
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
+        ipt.blur();
       }
     },
     //密码

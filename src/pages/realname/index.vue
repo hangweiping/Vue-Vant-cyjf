@@ -66,8 +66,10 @@ export default {
               this.thenRealName(data).then(res => {
                 if (res.success) {
                   //实名认证成功
-                  this.$toast(res.message);
-                  this.$router.push("/home");
+                  this.$toast.loading("实名认证成功!");
+                  setTimeout(() => {
+                    this.$router.push("/home");
+                  }, 500);
                 } else {
                   //实名认证失败
                   this.$toast(res.message);
