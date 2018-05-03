@@ -37,7 +37,7 @@ export default {
       isshow1: true,
       isshow2: false,
       time: 0,
-      btntxt : '获取验证码',
+      btntxt: "获取验证码"
     };
   },
   created() {
@@ -85,13 +85,13 @@ export default {
         return;
       } else {
         this.axios
-          .post("sms/verify",data)
+          .post("sms/verify", data)
           .then(res => {
             if (res.success) {
               this.$toast(res.message);
               this.$router.push({
                 name: "registerstep3",
-                query: { mobile: this.mobile,smsCode: this.smsCode }
+                query: { mobile: this.mobile, smsCode: this.smsCode }
               });
             } else {
               this.$toast(res.message);
@@ -108,8 +108,8 @@ export default {
 .register {
   .code {
     width: 30%;
-    height: 51px;
-    line-height: 51px;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
     font-size: 16px;
     text-decoration: none;
@@ -120,8 +120,8 @@ export default {
   }
   .decode {
     width: 30%;
-    height: 51px;
-    line-height: 51px;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
     font-size: 16px;
     text-decoration: none;
@@ -174,12 +174,12 @@ export default {
     .ipt {
       width: 100%;
       height: 50px;
+      border-bottom: 1px solid #ccc;
       input {
         width: 100%;
         height: 100%;
         font-size: 16px;
         text-indent: 4px;
-        border-bottom: 1px solid #ccc;
       }
     }
     .mid {

@@ -9,7 +9,7 @@
     </div>
     <div class="content1">
       <div class="ipt">
-        <input type="text" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
+        <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="16">
       </div>
       <router-link class="mid frt" to="/login">
         我有账号，立即登录
@@ -124,12 +124,12 @@ export default {
     .ipt {
       width: 100%;
       height: 50px;
+      border-bottom: 1px solid #ccc;
       input {
         width: 100%;
         height: 100%;
         font-size: 16px;
         text-indent: 4px;
-        border-bottom: 1px solid #ccc;
       }
     }
   }

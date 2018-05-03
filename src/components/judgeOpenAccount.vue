@@ -38,7 +38,7 @@ export default {
       }
     },
     toOpenAccount() {
-      window.location.href = `http://192.168.31.159:8080/mobile/pay/open-account-webmobile?sid=${
+      window.location.href = `http://isantian.com/mobile/pay/open-account-webmobile?sid=${
           this.sid
         }`;
     }

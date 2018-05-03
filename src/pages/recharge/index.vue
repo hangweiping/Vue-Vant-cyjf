@@ -108,9 +108,15 @@ export default {
         this.$toast("请先输入充值金额");
       } else if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
-        this.pwdshow = true;
+        // this.pwdshow = true;//isban
+        window.location.href = `http://isantian.com/mobile/pay/recharge-webmobile?sid=${
+          this.sid
+        }&amount=${this.money}`;
       } else {
-        this.pwdshow = true;
+        // this.pwdshow = true;//isban
+        window.location.href = `http://isantian.com/mobile/pay/recharge-webmobile?sid=${
+          this.sid
+        }&amount=${this.money}`;
       }
     },
     //金额
@@ -135,7 +141,7 @@ export default {
       this.password = (this.password + value).slice(0, 6);
       if (this.password.length == 6) {
         this.password = "";
-        window.location.href = `http://192.168.31.159:8080/mobile/pay/recharge-webmobile?sid=${
+        window.location.href = `http://isantian.com/mobile/pay/recharge-webmobile?sid=${
           this.sid
         }&amount=${this.money}`;
       }

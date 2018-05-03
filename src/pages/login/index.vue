@@ -392,7 +392,7 @@ export default {
     toChangeLoginPwd() {
       this.$router.push({
         name: "changepwd1",
-        query: { smsType : 'USER_FIND_PASSWORD_CODE' }
+        query: { smsType: "USER_FIND_PASSWORD_CODE" }
       });
     }
   }
@@ -410,10 +410,10 @@ export default {
   }
   .code {
     width: 30%;
-    height: 51px;
-    line-height: 51px;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     text-decoration: none;
     outline-style: none;
     color: #ff9800;
@@ -423,10 +423,10 @@ export default {
   }
   .code.active {
     width: 30%;
-    height: 51px;
-    line-height: 51px;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     text-decoration: none;
     outline-style: none;
     color: #ccc;
@@ -475,12 +475,12 @@ export default {
       width: 100%;
       height: 50px;
       margin-top: 10px;
+      border-bottom: 1px solid #ccc;
       input {
         width: 100%;
         height: 100%;
         font-size: 16px;
         text-indent: 4px;
-        border-bottom: 1px solid #ccc;
       }
     }
     .ipt2 {

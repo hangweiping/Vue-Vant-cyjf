@@ -59,13 +59,13 @@ export default {
     },
     addBankCard() {
       //添加银行卡
-      window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
+      window.location.href = `http://isantian.com/mobile/pay/bankcard/bind-webmobile?sid=${
         this.sid
       }`;
     },
     //解绑
     unTieCard(item) {
-      window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/unbind-webmobile?sid=${
+      window.location.href = `http://isantian.com/mobile/pay/bankcard/unbind-webmobile?sid=${
         this.sid
       }&bindingSystemNo=${item.bindingSystemNo}`;
     },

@@ -13,10 +13,9 @@ import {
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = true; //允许cookie操作
-// axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';
-// axios.defaults.baseURL = 'http://47.104.71.208:9081/mobile/';
-// axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式解开
-axios.defaults.baseURL = 'http://192.168.31.159:8080/mobile/';
+// axios.defaults.baseURL = 'http://59.110.13.9:9803/mobile/';//测试
+axios.defaults.baseURL = 'http://isantian.com/mobile/'; //正式
+// axios.defaults.baseURL = 'http://192.168.31.159:8080/mobile/';//后台本地
 
 const logout = () => {
   Toast.clear();

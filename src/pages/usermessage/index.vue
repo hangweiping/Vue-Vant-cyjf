@@ -194,7 +194,7 @@ export default {
         this.$toast("请先进行实名认证");
         return;
       } else if (!this.isOpenEscrow) {
-        window.location.href = `http://192.168.31.159:8080/mobile/pay/open-account-webmobile?sid=${
+        window.location.href = `http://isantian.com/mobile/pay/open-account-webmobile?sid=${
           this.sid
         }`;
       }
@@ -210,7 +210,7 @@ export default {
         return;
       } else if (!this.isBindCard) {
         //未绑卡
-        window.location.href = `http://192.168.31.159:8080/mobile/pay/bankcard/bind-webmobile?sid=${
+        window.location.href = `http://isantian.com/mobile/pay/bankcard/bind-webmobile?sid=${
           this.sid
         }`;
       }
@@ -223,7 +223,7 @@ export default {
     //支付签约
     sign() {
       //实名 开户 绑卡 签约
-      window.location.href = `http://192.168.31.159:8080/mobile/pay/signed?sid=${
+      window.location.href = `http://isantian.com/mobile/pay/signed?sid=${
         this.sid
       }&agreementType=20`;
     },

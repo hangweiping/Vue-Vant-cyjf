@@ -39,8 +39,8 @@
       <!-- <router-link to="/recharge" class="box1" @click="realshow = true">充值</router-link> -->
       <div class="box1" @click="toWithDraw">提现</div>
       <div class="box1" @click="toRecharge">充值</div>
-      <router-link to="/" class="box2">优惠券</router-link>
-      <router-link to="/" class="box2">收款明细</router-link>
+      <div class="box2" @click="toCoupon">优惠券</div>
+      <div class="box2" @click="toGather">收款明细</div>
       <router-link to="/investrecord" class="box2">投资记录</router-link>
       <router-link to="/dealrecord" class="box2">交易记录</router-link>
     </div>
@@ -149,7 +149,14 @@ export default {
         this.$router.push("/withdraw");
       }
     },
-
+    //去优惠券
+    toCoupon(){
+      this.$toast('功能暂未开放')
+    },
+    //去收款明细
+    toGather(){
+      this.$toast('功能暂未开放')
+    },
     realNameClose(close) {
       if (close) {
         this.realshow = false;
@@ -226,7 +233,8 @@ export default {
     }
   }
   .content {
-    a {
+    .box1 {
+      color: #ff9800;
       float: left;
       width: 50%;
       height: 50px;
@@ -235,8 +243,7 @@ export default {
       text-align: center;
       box-shadow: 0 0 1px rgba($color: #000000, $alpha: 0.1);
     }
-    .box1 {
-      color: #ff9800;
+    .box2 {
       float: left;
       width: 50%;
       height: 50px;

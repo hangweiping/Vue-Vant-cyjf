@@ -43,9 +43,9 @@ export default {
   data() {
     return {
       active: 0,
-      phoneNum: '',
-      identifyingCode: '',
-      password: '',
+      phoneNum: "",
+      identifyingCode: "",
+      password: ""
     };
   },
   created() {},
@@ -59,52 +59,54 @@ export default {
 <style scoped lang="scss">
 .register {
   .code {
-        width: 30%;
-        height: 51px;
-        line-height: 51px;
-        text-align: center;
-        font-size: 16px;
-        text-decoration: none;
-        outline-style: none;
-        color: #ff9800;
-        border: 1px solid #ff9800;
-        border-radius: 5px;
-      }
+    width: 30%;
+    height: 51px;
+    line-height: 51px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    outline-style: none;
+    color: #ff9800;
+    border: 1px solid #ff9800;
+    border-radius: 5px;
+  }
   .btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 15px;
+    button {
       width: 100%;
-      height: 46px;
-      margin-top: 15px;
-      button {
-        width: 100%;
-        color: #fff;
-        background-color: #ff9800;
-        font-size: 18px;
-        line-height: 46px;
-        border-style: none;
-        border-radius: 5px;
-      }
+      color: #fff;
+      background-color: #ff9800;
+      font-size: 18px;
+      line-height: 46px;
+      border-style: none;
+      border-radius: 5px;
     }
+  }
   .step {
     height: 57px;
   }
-  .content1,.content2,.content3 {
+  .content1,
+  .content2,
+  .content3 {
     padding: 23px;
     background-color: #fff;
     .ipt {
       width: 100%;
       height: 50px;
+      border-bottom: 1px solid #ccc;
       input {
         width: 100%;
         height: 100%;
         font-size: 16px;
         text-indent: 4px;
-        border-bottom: 1px solid #ccc;
       }
     }
   }
   .content1 .mid {
     height: 45px;
-    color: #879AFF;
+    color: #879aff;
     font-size: 14px;
     line-height: 45px;
   }

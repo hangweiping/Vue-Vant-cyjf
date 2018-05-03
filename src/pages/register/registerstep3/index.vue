@@ -23,11 +23,11 @@
 
 <script>
 import storage from "store2";
-const setStorage = (data) => {
-    storage.set("sid", data.sid);
-    storage.set("userId", data.userId);
-    storage.set("userType", data.userType);
-    storage.set("userKey", data.userKey);
+const setStorage = data => {
+  storage.set("sid", data.sid);
+  storage.set("userId", data.userId);
+  storage.set("userType", data.userType);
+  storage.set("userKey", data.userKey);
 };
 export default {
   name: "register",
@@ -50,19 +50,19 @@ export default {
     register() {
       let isPasswordRuler = this.$util.isPasswordRuler(this.password);
       let password = this.$util.encryptByDES(this.password);
-      let registerData = ({
-        type: "GENERAL",//个人
+      let registerData = {
+        type: "GENERAL", //个人
         mobile: this.mobile,
         password: password,
         clientType: "MOBILEWEB",
         smsCode: this.smsCode
-      });
-      let loginData = ({
+      };
+      let loginData = {
         loginName: this.mobile,
-        type:'GENERAL',//个人
+        type: "GENERAL", //个人
         password: password,
-        clientType: "MOBILEWEB",
-      })
+        clientType: "MOBILEWEB"
+      };
       if (this.password == "") {
         this.$toast("请输入密码");
       } else if (!isPasswordRuler) {
@@ -75,13 +75,13 @@ export default {
               //注册成功后直接掉登录接口
               this.login(loginData).then(res => {
                 if (res.success) {
-                  setStorage(res.data)//将sid等信息存起来
-                  this.$toast('注册成功!')
-                  this.$router.push('/home')
-                }else {
-                  this.$toast('登陆失败')
+                  setStorage(res.data); //将sid等信息存起来
+                  this.$toast("注册成功!");
+                  this.$router.push("/home");
+                } else {
+                  this.$toast("登陆失败");
                 }
-              })
+              });
             } else {
               this.$toast(res.message);
             }
@@ -158,12 +158,12 @@ export default {
     .ipt {
       width: 100%;
       height: 50px;
+      border-bottom: 1px solid #ccc;
       input {
         width: 100%;
         height: 100%;
         font-size: 16px;
         text-indent: 4px;
-        border-bottom: 1px solid #ccc;
       }
     }
   }

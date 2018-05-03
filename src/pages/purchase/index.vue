@@ -2,9 +2,9 @@
   <div class="purchase">
     <div class="content">
       <div class="box1">{{dataInfor.title}}</div>
-      <div class="box2"><span>￥</span><input readonly type="text" :placeholder="investmentMinimum + '起投'" @click="show = true" v-model="money"></div>
+      <div class="box2"><span>￥</span><input readonly class="ipt" type="text" :placeholder="investmentMinimum + '起投'" @click="show = true" v-model="money"></div>
       <div class="box3"><span class="gray">可用余额&nbsp;</span><span>{{available}}元&nbsp;</span><router-link to="/recharge" class="smnumber font-12">&nbsp;充值</router-link></div>
-      <div class="box4">应付金额<span>¥100.00</span></div>
+      <div class="box4">应付金额<span>{{money}}元</span></div>
       <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">{{dataInfor.interestRate}}%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">{{sumInvests}}元</span></div>
       <div class="box6">
         <div class="mid">
@@ -112,7 +112,7 @@ export default {
     },
     //当收起收入框
     onHide() {
-      let ipt = document.querySelector(".ipt");
+      let ipt = document.querySelector('.ipt')
       if (this.money.length - 1 == this.money.lastIndexOf(".")) {
         this.money = this.money.substr(0, this.money.length - 1);
       }

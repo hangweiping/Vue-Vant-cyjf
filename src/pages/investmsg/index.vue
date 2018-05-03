@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="box2">
-      <div class="title">
+      <div class="title" v-show="false">
         <span class="font-16">风险保障</span>
         <span class="font-14 frt">成都**集团有限公司&nbsp;&nbsp;<van-icon name="checked" class="bag"/></span>
         <!-- <van-cell-group>
@@ -44,7 +44,7 @@
         <div class="font-16">还款方式</div>
         <div>
           <span class="flt">{{dataInfor.repaymentMethodDes}}</span>
-          <span class="frt">302600.00元</span>
+          <span class="frt" v-show="false">302600.00元</span>
         </div>
         <div>
           <span class="flt">起息日</span>
@@ -63,7 +63,7 @@
           <span>营业执照 <van-icon name="checked" class="bag"/></span>
           <span>采购合同 <van-icon name="checked" class="bag"/></span>
         </div>
-        <div class="foot">
+        <div class="foot" v-show="false">
           <div class="font-14">主体信息</div>
           <div class="content">
             <p>借款人</p>
@@ -79,7 +79,7 @@
     <div class="box4">
       <van-collapse v-model="activeNames">
         <van-collapse-item title="项目介绍" name="1">
-          <div v-html="intro" class="gray2"></div>
+          <div v-html="intro" class="procontent"></div>
         </van-collapse-item>
         <van-collapse-item title="投资列表" name="2">
           <div class="gray2">
@@ -128,7 +128,7 @@ export default {
   props: [],
   data() {
     return {
-      activeNames: [],
+      activeNames: ['1'],
       id: "",
       dataInfor: [],
       intro: "", //项目介绍
@@ -268,7 +268,6 @@ export default {
     }
   }
   .box2 {
-    height: 167px;
     background-color: #fff;
     margin-bottom: 4px;
     box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
@@ -309,7 +308,7 @@ export default {
   }
   .box3 {
     background-color: #fff;
-    margin-bottom: 4px;
+    // margin-bottom: 4px;
     box-shadow: 0 1px 4px rgba($color: #000000, $alpha: 0.1);
     .van-icon-checked:before {
       color: #8bc34a;
@@ -393,6 +392,24 @@ export default {
     }
     .rt{
       width: 20%;
+    }
+    .procontent{
+      color: #666;
+      p{
+        line-height: 0;
+        span{
+          font-size: 12px;
+          color: #666;
+        }
+      }
+      h3{
+        margin: 0;
+        line-height: 0;
+        span {
+          font-size: 14px;
+        }
+      }
+
     }
   }
 }
