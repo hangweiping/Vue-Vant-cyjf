@@ -47,7 +47,7 @@ export default {
       this.isshow = arr.indexOf(routeValue.path) == -1 ? true : false;
       // let registerArr = ["/registerstep1", "/registerstep2", "/registerstep3"];
       // this.title =
-      //   registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "智链金融";
+      //   registerArr.indexOf(routeValue.path) !== -1 ? "注册" : "磁云金融";
       switch (routeValue.path) {
         case "/registerstep1" || "/registerstep2" || "/registerstep3":
           this.title = "注册";
@@ -71,7 +71,7 @@ export default {
           this.title = "提现";
           break;
         default:
-          this.title = "智链金融";
+          this.title = "磁云金融";
           break;
       }
     }

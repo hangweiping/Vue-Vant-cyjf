@@ -7,7 +7,7 @@
       <div class="box4">应付金额<span>{{money}}元</span></div>
       <div class="box5"><span class="gray">期待年化利率&nbsp;</span><span class="smnumber font-12">{{dataInfor.interestRate}}%&nbsp;</span><span class="gray">&nbsp;期待回报&nbsp;</span><span class="smnumber font-12">{{sumInvests}}元</span></div>
       <div class="box6">
-        <div class="mid">
+        <div class="mid" v-show="false">
           <van-checkbox v-model="checked" label-disabled>同意&nbsp;<span class="contract" @change="agreement">服务协议及风险提示</span></van-checkbox>
         </div>
         <van-dialog v-model="agreeshow" :close-on-click-overlay="true" :show-confirm-button="false">
@@ -67,7 +67,7 @@ export default {
     return {
       show: false,
       pwdshow: false,
-      checked: false,
+      checked: true,
       money: "",
       password: "",
       showKeyboard: false,

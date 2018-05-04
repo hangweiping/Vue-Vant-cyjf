@@ -83,8 +83,8 @@ export default {
       this.axios.get("index/data").then(res => {
         if (res.success) {
           let banners = res.data.banners;
-          for(var i=0;i<banners.length;i++){
-            this.images[i] = banners[i].burl
+          for (var i = 0; i < banners.length; i++) {
+            this.images[i] = banners[i].burl;
           }
           this.dataInfor = res.data.hotProjects;
         }
@@ -92,13 +92,17 @@ export default {
     },
     //<----------- 微信分享 ----------->
     wxshare() {
-      let url = location.href.split("#")[0]; //获取锚点之前的链接
+      let url = location.href.split("?")[0]; //防止二次分享微信自带参数
+      // url = encodeURIComponent(url.split("#")[0]); //获取锚点之前的链接
+      url = url.split("#")[0]; //获取锚点之前的链接      
       this.axios.post(`/weixinsign/signFun?pageUrl=${url}`).then(res => {
         this.wxinit(res);
       });
     },
     wxinit(res) {
-      let url = location.href.split("#")[0]; //获取锚点之前的链接
+      let url = location.href.split("?")[0]; //防止二次分享微信自带参数
+      // url = encodeURIComponent(url.split("#")[0]); //获取锚点之前的链接
+      url = url.split("#")[0]; //获取锚点之前的链接
       let link = url + "#/home";
       let title = "磁云金融";
       let desc = "基于产业互联网的网络借贷信息中介平台";
@@ -244,7 +248,7 @@ export default {
         }
       }
       .msg {
-        padding: 20px 16px;
+        padding: 18px 16px;
         div {
           width: 100%;
           .lt {

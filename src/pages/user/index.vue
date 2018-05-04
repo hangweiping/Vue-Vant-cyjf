@@ -248,6 +248,7 @@ export default {
       width: 50%;
       height: 50px;
       font-size: 15px;
+      color: #333;
       line-height: 50px;
       text-align: center;
       box-shadow: 0 0 1px rgba($color: #000000, $alpha: 0.1);

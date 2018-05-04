@@ -31,7 +31,7 @@
       <span class="frt gray2">{{dataInfor.realName | changeName()}}</span>
     </div>
 
-    <div class="box">
+    <div class="box" @click="toRisk">
       <span class="flt">风险测评</span>
       <span class="frt"><van-icon name="arrow"/></span>
       <span class="frt orange">重新测评</span>
@@ -173,6 +173,10 @@ export default {
         return true;
       }
     },
+    //风险测评
+    toRisk(){
+      this.$toast('功能暂未开放')
+    },
     //修改登陆密码
     toChangeLoginPwd() {
       this.$router.push({
@@ -248,7 +252,8 @@ export default {
       if (close) {
         this.openshow = false;
       }
-    }
+    },
+
   }
 };
 </script>

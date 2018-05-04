@@ -31,7 +31,7 @@
     </div>
     <div class="box2">
       <div class="title" v-show="false">
-        <span class="font-16">风险保障</span>
+        <span class="font-15">风险保障</span>
         <span class="font-14 frt">成都**集团有限公司&nbsp;&nbsp;<van-icon name="checked" class="bag"/></span>
         <!-- <van-cell-group>
           <van-cell title="风险保障" value="成都**集团有限公司">
@@ -41,7 +41,7 @@
         </van-cell-group> -->
       </div>
       <div class="mid">
-        <div class="font-16">还款方式</div>
+        <div class="font-15">还款方式</div>
         <div>
           <span class="flt">{{dataInfor.repaymentMethodDes}}</span>
           <span class="frt" v-show="false">302600.00元</span>
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="box3">
-      <div class="title font-16">风险控制</div>
+      <div class="title font-15">风险控制</div>
       <div class="mid">
         <div class="top">
           <div class="font-14">审核状态</div>
@@ -128,11 +128,11 @@ export default {
   props: [],
   data() {
     return {
-      activeNames: ['1'],
+      activeNames: [],
       id: "",
       dataInfor: [],
       intro: "", //项目介绍
-      investmentRecords: [],//投资列表
+      investmentRecords: [], //投资列表
       realshow: false, //实名认证
       openshow: false, //开通中金
       bankshow: false, //绑卡
@@ -177,11 +177,17 @@ export default {
         }
       });
       //投资列表
-      this.axios.get(`investment/investmentRecords?currentPage=1&isTransfer=0&projectId=${this.id}`).then(res=>{
-        if(res.success){
-          this.investmentRecords = res.data.records
-        }
-      })
+      this.axios
+        .get(
+          `investment/investmentRecords?currentPage=1&isTransfer=0&projectId=${
+            this.id
+          }`
+        )
+        .then(res => {
+          if (res.success) {
+            this.investmentRecords = res.data.records;
+          }
+        });
       //项目是否可投
     },
     next() {
@@ -227,7 +233,7 @@ export default {
 .investmsg {
   margin-bottom: 46px;
   .box1 {
-    height: 214px;
+    height: 224px;
     text-align: center;
     background-color: #fff;
     margin-bottom: 4px;
@@ -238,6 +244,7 @@ export default {
         font-size: 14px;
         color: #333;
         line-height: 33px;
+        padding-top: 10px;
       }
       .gray {
         height: 25px;
@@ -322,11 +329,12 @@ export default {
     .mid {
       padding: 8px 16px;
       .top {
-        border-bottom: 1px solid #e5e5e5;
-        padding-bottom: 10px;
+        // border-bottom: 1px solid #e5e5e5;
+        // padding-bottom: 10px;
         .font-14 {
           height: 30px;
           line-height: 30px;
+          color: #999999;
         }
         span {
           display: inline-block;
@@ -360,8 +368,6 @@ export default {
   }
   .box4 {
     .msg {
-      height: 40px;
-      line-height: 40px;
       font-size: 14px;
       color: #333;
       text-align: center;
@@ -381,35 +387,69 @@ export default {
         border-style: none;
       }
     }
-    .lt,.md,.rt{
+    .lt,
+    .md,
+    .rt {
       display: inline-block;
     }
-    .lt{
+    .lt {
       width: 45%;
     }
-    .md{
+    .md {
       width: 25%;
     }
-    .rt{
+    .rt {
       width: 20%;
     }
-    .procontent{
-      color: #666;
-      p{
-        line-height: 0;
-        span{
-          font-size: 12px;
-          color: #666;
-        }
-      }
-      h3{
-        margin: 0;
-        line-height: 0;
-        span {
-          font-size: 14px;
-        }
-      }
+  }
+}
+</style>
+<style lang="scss">
+.investmsg {
+  .van-cell__value {
+    font-size: 15px;
+    color: #000;
+  }
+  .procontent {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    dl,
+    ol,
+    dt,
+    dd,
+    li,
+    p,
+    div {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    p,
+    h3 {
+      line-height: 20px !important;
+      font-size: 12px !important;
 
+      color: #666 !important;
+      span {
+        font-size: 12px !important;
+        color: #999 !important;
+      }
+      strong {
+        font-size: 12px !important;
+        span {
+          color: #666 !important;
+        }
+      }
+    }
+    h3 {
+      span {
+        font-size: 12px !important;
+        color: #666 !important;
+      }
     }
   }
 }
